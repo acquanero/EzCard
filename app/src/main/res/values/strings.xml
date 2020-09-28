@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">EzCard</string>
-    <string name="label_user">Usuario</string>
-    <string name="label_password">Contraseña</string>
-    <string name="button_login">Aceptar</string>
-    <string name="logo">Logo</string>
+<string name="app_name">EzCard</string>
+<string name="label_user">Usuario</string>
+<string name="label_password">Contraseña</string>
+<string name="button_login">Aceptar</string>
+<string name="logo">Logo</string>
+<string name="forgot_password_label">Olvidé mi contraseña</string>
+    <string name="label_register">Registrarse</string>
 </resources>
