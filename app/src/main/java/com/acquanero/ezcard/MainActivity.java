@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView mailUser;
     private TextView password;
 
-    private  Gson gson = new Gson();
-
     private UserIdToken useridtoken;
 
     SharedPreferences dataDepot;
@@ -55,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Vuelvo editable mi SharedPreference
         dataDepotEditable = dataDepot.edit();
+
+        //En esta seccion deberia chequear si ya estoy logueado (tengo token)
+        //Si (hay token) =>
+        //Ver si tengo tarjetas agregadas
+        //Sin tarjetas => ir a AgregadoDeTarjetas Activity
+        //Con Tarjetas => ir a VistaDeServicios Activity
 
         //asocio el evento correspondiente al boton de login
         loginButton.setOnClickListener(new View.OnClickListener(){
