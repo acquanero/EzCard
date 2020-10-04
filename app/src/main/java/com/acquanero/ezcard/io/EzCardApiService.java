@@ -1,6 +1,6 @@
 package com.acquanero.ezcard.io;
 
-import com.acquanero.ezcard.model.UserInfo;
+import com.acquanero.ezcard.model.UserIdToken;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -13,8 +13,8 @@ public interface EzCardApiService {
 
     @FormUrlEncoded
     @POST("user/login/")
-    Call<UserInfo> getUserInfo(
-            @Field("mail") String mail,
-            @Field("password") String password
+    Call<UserIdToken> getUserInfo(
+            @Field("user_id") String userId,
+            @Field("token") String token
     );
 }

@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.UserInfo;
+import com.acquanero.ezcard.model.UserIdToken;
+import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mailUser;
     private TextView password;
+
+    private  Gson gson = new Gson();
+
+    private UserIdToken useridtoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,35 +47,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                sendPost(mailUser.getText().toString(), password.getText().toString());
+                logIn(mailUser.getText().toString(), password.getText().toString());
 
 
             }
         });
     }
 
-    public void sendPost(String mail, String passw) {
-        myAPIService.getUserInfo(mail, passw).enqueue(new Callback<UserInfo>() {
+    public void logIn(String mail, String passw) {
+        myAPIService.getUserInfo(mail, passw).enqueue(new Callback<UserIdToken>() {
             @Override
-            public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
                 if(response.isSuccessful()) {
-                    showResponse(response.body().toString());
+                    int id = response.body().getUserId();
+                    String token = response.body().getToken();
+
+                    System.out.println("----------------------------------");
+                    System.out.println("User id: " + id + " Token: " + token);
+                    System.out.println("----------------------------------");
+
                     Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<UserInfo> call, Throwable t) {
+            public void onFailure(Call<UserIdToken> call, Throwable t) {
                 Log.e("RTA FAIL", "Unable to submit post to API.");
             }
         });
     }
 
-    public void showResponse(String response) {
-        System.out.println("------------");
-        System.out.println(response);
-        System.out.println("------------");
-    }
 
 }

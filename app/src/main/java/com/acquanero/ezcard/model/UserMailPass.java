@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 //clase modelo a la que se convierten los JSON
 
-public class UserInfo {
+public class UserMailPass {
 
     @SerializedName("mail")
     @Expose
