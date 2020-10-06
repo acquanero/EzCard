@@ -7,4 +7,9 @@
     <string name="logo">Logo</string>
     <string name="forgot_password_label">I forgot my password</string>
     <string name="label_register">Register</string>
+    <string name="title_toolbar_cards">Cards</string>
+    <string name="menu_item_tarjetas">Cards</string>
+    <string name="menu_item_ajustes">Settings</string>
+    <string name="menu_item_servicios">Services</string>
+    <string name="menu_item_ezcard">EZCard</string>
 </resources>

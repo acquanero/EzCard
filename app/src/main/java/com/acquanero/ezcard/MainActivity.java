@@ -3,6 +3,7 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.UserIdToken;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,18 +35,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setTheme(R.style.AppTheme);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        //recupero del layout los botones y los campos de texto
-        Button loginButton = (Button) findViewById(R.id.button_login);
-        mailUser = (TextView) findViewById(R.id.campo_usuario);
-        password = (TextView) findViewById(R.id.campo_password);
-
-        //Traigo una instancia de retrofit para realizar los request
-        myAPIService = ApiUtils.getAPIService();
-
         //Creo una instancia de SahredPreference para almacenar informacion
         //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
@@ -59,6 +47,25 @@ public class MainActivity extends AppCompatActivity {
         //Ver si tengo tarjetas agregadas
         //Sin tarjetas => ir a AgregadoDeTarjetas Activity
         //Con Tarjetas => ir a VistaDeServicios Activity
+
+        if(!dataDepot.getString("token", "null").equalsIgnoreCase("null")){
+
+            Intent goToCardsActivity = new Intent(this, CardsActivity.class);
+
+            startActivity(goToCardsActivity);
+        }
+
+        setTheme(R.style.AppTheme);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //recupero del layout los botones y los campos de texto
+        Button loginButton = (Button) findViewById(R.id.button_login);
+        mailUser = (TextView) findViewById(R.id.campo_usuario);
+        password = (TextView) findViewById(R.id.campo_password);
+
+        //Traigo una instancia de retrofit para realizar los request
+        myAPIService = ApiUtils.getAPIService();
 
         //asocio el evento correspondiente al boton de login
         loginButton.setOnClickListener(new View.OnClickListener(){
