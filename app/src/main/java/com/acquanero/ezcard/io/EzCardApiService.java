@@ -19,9 +19,11 @@ import retrofit2.http.Path;
 
 public interface EzCardApiService {
 
+    @FormUrlEncoded
     @POST("user/login/")
-    Call<UserIdToken> getUserInfo(
-            @Body RequestBody body
+    Call<UserIdToken> postDataGetToken(
+            @Field("mail") String mail,
+            @Field("password") String password
     );
 
     @GET("user/login/{id}")
