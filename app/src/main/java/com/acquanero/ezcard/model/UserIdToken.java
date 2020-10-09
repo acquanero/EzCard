@@ -12,6 +12,11 @@ public class UserIdToken {
     @Expose
     private String token;
 
+    public UserIdToken(Integer userId, String token) {
+        this.userId = userId;
+        this.token = token;
+    }
+
     public Integer getUserId() {
         return userId;
     }

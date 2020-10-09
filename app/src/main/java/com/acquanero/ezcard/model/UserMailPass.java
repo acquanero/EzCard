@@ -14,6 +14,13 @@ public class UserMailPass {
     @Expose
     private String password;
 
+    public UserMailPass(String mail, String password){
+
+        this.mail = mail;
+
+        this.password = password;
+    }
+
     public String getMail() {
         return mail;
     }

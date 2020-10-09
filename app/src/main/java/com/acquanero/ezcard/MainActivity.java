@@ -14,7 +14,14 @@ import android.widget.TextView;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.model.UserMailPass;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,6 +29,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
+
+    private Gson gson = new Gson();
 
     private TextView mailUser;
     private TextView password;
@@ -82,7 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
     //metodo a ejecutar al presionar el boton login
     public void logIn(String mail, String passw) {
-        myAPIService.getUserInfo(mail, passw).enqueue(new Callback<UserIdToken>() {
+
+        //armo el body con los datos a postear
+        HashMap<String, String> params = new HashMap<>();
+        params.put("mail", mail);
+        params.put("password", passw);
+        String strRequestBody = new Gson().toJson(params);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"),strRequestBody);
+
+        myAPIService.getUserInfo(requestBody).enqueue(new Callback<UserIdToken>() {
             @Override
             public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
