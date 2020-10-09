@@ -3,13 +3,16 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.EzCardApiService;
@@ -37,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
         //Creo una instancia de SahredPreference para almacenar informacion
         //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
-
-        //Vuelvo editable mi SharedPreference
-        dataDepotEditable = dataDepot.edit();
 
         //En esta seccion deberia chequear si ya estoy logueado (tengo token)
         //Si (hay token) =>
@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
                     int idUsuario = response.body().getUserId();
                     String token = response.body().getToken();
 
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+
                     //almaceno el id y el token en el SharedPreference
                     dataDepotEditable.putInt("user_id", idUsuario);
                     dataDepotEditable.putString("token", token);
@@ -103,11 +106,22 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("----------------------------------");
 
                     Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                } else {
+
+                    if(response.code() == 401){
+                        Context context = getApplicationContext();
+                        Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                        t.show();
+                    }
+
                 }
             }
 
             @Override
             public void onFailure(Call<UserIdToken> call, Throwable t) {
+
                 Log.e("RTA FAIL", "Unable to submit post to API.");
             }
         });

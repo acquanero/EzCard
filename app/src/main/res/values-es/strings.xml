@@ -12,4 +12,5 @@
     <string name="menu_item_ajustes">Ajustes</string>
     <string name="menu_item_servicios">Servicios</string>
     <string name="menu_item_ezcard">EZCard</string>
+    <string name="user_mail_erro_msg">Usuario y/o contraseña incorrectos</string>
 </resources>
