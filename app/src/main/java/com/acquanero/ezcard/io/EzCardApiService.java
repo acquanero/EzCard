@@ -1,13 +1,10 @@
 package com.acquanero.ezcard.io;
 
+import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
-import com.acquanero.ezcard.model.UserMailPass;
-import com.google.gson.JsonObject;
 
-import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -22,18 +19,22 @@ public interface EzCardApiService {
     @FormUrlEncoded
     @POST("user/login/")
     Call<UserIdToken> postDataGetToken(
+            @Header("xappid") String xappid,
             @Field("mail") String mail,
             @Field("password") String password
+
     );
 
     @GET("user/login/{id}")
-    public Call logInWithToken(
-            @Path("id") int id,
-            @Header("token") String elToken
+    Call<SimpleResponse> logInWithToken(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Path("id") int id
     );
 
     @GET("user/{id}")
     public Call<UserData> getUserData(
+            @Header("xappid") String xappid,
             @Path("id") int id,
             @Header("token") String elToken
     );
