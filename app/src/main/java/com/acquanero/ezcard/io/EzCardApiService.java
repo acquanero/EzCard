@@ -35,7 +35,7 @@ public interface EzCardApiService {
     @GET("user/{id}")
     public Call<UserData> getUserData(
             @Header("xappid") String xappid,
-            @Path("id") int id,
-            @Header("token") String elToken
+            @Header("token") String elToken,
+            @Path("id") int id
     );
 }

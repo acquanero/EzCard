@@ -17,8 +17,13 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.SimpleResponse;
+import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,12 +111,9 @@ public class MainActivity extends AppCompatActivity {
                     dataDepotEditable.putString("token", token);
                     dataDepotEditable.apply();
 
-                    //Chequeo que se hayan almacenado
-                    System.out.println("----------------------------------");
-                    System.out.println("User id: " + dataDepot.getInt("user_id", -1) + " Token: " + dataDepot.getString("token", "null"));
-                    System.out.println("----------------------------------");
-
                     Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                    getUserWholeData(token, idUsuario);
 
                 } else {
 
@@ -138,15 +140,16 @@ public class MainActivity extends AppCompatActivity {
 
         final Context context = this;
 
+        final String theToken = token;
+        final int theuserID = userid;
+
         myAPIService.logInWithToken(generalData.appId, token, userid).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
                 if(response.code() == 200) {
 
-                    Intent goToCardsActivity = new Intent(context, CardsActivity.class);
-
-                    startActivity(goToCardsActivity);
+                    getUserWholeData(theToken, theuserID);
 
                     Log.i("RTA SUCCESS", "post submitted to API." + response.body().getMessage());
 
@@ -169,6 +172,41 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
                 Log.e("RTA FAIL", "Login con token fallido---------");
+
+            }
+        });
+
+    }
+
+    public void getUserWholeData(String token, int userid) {
+
+        final Context context = this;
+
+        myAPIService.getUserData(generalData.appId, token, userid ).enqueue(new Callback<UserData>() {
+            @Override
+            public void onResponse(Call<UserData> call, Response<UserData> response) {
+
+                List<Card> myCardList = response.body().getCards();
+
+                if(myCardList.size() == 0) {
+
+                    Intent goToCardsActivity = new Intent(context, CardsActivity.class);
+
+                    startActivity(goToCardsActivity);
+
+                } else {
+
+                    Intent goToServiceActivity = new Intent(context, ServiceActivity.class);
+
+                    startActivity(goToServiceActivity);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserData> call, Throwable t) {
+
+                Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");
 
             }
         });
