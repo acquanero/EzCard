@@ -8,15 +8,14 @@ public class Card {
     @SerializedName("card_id")
     @Expose
     private Integer cardId;
-    @SerializedName("card_name")
-    @Expose
-    private String cardName;
-    @SerializedName("icon")
-    @Expose
-    private Integer icon;
+
     @SerializedName("name")
     @Expose
     private String name;
+
+    @SerializedName("icon")
+    @Expose
+    private Integer icon;
 
     public Integer getCardId() {
         return cardId;
@@ -24,14 +23,6 @@ public class Card {
 
     public void setCardId(Integer cardId) {
         this.cardId = cardId;
-    }
-
-    public String getCardName() {
-        return cardName;
-    }
-
-    public void setCardName(String cardName) {
-        this.cardName = cardName;
     }
 
     public Integer getIcon() {

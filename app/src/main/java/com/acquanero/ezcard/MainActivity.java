@@ -14,14 +14,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.ezdatabase.DataBaseEraser;
+import com.acquanero.ezcard.ezdatabase.DataBaseLoader;
+import com.acquanero.ezcard.ezdatabase.ModelToSchemaConverter;
+import com.acquanero.ezcard.ezdatabase.Proveedor;
+import com.acquanero.ezcard.ezdatabase.Tarjeta;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
+import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,8 +38,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
-    private TextView mailUser;
-    private TextView password;
+    private TextView mailUser, password, register;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         //cambio el token almacenado para debugguear (token abc123 entra, con otro el server devuelve 401 error)
         //dataDepotEditable = dataDepot.edit();
-        //dataDepotEditable.putString("token", "abc123");
+        //dataDepotEditable.putString("token", "fff");
         //dataDepotEditable.apply();
 
 
@@ -58,14 +64,11 @@ public class MainActivity extends AppCompatActivity {
         //Ver si tengo tarjetas agregadas
         //Sin tarjetas => ir a AgregadoDeTarjetas Activity
         //Con Tarjetas => ir a VistaDeServicios Activity
-        if(!dataDepot.getString("token", "null").equalsIgnoreCase("null") && (dataDepot.getInt("user_id", -1) != -1)){
+        String token = dataDepot.getString("token", "null");
+        int userID = dataDepot.getInt("user_id", -1);
 
-            String token = dataDepot.getString("token", "null");
-            int userID = dataDepot.getInt("user_id", -1);
-
-            logWithToken(token, userID);
-
-        }
+        //primero intento poguearme con token
+        logWithToken(token, userID);
 
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         Button loginButton = (Button) findViewById(R.id.button_login);
         mailUser = (TextView) findViewById(R.id.campo_usuario);
         password = (TextView) findViewById(R.id.campo_password);
-
+        register = (TextView) findViewById(R.id.label_register);
 
         //asocio el evento correspondiente al boton de login
         loginButton.setOnClickListener(new View.OnClickListener(){
@@ -85,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
 
                 logIn(mailUser.getText().toString(), password.getText().toString());
 
+
+            }
+        });
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                startActivity(i);
 
             }
         });
@@ -138,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
     //metodo para log in con el token
     public void logWithToken(String token, int userid){
 
+        //Si no tengo el token o el userid, se corta la ejecucion del metodo
+        if(token.equalsIgnoreCase("null") || userid == -1){
+            return;
+        }
+
         final Context context = this;
 
         final String theToken = token;
@@ -158,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if(response.code() == 401){
                         Toast t = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                        t.setGravity(Gravity.CENTER,0,0);
                         t.show();
 
                         System.out.println("-----------Error 401------!!!!!");
@@ -186,7 +204,58 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 
+                //Instancio la clase que me convierte los Models en Schemas para almacenar en la base de dato los Json que recibo
+                ModelToSchemaConverter modelToSchema = new ModelToSchemaConverter();
+
+                //Creo 2 listas donde almacenaré los Schemas recibidos luego de la conversion
+                ArrayList<Tarjeta> listaTarjeta = new ArrayList<Tarjeta>();
+                ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+
+                //Vuelvo editable mi SharedPreference
+                dataDepotEditable = dataDepot.edit();
+
+                //almaceno los datos del usuario en el sharedPreference
+                dataDepotEditable.putString("name", response.body().getName());
+                dataDepotEditable.putString("surname", response.body().getSurname());
+                dataDepotEditable.putString("password", response.body().getPassword());
+                dataDepotEditable.putString("mail", response.body().getMail());
+                dataDepotEditable.putString("phone", response.body().getPhone());
+                dataDepotEditable.apply();
+
+                //me traigo la lista de tarjetas del usuario, y chequeo si tiene tarjetas asociadas
+                //para redireccionar a la activity correspondiente
                 List<Card> myCardList = response.body().getCards();
+                List<Provider> myProviderList = response.body().getProviders();
+
+
+                //Recorro las dos lista de Cards y Providers que me devuelve la API y convierto todos los elementos del
+                //model de GSON al Schema de room para poder almacenar en la base de datos
+                if (myCardList.size() > 0) {
+                    for(Card c : myCardList){
+                        listaTarjeta.add(modelToSchema.convertCardToTarjeta(c));
+                    }
+                }
+
+                if(myProviderList.size() > 0){
+                    for(Provider p: myProviderList){
+                        listaProveedor.add(modelToSchema.convertProviderToProveedor(p));
+                    }
+                }
+
+                //Limpio todos los datos almacenados en la base de datos, y cargo los nuevos datos traidos del Servidor
+                DataBaseEraser dbe = new DataBaseEraser(context);
+                DataBaseLoader dbl = new DataBaseLoader(context, listaTarjeta, listaProveedor);
+
+                dbe.start();
+
+                //Utilizo el .join() para asegurarme que el thread que esta borrando la base de datos, finalice antes de empezar a
+                //introducir los nuevos datos
+                try{
+                    dbe.join();
+                }catch (InterruptedException ie){}
+
+
+                dbl.start();
 
                 if(myCardList.size() == 0) {
 

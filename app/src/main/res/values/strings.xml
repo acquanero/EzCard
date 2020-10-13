@@ -13,4 +13,8 @@
     <string name="menu_item_ezcard">EZCard</string>
     <string name="user_mail_erro_msg">Mail y/o contraseña incorrectos</string>
     <string name="login_again_msg">Vuelva a introducir mail y contraseña</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_surname">Apellido</string>
+    <string name="label_phone">Telefono</string>
+    <string name="label_pin">PIN</string>
 </resources>
