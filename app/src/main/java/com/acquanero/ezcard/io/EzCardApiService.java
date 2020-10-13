@@ -38,4 +38,16 @@ public interface EzCardApiService {
             @Header("token") String elToken,
             @Path("id") int id
     );
+
+    @FormUrlEncoded
+    @POST("user/register/")
+    Call<UserIdToken> postToRegister(
+            @Header("xappid") String xappid,
+            @Field("name") String name,
+            @Field("last_name") String last_name,
+            @Field("password") String password,
+            @Field("mail") String mail,
+            @Field("phone") String phone,
+            @Field("pin") int pin
+    );
 }
