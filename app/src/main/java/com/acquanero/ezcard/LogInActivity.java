@@ -1,3 +1,4 @@
+
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acquanero.ezcard.ezdatabase.DataBaseEraser;
@@ -23,6 +27,7 @@ import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.model.UserIdToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +36,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+
+public class LogInActivity extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
+    private TextView mailUser, password, register;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
@@ -53,71 +60,86 @@ public class MainActivity extends AppCompatActivity {
         //dataDepotEditable.putString("token", "fff");
         //dataDepotEditable.apply();
 
+
         String token = dataDepot.getString("token", "null");
         int userID = dataDepot.getInt("user_id", -1);
 
-        //primero intento poguearme con token
-        logWithToken(token, userID);
 
-
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_log_in);
 
-    }
+        //recupero del layout los botones y los campos de texto
+        Button loginButton = (Button) findViewById(R.id.button_login);
+        mailUser = (TextView) findViewById(R.id.campo_usuario);
+        password = (TextView) findViewById(R.id.campo_password);
+        register = (TextView) findViewById(R.id.label_register);
 
-    //metodo para log in con el token
-    public void logWithToken(String token, int userid){
-
-        //En esta seccion debo chequear si ya estoy logueado (tengo token y userid)
-        //Si no tengo el token o el userid, se corta la ejecucion del metodo
-        if(token.equalsIgnoreCase("null") || userid == -1){
-
-            Intent i = new Intent(this, LogInActivity.class);
-            startActivity(i);
-        }
-
-        final Context context = this;
-
-        final String theToken = token;
-        final int theuserID = userid;
-
-        myAPIService.logInWithToken(generalData.appId, token, userid).enqueue(new Callback<SimpleResponse>() {
-            @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
-
-                if(response.code() == 200) {
-
-                    getUserWholeData(theToken, theuserID);
-
-                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().getMessage());
-
-
-                } else {
-
-                    if(response.code() == 401){
-                        Toast t = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER,0,0);
-                        t.show();
-
-                        System.out.println("-----------Error 401------!!!!!");
-
-                        Intent i = new Intent(context, LogInActivity.class);
-                        startActivity(i);
-                    }
-
-                }
-
-            }
+        //asocio el evento correspondiente al boton de login
+        loginButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+            public void onClick(View view) {
 
-                Log.e("RTA FAIL", "Login con token fallido---------");
+                logIn(mailUser.getText().toString(), password.getText().toString());
+
 
             }
         });
 
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                startActivity(i);
+
+            }
+        });
+    }
+
+    //metodo a ejecutar al presionar el boton login
+    public void logIn(String mail, String passw) {
+
+        myAPIService.postDataGetToken(generalData.appId, mail, passw).enqueue(new Callback<UserIdToken>() {
+            @Override
+            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
+
+                if(response.isSuccessful()) {
+
+                    //guardo el id y el token en una variable
+                    int idUsuario = response.body().getUserId();
+                    String token = response.body().getToken();
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+
+                    //almaceno el id y el token en el SharedPreference
+                    dataDepotEditable.putInt("user_id", idUsuario);
+                    dataDepotEditable.putString("token", token);
+                    dataDepotEditable.apply();
+
+                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                    getUserWholeData(token, idUsuario);
+
+                } else {
+
+                    if(response.code() == 401){
+                        Context context = getApplicationContext();
+                        Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                        t.show();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserIdToken> call, Throwable t) {
+
+                Log.e("RTA FAIL", "Unable to submit post to API.");
+            }
+        });
     }
 
     public void getUserWholeData(String token, int userid) {
@@ -184,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
                 //Ver si tengo tarjetas agregadas
                 //Sin tarjetas => ir a AgregadoDeTarjetas Activity
                 //Con Tarjetas => ir a VistaDeServicios Activity
-
                 if(myCardList.size() == 0) {
 
                     Intent goToCardsActivity = new Intent(context, CardsActivity.class);
