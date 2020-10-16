@@ -15,22 +15,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acquanero.ezcard.ezdatabase.DataBaseEraser;
-import com.acquanero.ezcard.ezdatabase.DataBaseLoader;
-import com.acquanero.ezcard.ezdatabase.ModelToSchemaConverter;
-import com.acquanero.ezcard.ezdatabase.Proveedor;
-import com.acquanero.ezcard.ezdatabase.Tarjeta;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
-import com.acquanero.ezcard.model.Provider;
-import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -150,62 +144,35 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 
-                //Instancio la clase que me convierte los Models en Schemas para almacenar en la base de dato los Json que recibo
-                ModelToSchemaConverter modelToSchema = new ModelToSchemaConverter();
-
-                //Creo 2 listas donde almacenaré los Schemas recibidos luego de la conversion
-                ArrayList<Tarjeta> listaTarjeta = new ArrayList<Tarjeta>();
-                ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
-
                 //Vuelvo editable mi SharedPreference
                 dataDepotEditable = dataDepot.edit();
 
                 //almaceno los datos del usuario en el sharedPreference
-                dataDepotEditable.putString("name", response.body().getName());
-                dataDepotEditable.putString("surname", response.body().getSurname());
-                dataDepotEditable.putString("password", response.body().getPassword());
-                dataDepotEditable.putString("mail", response.body().getMail());
-                dataDepotEditable.putString("phone", response.body().getPhone());
+
+                UserData user = new UserData();
+                user.setName(response.body().getName());
+                user.setSurname(response.body().getSurname());
+                user.setPassword(response.body().getPassword());
+                user.setMail(response.body().getMail());
+                user.setPhone(response.body().getPhone());
+                user.setCards(response.body().getCards());
+                user.setProviders(response.body().getProviders());
+
+                Gson gson = new Gson();
+                String json = gson.toJson(user);
+
+                dataDepotEditable.putString("usuario", json);
+
                 dataDepotEditable.apply();
 
                 //me traigo la lista de tarjetas del usuario, y chequeo si tiene tarjetas asociadas
                 //para redireccionar a la activity correspondiente
                 List<Card> myCardList = response.body().getCards();
-                List<Provider> myProviderList = response.body().getProviders();
-
-
-                //Recorro las dos lista de Cards y Providers que me devuelve la API y convierto todos los elementos del
-                //model de GSON al Schema de room para poder almacenar en la base de datos
-                if (myCardList.size() > 0) {
-                    for(Card c : myCardList){
-                        listaTarjeta.add(modelToSchema.convertCardToTarjeta(c));
-                    }
-                }
-
-                if(myProviderList.size() > 0){
-                    for(Provider p: myProviderList){
-                        listaProveedor.add(modelToSchema.convertProviderToProveedor(p));
-                    }
-                }
-
-                //Limpio todos los datos almacenados en la base de datos, y cargo los nuevos datos traidos del Servidor
-                DataBaseEraser dbe = new DataBaseEraser(context);
-                DataBaseLoader dbl = new DataBaseLoader(context, listaTarjeta, listaProveedor);
-
-                dbe.start();
-
-                //Utilizo el .join() para asegurarme que el thread que esta borrando la base de datos, finalice antes de empezar a
-                //introducir los nuevos datos
-                try{
-                    dbe.join();
-                }catch (InterruptedException ie){}
-
-
-                dbl.start();
 
                 //Ver si tengo tarjetas agregadas
                 //Sin tarjetas => ir a AgregadoDeTarjetas Activity
                 //Con Tarjetas => ir a VistaDeServicios Activity
+
                 if(myCardList.size() == 0) {
 
                     Intent goToCardsActivity = new Intent(context, CardsActivity.class);
