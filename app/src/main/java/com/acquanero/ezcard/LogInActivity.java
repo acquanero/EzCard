@@ -87,7 +87,7 @@ public class LogInActivity extends AppCompatActivity {
 
                 Intent i = new Intent(getApplicationContext(), RecoverAccount.class);
                 startActivity(i);
-                
+
             }
         });
     }

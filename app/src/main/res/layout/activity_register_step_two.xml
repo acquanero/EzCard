@@ -2,52 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="48dp"
     tools:context=".RegisterStepTwo">
 
     <TextView
-        android:id="@+id/labelPassw"
+        android:id="@+id/labelEnterPassPin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="264dp"
-        android:text="@string/label_password" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/label_enter_passwpin"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
 
     <EditText
         android:id="@+id/editPassw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="124dp"
+        android:layout_gravity="center_horizontal"
         android:ems="10"
+        android:hint="@string/label_password"
         android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/labelPin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="312dp"
-        android:text="@string/label_pin" />
 
     <EditText
         android:id="@+id/editPin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="124dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
         android:ems="10"
+        android:hint="@string/label_pin"
         android:inputType="numberPassword" />
 
     <Button
         android:id="@+id/buttonSignIn"
-        android:layout_width="142dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="132dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/boton_estilo"
         android:text="@string/label_register"
         android:textColor="@android:color/background_light" />

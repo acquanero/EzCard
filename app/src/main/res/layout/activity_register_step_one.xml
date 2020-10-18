@@ -2,96 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="48dp"
     tools:context=".RegisterStepOne">
 
-
     <TextView
-        android:id="@+id/labelName"
+        android:id="@+id/labelEnterData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="262dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/label_name" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/label_enter_data"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="13dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
         android:ems="10"
+        android:hint="@string/label_name"
         android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/labelSurname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="258dp"
-        android:layout_marginBottom="15dp"
-        android:text="@string/label_surname" />
 
     <EditText
         android:id="@+id/editSurname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="11dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/labelMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="281dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
-        android:text="@string/label_user" />
+        android:ems="10"
+        android:hint="@string/label_surname"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editMailAdress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="102dp"
-        android:layout_marginBottom="11dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
         android:ems="10"
+        android:hint="@string/label_user"
         android:inputType="textEmailAddress" />
-
-    <TextView
-        android:id="@+id/labelPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="251dp"
-        android:layout_marginBottom="23dp"
-        android:text="@string/label_phone" />
 
     <EditText
         android:id="@+id/editPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
         android:ems="10"
+        android:hint="@string/label_phone"
         android:inputType="phone" />
 
     <Button
         android:id="@+id/buttonNext"
-        android:layout_width="142dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="137dp"
-        android:layout_marginBottom="49dp"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/boton_estilo"
         android:text="@string/label_next"
         android:textColor="@android:color/background_light" />

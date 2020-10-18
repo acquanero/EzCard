@@ -24,4 +24,6 @@
     <string name="label_msg_recover">Envienos su mail para ponernos en contacto y recuperar su cuenta</string>
     <string name="msg_recover_success">Se ha enviado un mail para que recupere su cuenta</string>
     <string name="msg_recover_fail">Hubo un error durante el intento de recuperación</string>
+    <string name="label_enter_data">Ingrese sus datos</string>
+    <string name="label_enter_passwpin">Ingrese una contraseña alfanumerica y un PIN de 4 digitos numerico</string>
 </resources>
