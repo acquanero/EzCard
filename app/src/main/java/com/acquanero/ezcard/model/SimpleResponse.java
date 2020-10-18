@@ -13,8 +13,8 @@ public class SimpleResponse {
         return message;
     }
 
-    public void setMessage(String token) {
-        this.message = token;
+    public void setMessage(String msg) {
+        this.message = msg;
     }
 
 }

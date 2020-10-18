@@ -18,16 +18,14 @@ import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.UserIdToken;
 
-import java.util.concurrent.Callable;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignInActivity extends AppCompatActivity {
+public class RegisterStepTwo extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
-    private TextView editName, editSurname, editMailAdress, editPassw, editPhone, editPin;
+    private TextView editPassw, editPin;
     private Button buttonSignIn;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
@@ -44,35 +42,37 @@ public class SignInActivity extends AppCompatActivity {
         myAPIService = ApiUtils.getAPIService();
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_register_step_two);
+
+
 
         //recupero del layout los botones y los campos de texto
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-        editName = (TextView) findViewById(R.id.editName);
-        editSurname = (TextView) findViewById(R.id.editSurname);
-        editMailAdress = (TextView) findViewById(R.id.editMailAdress);
         editPassw = (TextView) findViewById(R.id.editPassw);
-        editPhone = (TextView) findViewById(R.id.editPhone);
         editPin = (TextView) findViewById(R.id.editPin);
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String name = editName.getText().toString();
-                String surname = editSurname.getText().toString();
-                String mail = editMailAdress.getText().toString();
-                String passw = editPassw.getText().toString();
-                String phone = editPhone.getText().toString();
+                Bundle datos = getIntent().getExtras();
+
+                String name = datos.getString("name");
+                String last_name = datos.getString("lastName");
+                String email = datos.getString("mail");
+                String password = editPassw.getText().toString();
+                String cellphone = datos.getString("phone");
                 int pin = Integer.parseInt(editPin.getText().toString());
 
-                signIn(name,surname,mail,passw,phone,pin);
+                signIn(name,last_name,email,password,cellphone,pin);
 
             }
         });
     }
 
     private void signIn(String name, String surname, String mail, String password, String phone, int pin){
+
+        final Context context = this;
 
         myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,pin).enqueue(new Callback<UserIdToken>() {
             @Override
@@ -93,6 +93,18 @@ public class SignInActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                    Toast t = Toast.makeText(context, getString(R.string.msg_register_success) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
+
+                } else {
+
+                    Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
+
+                    Toast t = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
 
                 }
 

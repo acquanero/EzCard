@@ -17,4 +17,11 @@
     <string name="label_surname">Apellido</string>
     <string name="label_phone">Telefono</string>
     <string name="label_pin">PIN</string>
+    <string name="label_next">Siguiente</string>
+    <string name="msg_register_success">Se le enviará un mail confirmando el registro</string>
+    <string name="msg_register_fail">No se ha podido registrar la cuenta.  Pruebe luego nuevamente</string>
+    <string name="label_send">Enviar</string>
+    <string name="label_msg_recover">Envienos su mail para ponernos en contacto y recuperar su cuenta</string>
+    <string name="msg_recover_success">Se ha enviado un mail para que recupere su cuenta</string>
+    <string name="msg_recover_fail">Hubo un error durante el intento de recuperación</string>
 </resources>

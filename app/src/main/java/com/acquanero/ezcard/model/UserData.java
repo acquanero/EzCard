@@ -6,24 +6,28 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class UserData {
+
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("surname")
+    @SerializedName("last_name")
     @Expose
-    private String surname;
+    private String lastName;
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("mail")
+    @SerializedName("email")
     @Expose
-    private String mail;
-    @SerializedName("phone")
+    private String email;
+    @SerializedName("cellphone")
     @Expose
-    private String phone;
+    private String cellphone;
     @SerializedName("user_id")
     @Expose
     private Integer userId;
+    @SerializedName("enabled")
+    @Expose
+    private Boolean enabled;
     @SerializedName("cards")
     @Expose
     private List<Card> cards = null;
@@ -39,12 +43,12 @@ public class UserData {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {
@@ -55,20 +59,20 @@ public class UserData {
         this.password = password;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCellphone() {
+        return cellphone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
     }
 
     public Integer getUserId() {
@@ -77,6 +81,14 @@ public class UserData {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public List<Card> getCards() {
@@ -94,4 +106,5 @@ public class UserData {
     public void setProviders(List<Provider> providers) {
         this.providers = providers;
     }
+
 }

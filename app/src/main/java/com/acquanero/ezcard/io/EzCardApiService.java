@@ -46,8 +46,15 @@ public interface EzCardApiService {
             @Field("name") String name,
             @Field("last_name") String last_name,
             @Field("password") String password,
-            @Field("mail") String mail,
-            @Field("phone") String phone,
+            @Field("email") String mail,
+            @Field("cellphone") String phone,
             @Field("pin") int pin
+    );
+
+    @FormUrlEncoded
+    @POST("user/recoveraccount/")
+    Call<SimpleResponse> postToRecover(
+            @Header("xappid") String xappid,
+            @Field("email") String mail
     );
 }

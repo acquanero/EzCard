@@ -129,10 +129,12 @@ public class MainActivity extends AppCompatActivity {
 
                 UserData user = new UserData();
                 user.setName(response.body().getName());
-                user.setSurname(response.body().getSurname());
+                user.setLastName(response.body().getLastName());
                 user.setPassword(response.body().getPassword());
-                user.setMail(response.body().getMail());
-                user.setPhone(response.body().getPhone());
+                user.setEmail(response.body().getEmail());
+                user.setCellphone(response.body().getCellphone());
+                user.setUserId(response.body().getUserId());
+                user.setEnabled(response.body().getEnabled());
                 user.setCards(response.body().getCards());
                 user.setProviders(response.body().getProviders());
 

@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class LogInActivity extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
-    private TextView mailUser, password, register;
+    private TextView mailUser, password, register, recover;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
@@ -49,16 +49,6 @@ public class LogInActivity extends AppCompatActivity {
         //Traigo una instancia de retrofit para realizar los request
         myAPIService = ApiUtils.getAPIService();
 
-        //cambio el token almacenado para debugguear (token abc123 entra, con otro el server devuelve 401 error)
-        //dataDepotEditable = dataDepot.edit();
-        //dataDepotEditable.putString("token", "fff");
-        //dataDepotEditable.apply();
-
-
-        String token = dataDepot.getString("token", "null");
-        int userID = dataDepot.getInt("user_id", -1);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
@@ -67,6 +57,7 @@ public class LogInActivity extends AppCompatActivity {
         mailUser = (TextView) findViewById(R.id.campo_usuario);
         password = (TextView) findViewById(R.id.campo_password);
         register = (TextView) findViewById(R.id.label_register);
+        recover = (TextView) findViewById(R.id.label_forgot_password);
 
         //asocio el evento correspondiente al boton de login
         loginButton.setOnClickListener(new View.OnClickListener(){
@@ -84,9 +75,19 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                Intent i = new Intent(getApplicationContext(), RegisterStepOne.class);
                 startActivity(i);
 
+            }
+        });
+
+        recover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getApplicationContext(), RecoverAccount.class);
+                startActivity(i);
+                
             }
         });
     }
@@ -151,10 +152,12 @@ public class LogInActivity extends AppCompatActivity {
 
                 UserData user = new UserData();
                 user.setName(response.body().getName());
-                user.setSurname(response.body().getSurname());
+                user.setLastName(response.body().getLastName());
                 user.setPassword(response.body().getPassword());
-                user.setMail(response.body().getMail());
-                user.setPhone(response.body().getPhone());
+                user.setEmail(response.body().getEmail());
+                user.setCellphone(response.body().getCellphone());
+                user.setUserId(response.body().getUserId());
+                user.setEnabled(response.body().getEnabled());
                 user.setCards(response.body().getCards());
                 user.setProviders(response.body().getProviders());
 

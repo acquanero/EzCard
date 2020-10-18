@@ -18,4 +18,11 @@
     <string name="label_surname">Surname</string>
     <string name="label_phone">Phone</string>
     <string name="label_pin">PIN</string>
+    <string name="label_next">Next</string>
+    <string name="msg_register_success">An email will be sent to confirm the account</string>
+    <string name="msg_register_fail">There was an error during the sign in. Try again later</string>
+    <string name="label_send">Send</string>
+    <string name="label_msg_recover">Send us your email to recover your account</string>
+    <string name="msg_recover_success">We send you an email to recover your account</string>
+    <string name="msg_recover_fail">There was an error while recovering your account</string>
 </resources>
