@@ -27,4 +27,5 @@
     <string name="msg_recover_fail">Hubo un error durante el intento de recuperación</string>
     <string name="label_enter_data">Ingrese sus datos</string>
     <string name="label_enter_passwpin">Ingrese una contraseña alfanumerica y un PIN de 4 digitos numerico</string>
+    <string name="warning_invalid_email_or_passw">E-mail y/o password incorrecto</string>
 </resources>

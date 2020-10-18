@@ -21,6 +21,7 @@ import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -33,6 +34,7 @@ import retrofit2.Response;
 
 public class LogInActivity extends AppCompatActivity {
 
+    private int passwordLength = 6;
     private EzCardApiService myAPIService;
     private TextView mailUser, password, register, recover;
     SharedPreferences dataDepot;
@@ -95,46 +97,57 @@ public class LogInActivity extends AppCompatActivity {
     //metodo a ejecutar al presionar el boton login
     public void logIn(String mail, String passw) {
 
-        myAPIService.postDataGetToken(generalData.appId, mail, passw).enqueue(new Callback<UserIdToken>() {
-            @Override
-            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
+        if(!MyValidators.isLongetThan(passw,passwordLength) || MyValidators.isValidEmail(mail) == false){
 
-                if(response.isSuccessful()) {
+            Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER,0,0);
+            t.show();
 
-                    //guardo el id y el token en una variable
-                    int idUsuario = response.body().getUserId();
-                    String token = response.body().getToken();
+        } else {
 
-                    //Vuelvo editable mi SharedPreference
-                    dataDepotEditable = dataDepot.edit();
+            myAPIService.postDataGetToken(generalData.appId, mail, passw).enqueue(new Callback<UserIdToken>() {
+                @Override
+                public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
-                    //almaceno el id y el token en el SharedPreference
-                    dataDepotEditable.putInt("user_id", idUsuario);
-                    dataDepotEditable.putString("token", token);
-                    dataDepotEditable.apply();
+                    if(response.isSuccessful()) {
 
-                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+                        //guardo el id y el token en una variable
+                        int idUsuario = response.body().getUserId();
+                        String token = response.body().getToken();
 
-                    getUserWholeData(token, idUsuario);
+                        //Vuelvo editable mi SharedPreference
+                        dataDepotEditable = dataDepot.edit();
 
-                } else {
+                        //almaceno el id y el token en el SharedPreference
+                        dataDepotEditable.putInt("user_id", idUsuario);
+                        dataDepotEditable.putString("token", token);
+                        dataDepotEditable.apply();
 
-                    if(response.code() == 401){
-                        Context context = getApplicationContext();
-                        Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
-                        t.show();
+                        Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                        getUserWholeData(token, idUsuario);
+
+                    } else {
+
+                        if(response.code() == 401){
+                            Context context = getApplicationContext();
+                            Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                            t.show();
+                        }
+
                     }
-
                 }
-            }
 
-            @Override
-            public void onFailure(Call<UserIdToken> call, Throwable t) {
+                @Override
+                public void onFailure(Call<UserIdToken> call, Throwable t) {
 
-                Log.e("RTA FAIL", "Unable to submit post to API.");
-            }
-        });
+                    Log.e("RTA FAIL", "Unable to submit post to API.");
+                }
+            });
+
+        }
+
     }
 
     public void getUserWholeData(String token, int userid) {
