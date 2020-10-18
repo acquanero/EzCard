@@ -50,9 +50,18 @@ public class MainActivity extends AppCompatActivity {
         String token = dataDepot.getString("token", "null");
         int userID = dataDepot.getInt("user_id", -1);
 
-        //primero intento poguearme con token
-        logWithToken(token, userID);
 
+        //Si ni tiene guardado el user id o el token, lo envia directo al log in activity
+        if(token.equalsIgnoreCase("null") || userID == -1){
+
+            Intent i = new Intent(this, LogInActivity.class);
+            startActivity(i);
+
+        } else {
+            //intento loguearme con token
+            logWithToken(token, userID);
+
+        }
 
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -63,16 +72,7 @@ public class MainActivity extends AppCompatActivity {
     //metodo para log in con el token
     public void logWithToken(String token, int userid){
 
-        //En esta seccion debo chequear si ya estoy logueado (tengo token y userid)
-        //Si no tengo el token o el userid, se corta la ejecucion del metodo
-        if(token.equalsIgnoreCase("null") || userid == -1){
-
-            Intent i = new Intent(this, LogInActivity.class);
-            startActivity(i);
-        }
-
         final Context context = this;
-
         final String theToken = token;
         final int theuserID = userid;
 
