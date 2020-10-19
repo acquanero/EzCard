@@ -17,6 +17,7 @@ import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.myutils.MyValidators;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,12 @@ public class RegisterStepTwo extends AppCompatActivity {
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
+
+    private int passwordMin = 6;
+    private int passwordMax = 12;
+
+    private int pinMin = 4;
+    private int pinMax = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,7 @@ public class RegisterStepTwo extends AppCompatActivity {
                 String email = datos.getString("mail");
                 String password = editPassw.getText().toString();
                 String cellphone = datos.getString("phone");
-                int pin = Integer.parseInt(editPin.getText().toString());
+                String pin = editPin.getText().toString());
 
                 signIn(name,last_name,email,password,cellphone,pin);
 
@@ -70,51 +77,73 @@ public class RegisterStepTwo extends AppCompatActivity {
         });
     }
 
-    private void signIn(String name, String surname, String mail, String password, String phone, int pin){
+    private void signIn(String name, String surname, String mail, String password, String phone, String pin){
 
-        final Context context = this;
+        if (validateFields(password,pin)){
+            final Context context = this;
 
-        myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,pin).enqueue(new Callback<UserIdToken>() {
-            @Override
-            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
+            myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,pin).enqueue(new Callback<UserIdToken>() {
+                @Override
+                public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
-                if(response.isSuccessful()) {
+                    if(response.isSuccessful()) {
 
-                    //guardo el id y el token en una variable
-                    int idUsuario = response.body().getUserId();
-                    String token = response.body().getToken();
+                        //guardo el id y el token en una variable
+                        int idUsuario = response.body().getUserId();
+                        String token = response.body().getToken();
 
-                    //Vuelvo editable mi SharedPreference
-                    dataDepotEditable = dataDepot.edit();
+                        //Vuelvo editable mi SharedPreference
+                        dataDepotEditable = dataDepot.edit();
 
-                    //almaceno el id y el token en el SharedPreference
-                    dataDepotEditable.putInt("user_id", idUsuario);
-                    dataDepotEditable.putString("token", token);
-                    dataDepotEditable.apply();
+                        //almaceno el id y el token en el SharedPreference
+                        dataDepotEditable.putInt("user_id", idUsuario);
+                        dataDepotEditable.putString("token", token);
+                        dataDepotEditable.apply();
 
-                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+                        Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
 
-                    Toast t = Toast.makeText(context, getString(R.string.msg_register_success) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
-                    t.show();
+                        Toast t = Toast.makeText(context, getString(R.string.msg_register_success) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
 
-                } else {
+                    } else {
 
-                    Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
+                        Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
 
-                    Toast t = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
-                    t.show();
+                        Toast t = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
+
+                    }
 
                 }
 
-            }
 
-            @Override
-            public void onFailure(Call<UserIdToken> call, Throwable t) {
 
-            }
-        });
 
+                @Override
+                public void onFailure(Call<UserIdToken> call, Throwable t) {
+
+                }
+            });
+        }
+
+    }
+
+    private boolean validateFields(String password,String pin) {
+        boolean result = true;
+        if (!MyValidators.isBetween(password,passwordMin,passwordMax)){
+            Toast t1 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_passw) , Toast.LENGTH_LONG);
+            t1.setGravity(Gravity.CENTER,0,0);
+            t1.show();
+
+        }
+        if (!MyValidators.isBetween(pin,pinMin,pinMax) || !MyValidators.isOnlyNumber(pin)){
+            Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+            t2.setGravity(Gravity.CENTER,0,0);
+            t2.show();
+            result=false;
+        }
+        return result;
     }
 }

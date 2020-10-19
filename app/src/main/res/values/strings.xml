@@ -28,4 +28,9 @@
     <string name="label_enter_data">Eneter your information</string>
     <string name="label_enter_passwpin">Enter an alphanumeric password and a 4 digit numeric PIN</string>
     <string name="warning_invalid_email_or_passw">E-mail or password incorrect</string>
+    <string name="warning_invalid_passw">Password incorrect.</string>
+    <string name="warning_invalid_pin">Pin incorrect.</string>
+    <string name="warning_invalid_email">E-mail not valid.</string>
+    <string name="warning_not_a_word">Not valid text.</string>
+    <string name="warning_not_a_number">Enter only numbers.</string>
 </resources>

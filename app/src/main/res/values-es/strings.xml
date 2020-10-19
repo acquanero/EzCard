@@ -28,4 +28,9 @@
     <string name="label_enter_data">Ingrese sus datos</string>
     <string name="label_enter_passwpin">Ingrese una contraseña alfanumerica y un PIN de 4 digitos numerico</string>
     <string name="warning_invalid_email_or_passw">E-mail y/o password incorrecto</string>
+    <string name="warning_invalid_pin">Pin incorrecto.</string>
+    <string name="warning_invalid_passw">Contraseña incorrecta.</string>
+    <string name="warning_invalid_email">E-mail incorrecto.</string>
+    <string name="warning_not_a_word">Ingrese solo caracteres.</string>
+    <string name="warning_not_a_number">Ingrese solo números.</string>
 </resources>

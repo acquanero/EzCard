@@ -9,18 +9,38 @@ public class MyValidators {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public final static boolean isLongetThan(CharSequence word, int large){
+    public final static boolean isBetween(CharSequence word, int min, int max){
 
-        boolean rta;
+        boolean rta = false;
 
-        if(word.length() < large){
-            rta = false;
-        } else {
+        if(word.length() >= min && word.length() <= max){
             rta = true;
         }
 
         return rta;
 
     }
+
+    public final static boolean isOnlyChar(CharSequence word){
+        boolean rta = false;
+
+        if(word.toString().matches("[a-zA-Z]+")){
+            rta = true;
+        }
+
+        return rta;
+    }
+
+    public final static boolean isOnlyNumber(CharSequence word){
+        boolean rta = false;
+
+        if(word.toString().matches("[0-9]+")){
+            rta = true;
+        }
+
+        return rta;
+    }
+
+
 
 }

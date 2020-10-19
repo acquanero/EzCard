@@ -34,7 +34,9 @@ import retrofit2.Response;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private int passwordLength = 6;
+    private int passwordMin = 6;
+    private int passwordMax = 12;
+
     private EzCardApiService myAPIService;
     private TextView mailUser, password, register, recover;
     SharedPreferences dataDepot;
@@ -97,7 +99,7 @@ public class LogInActivity extends AppCompatActivity {
     //metodo a ejecutar al presionar el boton login
     public void logIn(String mail, String passw) {
 
-        if(!MyValidators.isLongetThan(passw,passwordLength) || MyValidators.isValidEmail(mail) == false){
+        if(!MyValidators.isBetween(passw,passwordMin,passwordMax) || MyValidators.isValidEmail(mail) == false){
 
             Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
             t.setGravity(Gravity.CENTER,0,0);
