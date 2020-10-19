@@ -101,7 +101,6 @@ public class RegisterStepOne extends AppCompatActivity {
             result = false;
         }
         
-
         return result;
     }
 
