@@ -8,7 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.model.Card;
@@ -18,8 +24,8 @@ import com.google.gson.Gson;
 public class CardsActivity extends AppCompatActivity {
 
     SharedPreferences dataDepot;
-
     private Toolbar toolbar;
+    private GridLayout gridCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,8 @@ public class CardsActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbarCards);
         setSupportActionBar(toolbar);
+
+        gridCards = (GridLayout) findViewById(R.id.gridCards);
 
         //Creo una instancia de SahredPreference para almacenar informacion
         //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
@@ -41,7 +49,14 @@ public class CardsActivity extends AppCompatActivity {
 
         for (Card c : u.getCards()){
 
-            System.out.println(c.getName());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(GridLayout.LayoutParams.WRAP_CONTENT, GridLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(25, 25, 0, 0);
+            Button mb = new Button(getApplicationContext());
+            mb.setText(c.getName());
+            mb.setLayoutParams(params);
+            mb.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_background, null));
+
+            gridCards.addView(mb);
 
         }
     }
