@@ -70,6 +70,7 @@ public class RegisterStepOne extends AppCompatActivity {
     }
 
     private boolean validateFields(){
+
         boolean result = true;
 
         if (!MyValidators.isOnlyChar(editName.getText().toString())){
@@ -99,8 +100,7 @@ public class RegisterStepOne extends AppCompatActivity {
             t4.show();
             result = false;
         }
-
-
+        
 
         return result;
     }

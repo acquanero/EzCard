@@ -16,6 +16,7 @@ import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.SimpleResponse;
+import com.acquanero.ezcard.myutils.MyValidators;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,37 +55,48 @@ public class RecoverAccount extends AppCompatActivity {
 
         final Context context = this;
 
-        myAPIService.postToRecover(generalData.appId, mail).enqueue(new Callback<SimpleResponse>() {
-            @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+        if(!MyValidators.isValidEmail(mail)){
 
-                if(response.isSuccessful()) {
+            Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email) , Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER,0,0);
+            t.show();
 
-                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+        } else {
 
-                    Toast t = Toast.makeText(context, getString(R.string.msg_recover_success) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
-                    t.show();
+            myAPIService.postToRecover(generalData.appId, mail).enqueue(new Callback<SimpleResponse>() {
+                @Override
+                public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                    if(response.isSuccessful()) {
+
+                        Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
+
+                        Toast t = Toast.makeText(context, getString(R.string.msg_recover_success) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
 
 
-                } else {
+                    } else {
 
-                    Toast t = Toast.makeText(context, getString(R.string.msg_recover_fail) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
-                    t.show();
+                        Toast t = Toast.makeText(context, getString(R.string.msg_recover_fail) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
 
+
+                    }
 
                 }
 
-            }
+                @Override
+                public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+                    Log.e("RTA FAIL", "----Recovery failed------");
 
-                Log.e("RTA FAIL", "----Recovery failed------");
+                }
+            });
 
-            }
-        });
+
+        }
 
     }
 }

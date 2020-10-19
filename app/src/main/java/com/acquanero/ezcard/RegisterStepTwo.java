@@ -33,7 +33,7 @@ public class RegisterStepTwo extends AppCompatActivity {
     AppGeneralUseData generalData = new AppGeneralUseData();
 
     private int passwordMin = 6;
-    private int passwordMax = 12;
+    private int passwordMax = 20;
 
     private int pinMin = 4;
     private int pinMax = 4;
@@ -69,7 +69,7 @@ public class RegisterStepTwo extends AppCompatActivity {
                 String email = datos.getString("mail");
                 String password = editPassw.getText().toString();
                 String cellphone = datos.getString("phone");
-                String pin = editPin.getText().toString());
+                String pin = editPin.getText().toString();
 
                 signIn(name,last_name,email,password,cellphone,pin);
 
@@ -80,9 +80,12 @@ public class RegisterStepTwo extends AppCompatActivity {
     private void signIn(String name, String surname, String mail, String password, String phone, String pin){
 
         if (validateFields(password,pin)){
+
             final Context context = this;
 
-            myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,pin).enqueue(new Callback<UserIdToken>() {
+            int thePin = Integer.parseInt(pin);
+
+            myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,thePin).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
@@ -131,11 +134,14 @@ public class RegisterStepTwo extends AppCompatActivity {
     }
 
     private boolean validateFields(String password,String pin) {
+
         boolean result = true;
+
         if (!MyValidators.isBetween(password,passwordMin,passwordMax)){
             Toast t1 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_passw) , Toast.LENGTH_LONG);
             t1.setGravity(Gravity.CENTER,0,0);
             t1.show();
+            result=false;
 
         }
         if (!MyValidators.isBetween(pin,pinMin,pinMax) || !MyValidators.isOnlyNumber(pin)){
