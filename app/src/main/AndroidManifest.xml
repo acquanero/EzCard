@@ -11,12 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecoverAccount"></activity>
-        <activity android:name=".RegisterStepTwo" />
-        <activity android:name=".LogInActivity" />
-        <activity android:name=".RegisterStepOne" />
-        <activity android:name=".ServiceActivity" />
-        <activity android:name=".CardsActivity" />
+        <activity android:name=".RecoverAccount"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterStepTwo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LogInActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterStepOne"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ServiceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CardsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
