@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,24 +29,8 @@ public class ServiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service);
 
         toolbar = findViewById(R.id.toolbarService);
-
         setSupportActionBar(toolbar);
 
-        //Creo una instancia de SahredPreference para almacenar informacion
-        //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
-        dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
-
-        String userJson = dataDepot.getString("usuario", "null");
-
-        Gson gson = new Gson();
-
-        UserData u = gson.fromJson(userJson, UserData.class);
-
-        for (Card c : u.getCards()){
-
-            System.out.println(c.getName());
-
-        }
     }
 
     @Override
@@ -66,7 +51,8 @@ public class ServiceActivity extends AppCompatActivity {
         }
 
         if (id == R.id.menu_item_tarjetas) {
-            //lanza pantalla de servicios
+            Intent c = new Intent(getApplicationContext(), CardsActivity.class);
+            startActivity(c);
             return true;
         }
         if (id == R.id.item_menu_ezcard) {
