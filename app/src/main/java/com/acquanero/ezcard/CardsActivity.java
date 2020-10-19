@@ -19,7 +19,6 @@ public class CardsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cards);
 
         toolbar = findViewById(R.id.toolbarCards);
-
         setSupportActionBar(toolbar);
     }
 
