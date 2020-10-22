@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_cards">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_cards"
         android:name="com.acquanero.ezcard.ui.cards.CardsFragment"
         android:label="@string/menu_item_tarjetas"
         tools:layout="@layout/fragment_cards" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_services"
         android:name="com.acquanero.ezcard.ui.services.ServiceFragment"
         android:label="@string/menu_item_servicios"
         tools:layout="@layout/fragment_service" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_settings"
         android:name="com.acquanero.ezcard.ui.settings.SettingsFragment"
         android:label="@string/menu_item_ajustes"
         tools:layout="@layout/fragment_settings" />

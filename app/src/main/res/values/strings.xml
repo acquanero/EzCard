@@ -39,4 +39,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">EzCard</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="delete_button_label">Delete</string>
+    <string name="edit_button_label">Edit</string>
 </resources>

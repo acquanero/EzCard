@@ -1,5 +1,7 @@
 package com.acquanero.ezcard.ui.cards;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -13,11 +15,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
+import com.acquanero.ezcard.EditCardActivity;
 import com.acquanero.ezcard.R;
+import com.acquanero.ezcard.RegisterStepTwo;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
@@ -59,6 +64,22 @@ public class CardsFragment extends Fragment {
             txt.setText(card.getName());
             txt.setGravity(Gravity.CENTER);
             botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_background, null));
+
+            final int numIdCard = card.getCardId();
+
+            botonImage.setOnClickListener(new View.OnClickListener() {
+
+                Context context = getContext();
+
+                @Override
+                public void onClick(View view) {
+
+                    Intent i = new Intent(context, EditCardActivity.class);
+                    i.putExtra("cardid", numIdCard);
+                    startActivity(i);
+
+                }
+            });
 
             linearLayoutInsideGrid.addView(botonImage, paramsLinear);
             linearLayoutInsideGrid.addView(txt,paramsLinear);
