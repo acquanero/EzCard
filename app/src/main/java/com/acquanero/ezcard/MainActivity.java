@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                         System.out.println("-----------Error 401------!!!!!");
 
-                        Intent i = new Intent(context, LogInActivity.class);
+                        Intent i = new Intent(context, MainDrawer.class);
                         startActivity(i);
                     }
 
@@ -145,26 +145,9 @@ public class MainActivity extends AppCompatActivity {
 
                 dataDepotEditable.apply();
 
-                //me traigo la lista de tarjetas del usuario, y chequeo si tiene tarjetas asociadas
-                //para redireccionar a la activity correspondiente
-                List<Card> myCardList = response.body().getCards();
+                Intent goToCardsActivity = new Intent(context, MainDrawer.class);
 
-                //Ver si tengo tarjetas agregadas
-                //Sin tarjetas => ir a AgregadoDeTarjetas Activity
-                //Con Tarjetas => ir a VistaDeServicios Activity
-
-                if(myCardList.size() == 0) {
-
-                    Intent goToCardsActivity = new Intent(context, CardsActivity.class);
-
-                    startActivity(goToCardsActivity);
-
-                } else {
-
-                    Intent goToServiceActivity = new Intent(context, ServiceActivity.class);
-
-                    startActivity(goToServiceActivity);
-                }
+                startActivity(goToCardsActivity);
 
             }
 

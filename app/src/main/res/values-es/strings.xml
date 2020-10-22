@@ -34,4 +34,9 @@
     <string name="warning_invalid_email">E-mail incorrecto.</string>
     <string name="warning_not_a_word">Ingrese solo caracteres.</string>
     <string name="warning_not_a_number">Ingrese solo números.</string>
+    <string name="title_activity_main_drawer">EzCard</string>
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+    <string name="nav_header_title">EzCard</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>
