@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
@@ -80,6 +81,7 @@ public class CardsFragment extends Fragment {
 
                 }
             });
+
 
             linearLayoutInsideGrid.addView(botonImage, paramsLinear);
             linearLayoutInsideGrid.addView(txt,paramsLinear);

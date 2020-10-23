@@ -13,6 +13,7 @@
     <string name="menu_item_ajustes">Ajustes</string>
     <string name="menu_item_servicios">Servicios</string>
     <string name="menu_item_ezcard">EZCard</string>
+    <string name="menu_item_logout">Salir</string>
     <string name="user_mail_erro_msg">Mail y/o contraseña incorrectos</string>
     <string name="login_again_msg">Vuelva a introducir mail y contraseña</string>
     <string name="label_name">Nombre</string>

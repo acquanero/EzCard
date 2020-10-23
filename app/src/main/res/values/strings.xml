@@ -13,6 +13,7 @@
     <string name="menu_item_ajustes">Settings</string>
     <string name="menu_item_servicios">Services</string>
     <string name="menu_item_ezcard">EZCard</string>
+    <string name="menu_item_logout">Log out</string>
     <string name="user_mail_erro_msg">Incorrect mail or password</string>
     <string name="login_again_msg">Log in again with mail and password</string>
     <string name="label_name">Name</string>
