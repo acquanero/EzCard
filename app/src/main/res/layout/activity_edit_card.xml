@@ -10,10 +10,11 @@
     <ImageView
         android:id="@+id/imageCard"
         android:layout_width="match_parent"
-        android:layout_height="116dp"
+        android:layout_height="187dp"
         android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/ic_card" />
+        app:srcCompat="@drawable/ic_card"
+        app:tint="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/textNameTitle"
@@ -26,6 +27,7 @@
         android:id="@+id/cardName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="" />
 
     <Button
@@ -33,7 +35,7 @@
         android:layout_width="120dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:background="@color/colorDelete"
+        android:background="@drawable/boton_estilo_cancel"
         android:layout_marginBottom="15dp"
         android:text="@string/delete_button_label" />
 
@@ -41,8 +43,8 @@
         android:id="@+id/buttonEdit"
         android:layout_width="120dp"
         android:layout_gravity="center"
+        android:background="@drawable/boton_estilo"
         android:layout_height="wrap_content"
-        android:background="@color/colorLink"
         android:text="@string/edit_button_label" />
 
 </LinearLayout>

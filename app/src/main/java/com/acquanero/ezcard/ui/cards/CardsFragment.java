@@ -8,22 +8,19 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
+
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.EditCardActivity;
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.RegisterStepTwo;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
@@ -59,12 +56,27 @@ public class CardsFragment extends Fragment {
             linearLayoutInsideGrid.setGravity(Gravity.CENTER);
             paramsLinear.setMargins(0, 0, 55, 20);
 
-            Button botonImage = new Button(getActivity());
-            //botonImage.setText(card.getName());
+            ImageView botonImage = new ImageView(getActivity());
             TextView txt = new TextView(getActivity());
             txt.setText(card.getName());
             txt.setGravity(Gravity.CENTER);
-            botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_launcher_background, null));
+
+            if(card.getIcon() == 1){
+
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_card, null));
+
+            } else if (card.getIcon() == 2){
+
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_circle, null));
+
+            } else {
+
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arroba, null));
+
+            }
+
+
+
 
             final int numIdCard = card.getCardId();
 
