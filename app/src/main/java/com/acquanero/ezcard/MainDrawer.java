@@ -1,5 +1,8 @@
 package com.acquanero.ezcard;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,10 +12,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.ui.cards.CardsFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
-public class MainDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainDrawer extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     SharedPreferences dataDepot;
@@ -52,7 +59,7 @@ public class MainDrawer extends AppCompatActivity implements NavigationView.OnNa
         navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_cards, R.id.nav_services, R.id.nav_settings).setDrawerLayout(drawer).build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_cards, R.id.nav_services, R.id.nav_settings).setOpenableLayout(drawer).build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -62,7 +69,18 @@ public class MainDrawer extends AppCompatActivity implements NavigationView.OnNa
         TextView navUsername = (TextView) headerView.findViewById(R.id.labelUserLogged);
         navUsername.setText(userData.getEmail());
 
-        setNavigationViewListener();
+        //Le asigno al menu item LogOut la funcion de desloguearse
+        MenuItem itemLogOut = navigationView.getMenu().findItem(R.id.nav_logout);
+        itemLogOut.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                showDialog();
+
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -79,25 +97,30 @@ public class MainDrawer extends AppCompatActivity implements NavigationView.OnNa
                 || super.onSupportNavigateUp();
     }
 
-    private void setNavigationViewListener() {
-        navigationView.setNavigationItemSelectedListener(this);
+    public void showDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.menu_item_logout);
+
+        builder.setMessage(R.string.warning_logout);
+        builder.setPositiveButton(R.string.acept_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                //Vuelvo editable mi SharedPreference
+                //y borro toda la info del SharedPreference
+                dataDepotEditable = dataDepot.edit();
+                dataDepotEditable.clear();
+                dataDepotEditable.commit();
+
+                Intent goToLogin = new Intent(getApplicationContext(), LogInActivity.class);
+                startActivity(goToLogin);
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_button, null);
+        builder.show();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.nav_logout){
-
-            //Vuelvo editable mi SharedPreference
-            //y borro toda la info del SharedPreference
-            dataDepotEditable = dataDepot.edit();
-            dataDepotEditable.clear();
-            dataDepotEditable.commit();
-
-            Intent goToLogin = new Intent(getApplicationContext(), LogInActivity.class);
-            startActivity(goToLogin);
-
-        }
-        return false;
-    }
 }

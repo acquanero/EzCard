@@ -35,6 +35,7 @@
     <string name="warning_invalid_email">Not valid mail</string>
     <string name="warning_not_a_word">Not valid text.</string>
     <string name="warning_not_a_number">Enter only numbers.</string>
+    <string name="warning_logout">Are you sure you want to log out?</string>
     <string name="title_activity_main_drawer">EzCard</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -42,4 +43,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="delete_button_label">Delete</string>
     <string name="edit_button_label">Edit</string>
+    <string name="acept_button">Acept</string>
+    <string name="cancel_button">Cancel</string>
 </resources>

@@ -13,7 +13,7 @@
     <string name="menu_item_ajustes">Ajustes</string>
     <string name="menu_item_servicios">Servicios</string>
     <string name="menu_item_ezcard">EZCard</string>
-    <string name="menu_item_logout">Salir</string>
+    <string name="menu_item_logout">Cerrar sesión</string>
     <string name="user_mail_erro_msg">Mail y/o contraseña incorrectos</string>
     <string name="login_again_msg">Vuelva a introducir mail y contraseña</string>
     <string name="label_name">Nombre</string>
@@ -35,6 +35,7 @@
     <string name="warning_invalid_email">E-mail incorrecto.</string>
     <string name="warning_not_a_word">Ingrese solo caracteres.</string>
     <string name="warning_not_a_number">Ingrese solo números.</string>
+    <string name="warning_logout">¿Esta seguro que quiere cerrar sesión?</string>
     <string name="title_activity_main_drawer">EzCard</string>
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
     <string name="navigation_drawer_close">Cerrar menú de navegación</string>
@@ -42,4 +43,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="delete_button_label">Borrar</string>
     <string name="edit_button_label">Editar</string>
+    <string name="acept_button">Aceptar</string>
+    <string name="cancel_button">Cancelar</string>
 </resources>
