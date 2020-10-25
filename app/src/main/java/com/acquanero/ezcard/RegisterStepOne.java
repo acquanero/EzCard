@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import retrofit2.Response;
 
 public class RegisterStepOne extends AppCompatActivity {
 
-    private TextView editName, editSurname, editMailAdress, editPhone;
+    private EditText editName, editSurname, editMailAdress, editPhone;
     private Button buttonNext;
     SharedPreferences dataDepot;
 
@@ -35,10 +36,10 @@ public class RegisterStepOne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_step_one);
 
-        editName = (TextView) findViewById(R.id.editName);
-        editSurname = (TextView) findViewById(R.id.editSurname);
-        editMailAdress = (TextView) findViewById(R.id.editMailAdress);
-        editPhone = (TextView) findViewById(R.id.editPhone);
+        editName = (EditText) findViewById(R.id.editName);
+        editSurname = (EditText) findViewById(R.id.editSurname);
+        editMailAdress = (EditText) findViewById(R.id.editMailAdress);
+        editPhone = (EditText) findViewById(R.id.editPhone);
 
         buttonNext = (Button) findViewById(R.id.buttonNext);
 

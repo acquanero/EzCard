@@ -5,9 +5,11 @@ import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -56,5 +58,15 @@ public interface EzCardApiService {
     Call<SimpleResponse> postToRecover(
             @Header("xappid") String xappid,
             @Field("email") String mail
+    );
+
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "cards/{id}", hasBody = true)
+    Call<SimpleResponse> deleteCard(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Path("id") int id,
+            @Field("card_id") int cardId
     );
 }

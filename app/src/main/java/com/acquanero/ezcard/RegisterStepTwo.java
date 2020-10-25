@@ -4,20 +4,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.model.Card;
+import com.acquanero.ezcard.model.Provider;
+import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
 import com.acquanero.ezcard.myutils.MyValidators;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,7 +34,7 @@ import retrofit2.Response;
 public class RegisterStepTwo extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
-    private TextView editPassw, editPin;
+    private EditText editPassw, editPin;
     private Button buttonSignIn;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
@@ -55,8 +63,8 @@ public class RegisterStepTwo extends AppCompatActivity {
 
         //recupero del layout los botones y los campos de texto
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-        editPassw = (TextView) findViewById(R.id.editPassw);
-        editPin = (TextView) findViewById(R.id.editPin);
+        editPassw = (EditText) findViewById(R.id.editPassw);
+        editPin = (EditText) findViewById(R.id.editPin);
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +90,11 @@ public class RegisterStepTwo extends AppCompatActivity {
         if (validateFields(password,pin)){
 
             final Context context = this;
-
-            int thePin = Integer.parseInt(pin);
+            final int thePin = Integer.parseInt(pin);
+            final String theName = name;
+            final String theSurname = surname;
+            final String theEmail = mail;
+            final String thePhone = phone;
 
             myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,thePin).enqueue(new Callback<UserIdToken>() {
                 @Override
@@ -95,12 +106,30 @@ public class RegisterStepTwo extends AppCompatActivity {
                         int idUsuario = response.body().getUserId();
                         String token = response.body().getToken();
 
+                        //Creo un objeto UserData para guardar en el sharedpreference toda la info del usuario
+                        UserData userData = new UserData();
+                        userData.setName(theName);
+                        userData.setLastName(theSurname);
+                        userData.setEmail(theEmail);
+                        userData.setCellphone(thePhone);
+                        userData.setUserId(idUsuario);
+                        userData.setEnabled(true);
+                        userData.setCards(new ArrayList<Card>());
+                        userData.setProviders(new ArrayList<Provider>());
+
+
                         //Vuelvo editable mi SharedPreference
                         dataDepotEditable = dataDepot.edit();
 
                         //almaceno el id y el token en el SharedPreference
                         dataDepotEditable.putInt("user_id", idUsuario);
                         dataDepotEditable.putString("token", token);
+
+                        //Convierto el obejto userData a String para almacenarlo
+                        Gson gson = new Gson();
+                        String json = gson.toJson(userData);
+                        dataDepotEditable.putString("usuario", json);
+
                         dataDepotEditable.apply();
 
                         Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
@@ -109,6 +138,9 @@ public class RegisterStepTwo extends AppCompatActivity {
                         t.setGravity(Gravity.CENTER,0,0);
                         t.show();
 
+                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                        startActivity(i);
+
                     } else {
 
                         Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
@@ -116,6 +148,9 @@ public class RegisterStepTwo extends AppCompatActivity {
                         Toast t = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER,0,0);
                         t.show();
+
+                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                        startActivity(i);
 
                     }
 

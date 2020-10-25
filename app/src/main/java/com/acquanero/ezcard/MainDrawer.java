@@ -46,10 +46,6 @@ public class MainDrawer extends AppCompatActivity {
         Gson gson = new Gson();
         UserData userData = gson.fromJson(userJson, UserData.class);
 
-        //Creo una instancia de SahredPreference para almacenar informacion
-        //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
-        dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);

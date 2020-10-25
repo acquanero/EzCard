@@ -45,4 +45,7 @@
     <string name="edit_button_label">Edit</string>
     <string name="acept_button">Acept</string>
     <string name="cancel_button">Cancel</string>
+    <string name="warning_delete_card_msg">Are you sure you want to delete the card?</string>
+    <string name="warning_delete_card_title">Delete card</string>
+    <string name="enter_pin_to_delete_card">Enter the PIN to delete the card</string>
 </resources>
