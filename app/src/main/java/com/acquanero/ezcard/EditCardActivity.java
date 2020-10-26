@@ -32,7 +32,7 @@ public class EditCardActivity extends AppCompatActivity {
 
     ImageView imageIcono;
     TextView labelTarjeta;
-    Button buttonDelete;
+    Button buttonDelete, buttonEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,12 @@ public class EditCardActivity extends AppCompatActivity {
 
         final int id = datos.getInt("cardid");
         final String nameCard;
+        final int iconId;
 
         imageIcono = (ImageView) findViewById(R.id.imageCard);
         labelTarjeta = (TextView) findViewById(R.id.cardName);
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
+        buttonEdit = (Button) findViewById(R.id.buttonEdit);
 
 
         //Creo una instancia de SahredPreference para almacenar informacion
@@ -74,6 +76,8 @@ public class EditCardActivity extends AppCompatActivity {
         nameCard = cardToEdit.getName();
         labelTarjeta.setText(nameCard);
 
+        iconId = cardToEdit.getIcon();
+
         switch(cardToEdit.getIcon()) {
             case 1:
                 imageIcono.setImageResource(R.drawable.ic_card);
@@ -95,6 +99,19 @@ public class EditCardActivity extends AppCompatActivity {
                 deleteCardActivity.putExtra("cardid", id);
                 deleteCardActivity.putExtra("cardName", nameCard);
                 startActivity(deleteCardActivity);
+
+            }
+        });
+
+        buttonEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent editCardActivity = new Intent(getApplicationContext(), EditCardStepTwo.class);
+                editCardActivity.putExtra("cardid", id);
+                editCardActivity.putExtra("cardName", nameCard);
+                editCardActivity.putExtra("cardIcon", iconId);
+                startActivity(editCardActivity);
 
             }
         });

@@ -30,10 +30,10 @@
     <string name="label_enter_data">Eneter your information</string>
     <string name="label_enter_passwpin">Enter an alphanumeric password and a 4 digit numeric PIN</string>
     <string name="warning_invalid_email_or_passw">E-mail or password incorrect</string>
-    <string name="warning_invalid_passw">Password incorrect.</string>
-    <string name="warning_invalid_pin">Pin incorrect.</string>
+    <string name="warning_invalid_passw">Password incorrect</string>
+    <string name="warning_invalid_pin">Pin incorrect</string>
     <string name="warning_invalid_email">Not valid mail</string>
-    <string name="warning_not_a_word">Not valid text.</string>
+    <string name="warning_not_a_word">Not valid text</string>
     <string name="warning_not_a_number">Enter only numbers.</string>
     <string name="warning_logout">Are you sure you want to log out?</string>
     <string name="title_activity_main_drawer">EzCard</string>
@@ -48,4 +48,11 @@
     <string name="warning_delete_card_msg">Are you sure you want to delete the card?</string>
     <string name="warning_delete_card_title">Delete card</string>
     <string name="enter_pin_to_delete_card">Enter the PIN to delete the card</string>
+    <string name="delete_card_error">There was an error while trying to delete the card. Try again</string>
+    <string name="error_log_in">There was an error while trying to log in</string>
+    <string name="error_while_getting_user_data">There was an error while trying to retrieve the user data</string>
+    <string name="select_icon">Select an icon for your card</string>
+    <string name="enter_card_name">Enter card name</string>
+    <string name="enter_pin_to_edit_card">Ingrese el PIN para guardar los cambios</string>
+
 </resources>

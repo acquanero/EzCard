@@ -136,6 +136,13 @@ public class LogInActivity extends AppCompatActivity {
                             Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_LONG);
                             t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
                             t.show();
+
+                        } else {
+                            Context context = getApplicationContext();
+                            Toast t = Toast.makeText(context, getString(R.string.error_log_in) , Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                            t.show();
+
                         }
 
                     }
@@ -143,6 +150,11 @@ public class LogInActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserIdToken> call, Throwable t) {
+
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, getString(R.string.error_log_in) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    toast.show();
 
                     Log.e("RTA FAIL", "Unable to submit post to API.");
                 }
@@ -160,37 +172,53 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 
-                //Vuelvo editable mi SharedPreference
-                dataDepotEditable = dataDepot.edit();
+                if(response.isSuccessful()) {
 
-                //almaceno los datos del usuario en el sharedPreference
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
 
-                UserData user = new UserData();
-                user.setName(response.body().getName());
-                user.setLastName(response.body().getLastName());
-                user.setPassword(response.body().getPassword());
-                user.setEmail(response.body().getEmail());
-                user.setCellphone(response.body().getCellphone());
-                user.setUserId(response.body().getUserId());
-                user.setEnabled(response.body().getEnabled());
-                user.setCards(response.body().getCards());
-                user.setProviders(response.body().getProviders());
+                    //almaceno los datos del usuario en el sharedPreference
 
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
+                    UserData user = new UserData();
+                    user.setName(response.body().getName());
+                    user.setLastName(response.body().getLastName());
+                    user.setPassword(response.body().getPassword());
+                    user.setEmail(response.body().getEmail());
+                    user.setCellphone(response.body().getCellphone());
+                    user.setUserId(response.body().getUserId());
+                    user.setEnabled(response.body().getEnabled());
+                    user.setCards(response.body().getCards());
+                    user.setProviders(response.body().getProviders());
 
-                dataDepotEditable.putString("usuario", json);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(user);
 
-                dataDepotEditable.apply();
+                    dataDepotEditable.putString("usuario", json);
 
-                Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+                    dataDepotEditable.apply();
 
-                startActivity(goToCardsActivity);
+                    Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+
+                    startActivity(goToCardsActivity);
+
+                } else {
+
+                    Context context = getApplicationContext();
+                    Toast t = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    t.show();
+
+                }
 
             }
 
             @Override
             public void onFailure(Call<UserData> call, Throwable t) {
+
+                Context context = getApplicationContext();
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                toast.show();
 
                 Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");
 

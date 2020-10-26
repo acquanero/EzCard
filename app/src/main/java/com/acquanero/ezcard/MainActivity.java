@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
-                if(response.code() == 200) {
+                if (response.isSuccessful()) {
 
                     getUserWholeData(theToken, theuserID);
 
@@ -106,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
 
                 Log.e("RTA FAIL", "Login con token fallido---------");
 

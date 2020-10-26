@@ -149,7 +149,7 @@ public class RegisterStepTwo extends AppCompatActivity {
                         t.setGravity(Gravity.CENTER,0,0);
                         t.show();
 
-                        Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                        Intent i = new Intent(context, LogInActivity.class);
                         startActivity(i);
 
                     }
@@ -161,6 +161,13 @@ public class RegisterStepTwo extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserIdToken> call, Throwable t) {
+
+                    Toast toast = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
+
+                    Intent i = new Intent(getApplicationContext(), LogInActivity.class);
+                    startActivity(i);
 
                 }
             });

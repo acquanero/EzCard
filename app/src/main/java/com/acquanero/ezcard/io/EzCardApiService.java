@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 //interface que define las rutas a la API
@@ -68,5 +69,17 @@ public interface EzCardApiService {
             @Header("pin") int elpin,
             @Path("id") int id,
             @Field("card_id") int cardId
+    );
+
+    @FormUrlEncoded
+    @PUT("cards/{id}")
+    Call<SimpleResponse> putCard(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Path("id") int id,
+            @Field("card_id") int cardId,
+            @Field("card_name") String cardName,
+            @Field("card_icon") int cardIcon
     );
 }

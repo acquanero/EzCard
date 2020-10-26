@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterPinToDeleteCardActivity"></activity>
+        <activity android:name=".EnterPinToEditCard"></activity>
+        <activity android:name=".EditCardStepTwo" />
+        <activity android:name=".EnterPinToDeleteCardActivity" />
         <activity android:name=".EditCardActivity" />
         <activity
             android:name=".MainDrawer"

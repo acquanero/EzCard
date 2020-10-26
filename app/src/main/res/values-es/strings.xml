@@ -31,10 +31,10 @@
     <string name="label_enter_passwpin">Ingrese una contraseña alfanumerica y un PIN de 4 digitos numerico</string>
     <string name="warning_invalid_email_or_passw">E-mail y/o password incorrecto</string>
     <string name="warning_invalid_pin">Pin incorrecto.</string>
-    <string name="warning_invalid_passw">Contraseña incorrecta.</string>
+    <string name="warning_invalid_passw">Contraseña incorrecta</string>
     <string name="warning_invalid_email">E-mail incorrecto.</string>
-    <string name="warning_not_a_word">Ingrese solo caracteres.</string>
-    <string name="warning_not_a_number">Ingrese solo números.</string>
+    <string name="warning_not_a_word">Ingrese solo caracteres</string>
+    <string name="warning_not_a_number">Ingrese solo números</string>
     <string name="warning_logout">¿Esta seguro que quiere cerrar sesión?</string>
     <string name="title_activity_main_drawer">EzCard</string>
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
@@ -48,4 +48,10 @@
     <string name="warning_delete_card_msg">¿Esta seguro que desea eliminar la tarjeta?</string>
     <string name="warning_delete_card_title">Eliminar tarjeta</string>
     <string name="enter_pin_to_delete_card">Ingrese su PIN para eliminar la tarjeta</string>
+    <string name="delete_card_error">Hubo un error al intentar eliminar la tarjeta. Intente nuevamente</string>
+    <string name="error_log_in">Hubo un error al intentar conectarse</string>
+    <string name="error_while_getting_user_data">Se produjo un error al intentar recuperar los datos del usuario</string>
+    <string name="select_icon">Seleccione un icono para su tarjeta</string>
+    <string name="enter_card_name">Ingrese el nombre de la tarjeta</string>
+    <string name="enter_pin_to_edit_card">Enter the PIN to save </string>
 </resources>

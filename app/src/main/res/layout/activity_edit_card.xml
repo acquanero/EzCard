@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_gravity="center_vertical"
     tools:context=".EditCardActivity">
 
     <ImageView
         android:id="@+id/imageCard"
         android:layout_width="match_parent"
         android:layout_height="187dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="80dp"
         android:layout_marginBottom="20dp"
         app:srcCompat="@drawable/ic_card"
         app:tint="@color/colorPrimary" />
@@ -20,31 +21,43 @@
         android:id="@+id/textNameTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/label_name"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/cardName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="" />
+        android:gravity="center"
+        android:text=""
+        android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/buttonDelete"
-        android:layout_width="120dp"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/boton_estilo_cancel"
-        android:layout_marginBottom="15dp"
-        android:text="@string/delete_button_label" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/buttonEdit"
-        android:layout_width="120dp"
-        android:layout_gravity="center"
-        android:background="@drawable/boton_estilo"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_button_label" />
+        <Button
+            android:id="@+id/buttonEdit"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/boton_estilo"
+            android:text="@string/edit_button_label" />
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/buttonDelete"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/boton_estilo_cancel"
+            android:text="@string/delete_button_label" />
+    </LinearLayout>
 
 </LinearLayout>

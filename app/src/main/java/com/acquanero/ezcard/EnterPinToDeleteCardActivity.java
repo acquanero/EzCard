@@ -91,8 +91,6 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
                     Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
                     t2.setGravity(Gravity.CENTER,0,0);
                     t2.show();
-
-                    System.out.println(pinEntered);
                 } else {
                     confirmDeleteCard(theToken, pinEntered, userID, idCard);
                 }
@@ -137,38 +135,53 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
-                String userJson = dataDepot.getString("usuario", "null");
-                Gson gson = new Gson();
-                UserData userData = gson.fromJson(userJson, UserData.class);
+                if (response.isSuccessful()) {
 
-                ArrayList<Card> listaCards = new ArrayList<Card>();
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
 
-                //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
-                for (Card c : userData.getCards()){
-                    if(c.getCardId() != cardId){
-                        listaCards.add(c);
+                    ArrayList<Card> listaCards = new ArrayList<Card>();
+
+                    //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
+                    for (Card c : userData.getCards()){
+                        if(c.getCardId() != cardId){
+                            listaCards.add(c);
+                        }
                     }
+
+                    //le setteo la nueva lista de tarjetas que no posee la tarjeta eliminada
+                    userData.setCards(listaCards);
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+                } else {
+
+                    Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
+                    t3.setGravity(Gravity.CENTER,0,0);
+                    t3.show();
+
                 }
 
-                //le setteo la nueva lista de tarjetas que no posee la tarjeta eliminada
-                userData.setCards(listaCards);
-
-                //Convierto nuevamente el usuario en String para almacenarlo
-                String json = gson.toJson(userData);
-
-                //Vuelvo editable mi SharedPreference
-                dataDepotEditable = dataDepot.edit();
-                dataDepotEditable.putString("usuario", json);
-                dataDepotEditable.apply();
-
-                //Vuelvo a la vista de drawer
-                Intent goToDrawer = new Intent(context, MainDrawer.class);
-                startActivity(goToDrawer);
 
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
+                t3.setGravity(Gravity.CENTER,0,0);
+                t3.show();
 
             }
         });

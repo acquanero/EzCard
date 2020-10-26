@@ -6,22 +6,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    tools:context=".EnterPinToDeleteCardActivity">
+    tools:context=".EnterPinToEditCard">
 
     <TextView
-        android:id="@+id/labelCardName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/labelWarningDelete"
+        android:id="@+id/labelWarningEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:gravity="center"
-        android:text="@string/enter_pin_to_delete_card"
+        android:text="@string/enter_pin_to_edit_card"
         android:textSize="24sp" />
 
     <EditText
@@ -39,9 +32,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-
         <Button
-            android:id="@+id/cancelDeleteButton"
+            android:id="@+id/cancelEditButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -52,7 +44,7 @@
             android:layout_width="20dp"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/confirmDeleteButton"
+            android:id="@+id/confirmEditButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,4 +53,5 @@
             android:text="@string/delete_button_label" />
 
     </LinearLayout>
+
 </LinearLayout>
