@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:layout_marginRight="20dp"
             android:background="@drawable/boton_estilo_cancel"
-            android:text="@string/delete_button_label" />
+            android:text="@string/acept_button" />
 
     </LinearLayout>
 

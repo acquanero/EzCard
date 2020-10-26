@@ -54,5 +54,7 @@
     <string name="select_icon">Select an icon for your card</string>
     <string name="enter_card_name">Enter card name</string>
     <string name="enter_pin_to_edit_card">Ingrese el PIN para guardar los cambios</string>
+    <string name="error_editing_card">There was an error while trying to edit the card</string>
+    <string name="warning_name_card_notnull">The card name cannot be empty</string>
 
 </resources>

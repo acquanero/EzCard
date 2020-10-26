@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
+import com.acquanero.ezcard.AddNewCardActivity;
 import com.acquanero.ezcard.EditCardActivity;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.model.Card;
@@ -41,25 +44,48 @@ public class CardsFragment extends Fragment {
         Gson gson = new Gson();
         UserData userData = gson.fromJson(userJson, UserData.class);
 
+        View butonAddCard = (View) root.findViewById(R.id.buttonAddCard);
+
+        butonAddCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getContext(), AddNewCardActivity.class);
+                startActivity(i);
+
+            }
+        });
+
 
         //Guardo el GridLayout del CardsActivity en una variable
-        GridLayout gridCards = (GridLayout) root.findViewById(R.id.gridCardsz);
+        //GridLayout gridCards = (GridLayout) root.findViewById(R.id.gridCardsz);
+
+        LinearLayout linearLayoutCards = (LinearLayout) root.findViewById(R.id.linearLayoutCards);
+
 
         //Con un for each recorro la lista de tarjetas y genero el imageButton con un label por cada tarjeta
         //y los inserto en un linearLayout vertical
         //y a su vez este ultimo, lo inserto en cada celda del GridLayout
         for (Card card : userData.getCards()){
 
-            LinearLayout linearLayoutInsideGrid = new LinearLayout(getActivity());
-            LinearLayout.LayoutParams paramsLinear = new LinearLayout.LayoutParams(GridLayout.LayoutParams.WRAP_CONTENT, GridLayout.LayoutParams.WRAP_CONTENT);
-            linearLayoutInsideGrid.setOrientation(LinearLayout.VERTICAL);
-            linearLayoutInsideGrid.setGravity(Gravity.CENTER);
-            paramsLinear.setMargins(0, 0, 55, 20);
+            //LinearLayout linearLayoutInsideGrid = new LinearLayout(getActivity());
+            //LinearLayout.LayoutParams paramsLinear = new LinearLayout.LayoutParams(GridLayout.LayoutParams.WRAP_CONTENT, GridLayout.LayoutParams.WRAP_CONTENT);
+            //linearLayoutInsideGrid.setOrientation(LinearLayout.VERTICAL);
+            //linearLayoutInsideGrid.setGravity(Gravity.CENTER);
+            //paramsLinear.setMargins(0, 0, 55, 20);
+
 
             ImageView botonImage = new ImageView(getActivity());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 200);
+            botonImage.setLayoutParams(layoutParams);
+
             TextView txt = new TextView(getActivity());
             txt.setText(card.getName());
             txt.setGravity(Gravity.CENTER);
+
+            LinearLayout lineaHorizontal = new LinearLayout(getContext());
+            lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+            lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
 
             if(card.getIcon() == 1){
 
@@ -76,9 +102,21 @@ public class CardsFragment extends Fragment {
             }
 
 
-
-
             final int numIdCard = card.getCardId();
+
+            txt.setOnClickListener(new View.OnClickListener() {
+
+                Context context = getContext();
+
+                @Override
+                public void onClick(View view) {
+
+                    Intent i = new Intent(context, EditCardActivity.class);
+                    i.putExtra("cardid", numIdCard);
+                    startActivity(i);
+
+                }
+            });
 
             botonImage.setOnClickListener(new View.OnClickListener() {
 
@@ -94,11 +132,16 @@ public class CardsFragment extends Fragment {
                 }
             });
 
+            lineaHorizontal.addView(botonImage);
+            lineaHorizontal.addView(txt);
 
-            linearLayoutInsideGrid.addView(botonImage, paramsLinear);
-            linearLayoutInsideGrid.addView(txt,paramsLinear);
+            linearLayoutCards.addView(lineaHorizontal);
 
-            gridCards.addView(linearLayoutInsideGrid);
+
+            //linearLayoutInsideGrid.addView(botonImage, paramsLinear);
+            //linearLayoutInsideGrid.addView(txt,paramsLinear);
+
+            //gridCards.addView(linearLayoutInsideGrid);
 
 
         }
