@@ -82,4 +82,16 @@ public interface EzCardApiService {
             @Field("card_name") String cardName,
             @Field("card_icon") int cardIcon
     );
+
+    @FormUrlEncoded
+    @POST("cards")
+    Call<SimpleResponse> postNewCard(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Field("user_id") int userId,
+            @Field("serial_number") String serialNumber,
+            @Field("card_name") String cardName,
+            @Field("card_icon") int cardIcon
+    );
 }

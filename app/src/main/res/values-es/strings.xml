@@ -56,4 +56,5 @@
     <string name="enter_pin_to_edit_card">Enter the PIN to save </string>
     <string name="error_editing_card">Hubo un error al tratar de editar los datos de la tarjeta</string>
     <string name="warning_name_card_notnull">El nombre de la tarjeta no puede estar vacio</string>
+    <string name="warning_select_icon">Debe seleccionar un icono para su tarjeta</string>
 </resources>

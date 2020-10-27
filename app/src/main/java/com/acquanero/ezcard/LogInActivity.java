@@ -18,13 +18,10 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
-
-import java.util.List;
 
 
 import retrofit2.Call;

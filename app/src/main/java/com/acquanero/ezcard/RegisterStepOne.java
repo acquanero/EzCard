@@ -1,28 +1,18 @@
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acquanero.ezcard.io.ApiUtils;
-import com.acquanero.ezcard.io.AppGeneralUseData;
-import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.UserIdToken;
 import com.acquanero.ezcard.myutils.MyValidators;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterStepOne extends AppCompatActivity {
 

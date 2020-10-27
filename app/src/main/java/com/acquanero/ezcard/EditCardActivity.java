@@ -3,9 +3,6 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,17 +11,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.acquanero.ezcard.io.ApiUtils;
-import com.acquanero.ezcard.io.AppGeneralUseData;
-import com.acquanero.ezcard.io.EzCardApiService;
+
 import com.acquanero.ezcard.model.Card;
-import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class EditCardActivity extends AppCompatActivity {
 

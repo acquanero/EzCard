@@ -22,8 +22,6 @@ import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
