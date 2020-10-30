@@ -58,4 +58,5 @@
     <string name="warning_name_card_notnull">El nombre de la tarjeta no puede estar vacio</string>
     <string name="warning_select_icon">Debe seleccionar un icono para su tarjeta</string>
     <string name="hold_a_card_against_the_back_of_your_device">Sostenga la tarjeta contra la parte posterior de su celular</string>
+    <string name="enter_pin_to_add_new_card">Ingrese su PIN para agregar la tarjeta</string>
 </resources>

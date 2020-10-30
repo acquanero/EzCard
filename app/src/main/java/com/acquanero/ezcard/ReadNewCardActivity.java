@@ -1,9 +1,11 @@
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -16,6 +18,9 @@ import android.provider.Settings;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.io.ApiUtils;
+import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.myutils.NfcTagUtils;
 import com.acquanero.ezcard.parser.NdefMessageParser;
 import com.acquanero.ezcard.record.ParsedNdefRecord;
@@ -30,10 +35,17 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_new_card);
         text = (TextView) findViewById(R.id.labelHoldCard);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        Bundle datos = getIntent().getExtras();
+
+        String cardName = datos.getString("cardName");
+        int iconNumber = datos.getInt("iconNumber");
+
 
         if (nfcAdapter == null) {
             Toast.makeText(this, "No NFC", Toast.LENGTH_SHORT).show();
@@ -193,5 +205,5 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
         return sb.toString();
     }
-    
+
 }

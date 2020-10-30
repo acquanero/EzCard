@@ -54,7 +54,27 @@ public class AddNewCardActivity extends AppCompatActivity {
 
                 } else {
 
+                    int iconNumber = 0;
+
+                    if (iconGroup.getCheckedRadioButtonId() == R.id.radioButtonCardNew){
+
+                        iconNumber = 1;
+
+                    } else if (iconGroup.getCheckedRadioButtonId() == R.id.radioButtonCircleNew){
+
+                        iconNumber = 2;
+
+                    } else if (iconGroup.getCheckedRadioButtonId() == R.id.radioButtonArrobaNew){
+
+                        iconNumber = 3;
+                    }
+
+
                     Intent i = new Intent(getApplicationContext(), ReadNewCardActivity.class);
+
+                    i.putExtra("cardName", editNewCardName.getText().toString());
+                    i.putExtra("iconNumber", iconNumber);
+
                     startActivity(i);
 
                 }
