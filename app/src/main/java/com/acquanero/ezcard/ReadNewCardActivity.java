@@ -1,31 +1,19 @@
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import android.nfc.tech.MifareClassic;
-import android.nfc.tech.MifareUltralight;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.acquanero.ezcard.io.ApiUtils;
-import com.acquanero.ezcard.io.AppGeneralUseData;
-import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.myutils.NfcTagUtils;
-import com.acquanero.ezcard.parser.NdefMessageParser;
-import com.acquanero.ezcard.record.ParsedNdefRecord;
 
-import java.util.List;
 
 public class ReadNewCardActivity extends AppCompatActivity {
 
@@ -33,29 +21,34 @@ public class ReadNewCardActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
 
+    private String cardName;
+    private int iconNumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_new_card);
-        text = (TextView) findViewById(R.id.labelHoldCard);
+        text = findViewById(R.id.labelHoldCard);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         Bundle datos = getIntent().getExtras();
 
-        String cardName = datos.getString("cardName");
-        int iconNumber = datos.getInt("iconNumber");
+        cardName = datos.getString("cardName");
+        iconNumber = datos.getInt("iconNumber");
 
 
         if (nfcAdapter == null) {
-            Toast.makeText(this, "No NFC", Toast.LENGTH_SHORT).show();
+
+            Toast toast = Toast.makeText(this, getString(R.string.no_nfc) , Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+            toast.show();
+
             finish();
             return;
         }
 
-        pendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, this.getClass())
-                        .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
 
     @Override
@@ -79,131 +72,45 @@ public class ReadNewCardActivity extends AppCompatActivity {
     }
 
     private void resolveIntent(Intent intent) {
+
         String action = intent.getAction();
 
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
-                || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage[] msgs;
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 
-            if (rawMsgs != null) {
-                msgs = new NdefMessage[rawMsgs.length];
-
-                for (int i = 0; i < rawMsgs.length; i++) {
-                    msgs[i] = (NdefMessage) rawMsgs[i];
-                }
-
-            } else {
-                byte[] empty = new byte[0];
-                byte[] id = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-                Tag tag = (Tag) intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                byte[] payload = dumpTagData(tag).getBytes();
-                NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
-                NdefMessage msg = new NdefMessage(new NdefRecord[] {record});
-                msgs = new NdefMessage[] {msg};
-            }
-
-            displayMsgs(msgs);
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String tagDecimal = getTagInDecimal(tag);
+            goToEnterPin(tagDecimal);
         }
-    }
-
-    private void displayMsgs(NdefMessage[] msgs) {
-        if (msgs == null || msgs.length == 0)
-            return;
-
-        StringBuilder builder = new StringBuilder();
-        List<ParsedNdefRecord> records = NdefMessageParser.parse(msgs[0]);
-        final int size = ((List) records).size();
-
-        for (int i = 0; i < size; i++) {
-            ParsedNdefRecord record = records.get(i);
-            String str = record.str();
-            builder.append(str).append("\n");
-        }
-
-        text.setText(builder.toString());
     }
 
     private void showWirelessSettings() {
-        Toast.makeText(this, "You need to enable NFC", Toast.LENGTH_SHORT).show();
+
+        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.You_need_to_enable_NFC) , Toast.LENGTH_LONG);
+        t.setGravity(Gravity.CENTER,0,0);
+        t.show();
+
         Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
         startActivity(intent);
     }
 
-    private String dumpTagData(Tag tag) {
-        StringBuilder sb = new StringBuilder();
+
+    private String getTagInDecimal(Tag tag) {
+
         byte[] id = tag.getId();
-        sb.append("ID (hex): ").append(NfcTagUtils.toHex(id)).append('\n');
-        sb.append("ID (reversed hex): ").append(NfcTagUtils.toReversedHex(id)).append('\n');
-        sb.append("ID (dec): ").append(NfcTagUtils.toDec(id)).append('\n');
-        sb.append("ID (reversed dec): ").append(NfcTagUtils.toReversedDec(id)).append('\n');
+        String theTag = String.valueOf(NfcTagUtils.toDec(id));
+        return theTag;
 
-        String prefix = "android.nfc.tech.";
-        sb.append("Technologies: ");
-        for (String tech : tag.getTechList()) {
-            sb.append(tech.substring(prefix.length()));
-            sb.append(", ");
-        }
-
-        sb.delete(sb.length() - 2, sb.length());
-
-        for (String tech : tag.getTechList()) {
-            if (tech.equals(MifareClassic.class.getName())) {
-                sb.append('\n');
-                String type = "Unknown";
-
-                try {
-                    MifareClassic mifareTag = MifareClassic.get(tag);
-
-                    switch (mifareTag.getType()) {
-                        case MifareClassic.TYPE_CLASSIC:
-                            type = "Classic";
-                            break;
-                        case MifareClassic.TYPE_PLUS:
-                            type = "Plus";
-                            break;
-                        case MifareClassic.TYPE_PRO:
-                            type = "Pro";
-                            break;
-                    }
-                    sb.append("Mifare Classic type: ");
-                    sb.append(type);
-                    sb.append('\n');
-
-                    sb.append("Mifare size: ");
-                    sb.append(mifareTag.getSize() + " bytes");
-                    sb.append('\n');
-
-                    sb.append("Mifare sectors: ");
-                    sb.append(mifareTag.getSectorCount());
-                    sb.append('\n');
-
-                    sb.append("Mifare blocks: ");
-                    sb.append(mifareTag.getBlockCount());
-                } catch (Exception e) {
-                    sb.append("Mifare classic error: " + e.getMessage());
-                }
-            }
-
-            if (tech.equals(MifareUltralight.class.getName())) {
-                sb.append('\n');
-                MifareUltralight mifareUlTag = MifareUltralight.get(tag);
-                String type = "Unknown";
-                switch (mifareUlTag.getType()) {
-                    case MifareUltralight.TYPE_ULTRALIGHT:
-                        type = "Ultralight";
-                        break;
-                    case MifareUltralight.TYPE_ULTRALIGHT_C:
-                        type = "Ultralight C";
-                        break;
-                }
-                sb.append("Mifare Ultralight type: ");
-                sb.append(type);
-            }
-        }
-
-        return sb.toString();
     }
 
+    private void goToEnterPin(String tag){
+
+        Intent i = new Intent(getApplicationContext(), EnterPinToAddNewCard.class);
+
+        i.putExtra("nameCard", cardName);
+        i.putExtra("iconNumber", iconNumber);
+        i.putExtra("tag", tag);
+
+        startActivity(i);
+
+    }
 }

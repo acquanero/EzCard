@@ -59,4 +59,7 @@
     <string name="warning_select_icon">Debe seleccionar un icono para su tarjeta</string>
     <string name="hold_a_card_against_the_back_of_your_device">Sostenga la tarjeta contra la parte posterior de su celular</string>
     <string name="enter_pin_to_add_new_card">Ingrese su PIN para agregar la tarjeta</string>
+    <string name="You_need_to_enable_NFC">Debes activar el NFC</string>
+    <string name="no_nfc">No se detectó tecnolgía NFC en el dispositivo</string>
+    <string name="error_while_trying_to_add_card">Hubo un error al intentar agregar la tarjeta</string>
 </resources>

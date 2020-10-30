@@ -8,12 +8,6 @@
     android:layout_gravity="center_vertical"
     tools:context=".EnterPinToAddNewCard">
 
-    <TextView
-        android:id="@+id/labelCardName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/labelWarningDelete"
@@ -25,7 +19,7 @@
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/inputPin"
+        android:id="@+id/inputPinForNewCard"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,24 +35,24 @@
 
 
         <Button
-            android:id="@+id/cancelDeleteButton"
+            android:id="@+id/cancelAddCardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:background="@drawable/boton_estilo"
+            android:background="@drawable/boton_estilo_cancel"
             android:text="@string/cancel_button" />
         <Space
             android:layout_width="20dp"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/confirmDeleteButton"
+            android:id="@+id/confirmAddCardButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="20dp"
-            android:background="@drawable/boton_estilo_cancel"
-            android:text="@string/delete_button_label" />
+            android:background="@drawable/boton_estilo"
+            android:text="@string/acept_button" />
 
     </LinearLayout>
 </LinearLayout>

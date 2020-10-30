@@ -59,4 +59,7 @@
     <string name="warning_select_icon">You must select an icon for your card</string>
     <string name="hold_a_card_against_the_back_of_your_device">Hold a card against the back of your device</string>
     <string name="enter_pin_to_add_new_card">Enter PIN to add new card</string>
+    <string name="You_need_to_enable_NFC">You need to enable NFC</string>
+    <string name="no_nfc">No NFC technology detected on the device</string>
+    <string name="error_while_trying_to_add_card">There was an error while trying to add the new card</string>
 </resources>

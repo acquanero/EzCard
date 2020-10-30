@@ -62,10 +62,6 @@ public class EnterPinToEditCard extends AppCompatActivity {
         final String theToken = dataDepot.getString("token", "null");
         final int userID = dataDepot.getInt("user_id", -1);
 
-        System.out.println("nombre: " + nameCard);
-        System.out.println("card id: " + cardId);
-        System.out.println("icon: " + cardIconNumber);
-
         editPIN = (TextView) findViewById(R.id.inputPin);
 
         buttonCanel = (Button) findViewById(R.id.cancelEditButton);
