@@ -57,6 +57,5 @@
     <string name="error_editing_card">There was an error while trying to edit the card</string>
     <string name="warning_name_card_notnull">The card name cannot be empty</string>
     <string name="warning_select_icon">You must select an icon for your card</string>
-
-
+    <string name="hold_a_card_against_the_back_of_your_device">Hold a card against the back of your device</string>
 </resources>
