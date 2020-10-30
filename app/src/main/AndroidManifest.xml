@@ -14,20 +14,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterPinToAddNewCard"></activity>
-        <activity android:name=".ReadNewCardActivity" />
-        <activity android:name=".AddNewCardActivity" />
-        <activity android:name=".EnterPinToEditCard" />
-        <activity android:name=".EditCardStepTwo" />
-        <activity android:name=".EnterPinToDeleteCardActivity" />
-        <activity android:name=".EditCardActivity" />
+        <activity
+            android:name=".EnterPinToAddNewCard"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ReadNewCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AddNewCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".EnterPinToEditCard"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".EditCardStepTwo"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".EnterPinToDeleteCardActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".EditCardActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainDrawer"
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".RecoverAccount"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".RegisterStepTwo"
             android:screenOrientation="portrait" />

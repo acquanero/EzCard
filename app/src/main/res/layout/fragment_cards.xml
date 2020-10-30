@@ -20,7 +20,7 @@
             android:id="@+id/linearLayoutCards"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="80dp"
+            android:layout_marginHorizontal="5dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 

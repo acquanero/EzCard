@@ -8,15 +8,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
@@ -57,22 +55,15 @@ public class CardsFragment extends Fragment {
         });
 
 
-        //Guardo el GridLayout del CardsActivity en una variable
-        //GridLayout gridCards = (GridLayout) root.findViewById(R.id.gridCardsz);
-
+        //Guardo el LinearLayout del CardsActivity en una variable
         LinearLayout linearLayoutCards = (LinearLayout) root.findViewById(R.id.linearLayoutCards);
 
 
         //Con un for each recorro la lista de tarjetas y genero el imageButton con un label por cada tarjeta
-        //y los inserto en un linearLayout vertical
-        //y a su vez este ultimo, lo inserto en cada celda del GridLayout
+        //y los inserto en un linearLayout horizontal
+        //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
         for (Card card : userData.getCards()){
 
-            //LinearLayout linearLayoutInsideGrid = new LinearLayout(getActivity());
-            //LinearLayout.LayoutParams paramsLinear = new LinearLayout.LayoutParams(GridLayout.LayoutParams.WRAP_CONTENT, GridLayout.LayoutParams.WRAP_CONTENT);
-            //linearLayoutInsideGrid.setOrientation(LinearLayout.VERTICAL);
-            //linearLayoutInsideGrid.setGravity(Gravity.CENTER);
-            //paramsLinear.setMargins(0, 0, 55, 20);
 
 
             ImageView botonImage = new ImageView(getActivity());
@@ -137,11 +128,11 @@ public class CardsFragment extends Fragment {
 
             linearLayoutCards.addView(lineaHorizontal);
 
+            LinearLayout.LayoutParams spaceParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+            View lineaSpace = new View(getActivity());
+            lineaSpace.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            //linearLayoutInsideGrid.addView(botonImage, paramsLinear);
-            //linearLayoutInsideGrid.addView(txt,paramsLinear);
-
-            //gridCards.addView(linearLayoutInsideGrid);
+            linearLayoutCards.addView(lineaSpace, spaceParams);
 
 
         }

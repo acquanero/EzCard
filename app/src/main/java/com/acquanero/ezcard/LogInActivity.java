@@ -2,8 +2,11 @@
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.preference.PreferenceManager;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +15,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,9 @@ public class LogInActivity extends AppCompatActivity {
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
 
+    private ProgressBar loadingBar;
+    private ConstraintLayout mainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,13 +66,32 @@ public class LogInActivity extends AppCompatActivity {
         mailUser = (TextView) findViewById(R.id.campo_usuario);
         password = (TextView) findViewById(R.id.campo_password);
         register = (TextView) findViewById(R.id.label_register);
-        recover = (TextView) findViewById(R.id.label_forgot_password);
+
+        mainLayout = findViewById(R.id.loginLayout);
+
 
         //asocio el evento correspondiente al boton de login
         loginButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
+
+                // mostrar circulo de progreso mientras carga
+                ConstraintSet set = new ConstraintSet();
+                loadingBar = new ProgressBar(LogInActivity.this, null, android.R.attr.progressBarStyleLarge);
+
+                //tooodo este choclo es solo para definir la posicion del loadingBar en el centro del ConstraintLayout
+                loadingBar.setId(View.generateViewId());
+                mainLayout.addView(loadingBar,0);
+
+                set.clone(mainLayout);
+                set.connect(loadingBar.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+                set.connect(loadingBar.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+                set.connect(loadingBar.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+                set.connect(loadingBar.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP);
+                set.applyTo(mainLayout);
+
+                loadingBar.setVisibility(View.VISIBLE);
 
                 logIn(mailUser.getText().toString(), password.getText().toString());
 
@@ -82,15 +109,6 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        recover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(getApplicationContext(), RecoverAccount.class);
-                startActivity(i);
-
-            }
-        });
     }
 
     //metodo a ejecutar al presionar el boton login
@@ -194,11 +212,17 @@ public class LogInActivity extends AppCompatActivity {
 
                     dataDepotEditable.apply();
 
+                    //Al terminar oculto el loading Bar
+                    loadingBar.setVisibility(View.GONE);
+
                     Intent goToCardsActivity = new Intent(context, MainDrawer.class);
 
                     startActivity(goToCardsActivity);
 
                 } else {
+
+                    //Al terminar oculto el loading Bar
+                    loadingBar.setVisibility(View.GONE);
 
                     Context context = getApplicationContext();
                     Toast t = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
@@ -211,6 +235,9 @@ public class LogInActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserData> call, Throwable t) {
+
+                //Al terminar oculto el loading Bar
+                loadingBar.setVisibility(View.GONE);
 
                 Context context = getApplicationContext();
                 Toast toast = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
