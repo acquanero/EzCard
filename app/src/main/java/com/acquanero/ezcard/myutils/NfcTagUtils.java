@@ -2,7 +2,7 @@ package com.acquanero.ezcard.myutils;
 
 public class NfcTagUtils {
 
-    private static String toHex(byte[] bytes) {
+    public static String toHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (int i = bytes.length - 1; i >= 0; --i) {
             int b = bytes[i] & 0xff;
@@ -16,7 +16,7 @@ public class NfcTagUtils {
         return sb.toString();
     }
 
-    private static String toReversedHex(byte[] bytes) {
+    public static String toReversedHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < bytes.length; ++i) {
             if (i > 0) {
@@ -30,7 +30,7 @@ public class NfcTagUtils {
         return sb.toString();
     }
 
-    private static long toDec(byte[] bytes) {
+    public static long toDec(byte[] bytes) {
         long result = 0;
         long factor = 1;
         for (int i = 0; i < bytes.length; ++i) {
@@ -41,7 +41,7 @@ public class NfcTagUtils {
         return result;
     }
 
-    private static long toReversedDec(byte[] bytes) {
+    public static long toReversedDec(byte[] bytes) {
         long result = 0;
         long factor = 1;
         for (int i = bytes.length - 1; i >= 0; --i) {

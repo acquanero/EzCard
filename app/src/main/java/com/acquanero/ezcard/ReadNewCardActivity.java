@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.myutils.NfcTagUtils;
 import com.acquanero.ezcard.parser.NdefMessageParser;
 import com.acquanero.ezcard.record.ParsedNdefRecord;
 
@@ -121,10 +122,10 @@ public class ReadNewCardActivity extends AppCompatActivity {
     private String dumpTagData(Tag tag) {
         StringBuilder sb = new StringBuilder();
         byte[] id = tag.getId();
-        sb.append("ID (hex): ").append(toHex(id)).append('\n');
-        sb.append("ID (reversed hex): ").append(toReversedHex(id)).append('\n');
-        sb.append("ID (dec): ").append(toDec(id)).append('\n');
-        sb.append("ID (reversed dec): ").append(toReversedDec(id)).append('\n');
+        sb.append("ID (hex): ").append(NfcTagUtils.toHex(id)).append('\n');
+        sb.append("ID (reversed hex): ").append(NfcTagUtils.toReversedHex(id)).append('\n');
+        sb.append("ID (dec): ").append(NfcTagUtils.toDec(id)).append('\n');
+        sb.append("ID (reversed dec): ").append(NfcTagUtils.toReversedDec(id)).append('\n');
 
         String prefix = "android.nfc.tech.";
         sb.append("Technologies: ");
@@ -192,54 +193,5 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
         return sb.toString();
     }
-
-    private String toHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = bytes.length - 1; i >= 0; --i) {
-            int b = bytes[i] & 0xff;
-            if (b < 0x10)
-                sb.append('0');
-            sb.append(Integer.toHexString(b));
-            if (i > 0) {
-                sb.append(" ");
-            }
-        }
-        return sb.toString();
-    }
-
-    private String toReversedHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; ++i) {
-            if (i > 0) {
-                sb.append(" ");
-            }
-            int b = bytes[i] & 0xff;
-            if (b < 0x10)
-                sb.append('0');
-            sb.append(Integer.toHexString(b));
-        }
-        return sb.toString();
-    }
-
-    private long toDec(byte[] bytes) {
-        long result = 0;
-        long factor = 1;
-        for (int i = 0; i < bytes.length; ++i) {
-            long value = bytes[i] & 0xffl;
-            result += value * factor;
-            factor *= 256l;
-        }
-        return result;
-    }
-
-    private long toReversedDec(byte[] bytes) {
-        long result = 0;
-        long factor = 1;
-        for (int i = bytes.length - 1; i >= 0; --i) {
-            long value = bytes[i] & 0xffl;
-            result += value * factor;
-            factor *= 256l;
-        }
-        return result;
-    }
+    
 }
