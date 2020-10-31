@@ -43,24 +43,28 @@ public class ServiceFragment extends Fragment {
         UserData userData = gson.fromJson(userJson, UserData.class);
 
         //Guardo el LinearLayout del CardsActivity en una variable
-        LinearLayout linearLayoutServices = (LinearLayout) root.findViewById(R.id.linearLayoutService);
+        LinearLayout linearLayoutServices = root.findViewById(R.id.linearLayoutService);
 
         //Con un for each recorro la lista de tarjetas y genero el imageButton con un label por cada tarjeta
         //y los inserto en un linearLayout horizontal
         //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
         for (Provider provider : userData.getProviders()){
 
-
             Button botonServicio = new Button(getActivity());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200);
-            layoutParams.setMargins(5,10,5,5);
-            botonServicio.setLayoutParams(layoutParams);
+            LinearLayout.LayoutParams botonServicioParams = new LinearLayout.LayoutParams(0, 200);
+            botonServicioParams.setMargins(10,10,10,10);
+            botonServicioParams.weight = 9f;
+            botonServicio.setLayoutParams(botonServicioParams);
             botonServicio.setText(provider.getProviderName());
             botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
 
-            //TextView txt = new TextView(getActivity());
-            //txt.setText(card.getName());
-            //txt.setGravity(Gravity.CENTER);
+            Button botonEditServicio = new Button(getActivity());
+            LinearLayout.LayoutParams botonServicioEditParams = new LinearLayout.LayoutParams(0, 200);
+            botonServicioEditParams.setMargins(10,10,10,10);
+            botonServicioEditParams.weight = 1f;
+            botonEditServicio.setLayoutParams(botonServicioEditParams);
+            botonEditServicio.setText("...");
+            botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
 
             LinearLayout lineaHorizontal = new LinearLayout(getContext());
             lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
@@ -69,19 +73,15 @@ public class ServiceFragment extends Fragment {
 
             final int providerId = provider.getProviderId();
 
-/*            txt.setOnClickListener(new View.OnClickListener() {
+            botonEditServicio.setOnClickListener(new View.OnClickListener() {
 
                 Context context = getContext();
 
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(context, EditCardActivity.class);
-                    i.putExtra("cardid", numIdCard);
-                    startActivity(i);
-
                 }
-            });*/
+            });
 
             botonServicio.setOnClickListener(new View.OnClickListener() {
 
@@ -90,26 +90,15 @@ public class ServiceFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(context, EditCardActivity.class);
-                    i.putExtra("provierId", providerId);
-                    startActivity(i);
 
                 }
             });
 
             lineaHorizontal.addView(botonServicio);
-            //lineaHorizontal.addView(txt);
+            lineaHorizontal.addView(botonEditServicio);
 
             linearLayoutServices.addView(lineaHorizontal);
-
-            LinearLayout.LayoutParams spaceParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
-            View lineaSpace = new View(getActivity());
-
-            linearLayoutServices.addView(lineaSpace, spaceParams);
-
-
         }
-
         return root;
     }
 }
