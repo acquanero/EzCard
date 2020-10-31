@@ -5,22 +5,22 @@
             <gradient android:startColor="#304FFE"
                 android:endColor="#00B8D4"
                 android:angle="90"/>
-            <corners android:radius="90dp"/>
+            <corners android:radius="20dp"/>
         </shape>
     </item>
 
     <item android:state_enabled="false">
         <shape>
             <solid android:color="#FF70736C"/>
-            <corners android:radius="90dp"/>
+            <corners android:radius="20dp"/>
         </shape>
 
     </item>
 
     <item>
         <shape>
-            <solid android:color="#AEEA00"/>
-            <corners android:radius="90dp"/>
+            <solid android:color="#091249"/>
+            <corners android:radius="20dp"/>
         </shape>
 
     </item>

@@ -48,7 +48,7 @@
             android:background="@drawable/boton_estilo"
             android:text="@string/edit_button_label" />
         <Space
-            android:layout_width="20dp"
+            android:layout_width="@dimen/margin_horizontal_accept_cancel"
             android:layout_height="wrap_content"/>
 
         <Button

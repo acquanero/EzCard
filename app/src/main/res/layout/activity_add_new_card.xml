@@ -91,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_accept_cancel"
             android:background="@drawable/boton_estilo_cancel"
             android:text="@string/cancel_button" />
 
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginHorizontal="20dp"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_accept_cancel"
             android:background="@drawable/boton_estilo"
             android:text="@string/acept_button" />
     </LinearLayout>

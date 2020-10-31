@@ -43,7 +43,7 @@
             android:background="@drawable/boton_estilo_cancel"
             android:text="@string/cancel_button" />
         <Space
-            android:layout_width="20dp"
+            android:layout_width="@dimen/margin_horizontal_accept_cancel"
             android:layout_height="wrap_content"/>
         <Button
             android:id="@+id/confirmAddCardButton"
