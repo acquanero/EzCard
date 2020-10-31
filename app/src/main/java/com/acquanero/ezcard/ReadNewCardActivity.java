@@ -1,6 +1,7 @@
 package com.acquanero.ezcard;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Gravity;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,8 @@ public class ReadNewCardActivity extends AppCompatActivity {
     private String cardName;
     private int iconNumber;
 
+    private ImageView imageCircle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,6 +40,8 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
         cardName = datos.getString("cardName");
         iconNumber = datos.getInt("iconNumber");
+
+        imageCircle = findViewById(R.id.imageCircleReadCard);
 
 
         if (nfcAdapter == null) {
@@ -79,7 +85,15 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             String tagDecimal = getTagInDecimal(tag);
+
+            imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.acceptedCard), android.graphics.PorterDuff.Mode.MULTIPLY);
+
             goToEnterPin(tagDecimal);
+
+        } else {
+
+            imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.colorDelete), android.graphics.PorterDuff.Mode.MULTIPLY);
+
         }
     }
 

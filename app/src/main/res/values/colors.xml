@@ -6,4 +6,5 @@
     <color name="fondoSplash">#DCDCDC</color>
     <color name="colorLink">#1976D2</color>
     <color name="colorDelete">#D50000</color>
+    <color name="acceptedCard">#76FF03</color>
 </resources>
