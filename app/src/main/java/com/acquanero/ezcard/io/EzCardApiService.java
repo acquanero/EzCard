@@ -94,4 +94,14 @@ public interface EzCardApiService {
             @Field("card_name") String cardName,
             @Field("card_icon") int cardIcon
     );
+
+    @FormUrlEncoded
+    @PUT("provider/unbind")
+    Call<SimpleResponse> unbindProvider(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Field("provider_id") int provderid
+    );
+
 }

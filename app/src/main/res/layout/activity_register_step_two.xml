@@ -48,6 +48,6 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/boton_estilo"
         android:text="@string/label_register"
-        android:textColor="@android:color/background_light" />
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>

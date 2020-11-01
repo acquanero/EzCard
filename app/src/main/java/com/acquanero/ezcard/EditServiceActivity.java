@@ -3,8 +3,11 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.acquanero.ezcard.model.Card;
@@ -18,12 +21,14 @@ public class EditServiceActivity extends AppCompatActivity {
     private TextView cardNameLabel, serviceTitle;
     private Provider provider;
     private Card associatedCard;
+    private Button buttonChangeAssocCard;
+    private int idProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         Bundle datos = getIntent().getExtras();
-        int idProvider = datos.getInt("idProvider");
+        idProvider = datos.getInt("idProvider");
 
         associatedCard = null;
 
@@ -53,15 +58,28 @@ public class EditServiceActivity extends AppCompatActivity {
             }
         }
 
+        cardNameLabel = findViewById(R.id.cardNameLabel);
+
         if (associatedCard != null){
-            cardNameLabel = findViewById(R.id.cardNameLabel);
+
             cardNameLabel.setText(associatedCard.getName());
 
         } else {
-            cardNameLabel.setText(getString(R.string.no_card_associated));
+            cardNameLabel.setText(getResources().getString(R.string.no_card_associated));
         }
 
-        System.out.println(idProvider);
+        buttonChangeAssocCard = findViewById(R.id.buttonChangeAssocCard);
+
+        buttonChangeAssocCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForService.class);
+                goToSelectCard.putExtra("providerId", idProvider);
+                startActivity(goToSelectCard);
+
+            }
+        });
 
     }
 }

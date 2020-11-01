@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditServiceActivity"></activity>
+        <activity android:name=".EnterPinToDisassociateService"></activity>
+        <activity android:name=".SelectNewCardForService" />
+        <activity android:name=".EditServiceActivity" />
         <activity
             android:name=".EnterPinToAddNewCard"
             android:screenOrientation="portrait" />

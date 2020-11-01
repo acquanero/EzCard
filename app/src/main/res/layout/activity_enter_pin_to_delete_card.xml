@@ -47,6 +47,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@drawable/boton_estilo"
+            android:textColor="@color/colorWhite"
             android:text="@string/cancel_button" />
         <Space
             android:layout_width="@dimen/margin_horizontal_accept_cancel"
@@ -58,6 +59,7 @@
             android:layout_weight="1"
             android:layout_marginRight="20dp"
             android:background="@drawable/boton_estilo_cancel"
+            android:textColor="@color/colorWhite"
             android:text="@string/acept_button" />
 
     </LinearLayout>

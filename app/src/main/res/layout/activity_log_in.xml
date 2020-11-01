@@ -66,7 +66,7 @@
         android:layout_marginBottom="100dp"
         android:background="@drawable/boton_estilo"
         android:text="@string/button_login"
-        android:textColor="@android:color/background_light"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

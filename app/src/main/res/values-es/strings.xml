@@ -67,4 +67,7 @@
     <string name="change_associated_card">Cambiar tarjeta asociada</string>
     <string name="delete_service">Eliminar servicio</string>
     <string name="no_card_associated">Sin tarjeta asociada</string>
+    <string name="disassociate_from_all_cards">Desasociar de tarjetas</string>
+    <string name="Enter_pin_to_disassociate_service">Ingrese el PIN para desasociar el servicio de la tarjeta</string>
+    <string name="error_to_disassociate_service">Hubo un error al intentar desasociar el servicio</string>
 </resources>

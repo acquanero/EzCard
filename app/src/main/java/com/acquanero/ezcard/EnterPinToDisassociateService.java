@@ -3,9 +3,7 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +17,7 @@ import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
+import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyValidators;
@@ -30,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToDeleteCardActivity extends AppCompatActivity {
+public class EnterPinToDisassociateService extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
     SharedPreferences dataDepot;
@@ -38,11 +37,15 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
     AppGeneralUseData generalData = new AppGeneralUseData();
 
     private TextView labelCardName;
-    private Button buttonDelete, buttonCanel;
+    private Button buttonDissasociate, buttonCanel;
     private TextView editPIN;
 
     private int pinMin = 4;
     private int pinMax = 4;
+
+    private int providerId;
+
+    private String theToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,34 +55,28 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
         //Traigo una instancia de retrofit para realizar los request
         myAPIService = ApiUtils.getAPIService();
 
+        theToken = dataDepot.getString("token", "null");
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_pin_to_delete_card);
+        setContentView(R.layout.activity_enter_pin_to_disassociate_service);
 
         Bundle datos = getIntent().getExtras();
+        providerId = datos.getInt("providerId");
 
-        final int idCard = datos.getInt("cardid");
-        final String cardName = datos.getString("cardName");
-        final String theToken = dataDepot.getString("token", "null");
-        final int userID = dataDepot.getInt("user_id", -1);
+        editPIN = findViewById(R.id.inputPinDisassociate);
 
-        editPIN = findViewById(R.id.inputPin);
-
-        labelCardName = findViewById(R.id.labelCardName);
-        labelCardName.setText(cardName);
-
-
-        buttonCanel = findViewById(R.id.cancelDeleteButton);
+        buttonCanel = findViewById(R.id.cancelDisassociateButton);
         buttonCanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent goBack = new Intent(getApplicationContext(), MainDrawer.class);
                 startActivity(goBack);
             }
         });
 
-        buttonDelete = findViewById(R.id.confirmDeleteButton);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-
+        buttonDissasociate = findViewById(R.id.confirmDisassociateButton);
+        buttonDissasociate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -87,50 +84,27 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
                 String pinEnteredInString = editPIN.getText().toString();
 
                 if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                    Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                    t2.setGravity(Gravity.CENTER,0,0);
-                    t2.show();
+                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
                 } else {
-                    confirmDeleteCard(theToken, pinEntered, userID, idCard);
+                    confirmDisassociateService(theToken, pinEntered, providerId);
                 }
-            }
-        });
-
-    }
-
-    public void confirmDeleteCard(String token, int pin, int userid, int cardid) {
-
-        final Context context = this;
-        final String tokken = token;
-        final int pinn = pin;
-        final int useridd = userid;
-        final int cardidd = cardid;
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle(R.string.warning_delete_card_title);
-        builder.setMessage(R.string.warning_delete_card_msg);
-        builder.setPositiveButton(R.string.acept_button, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                deleteCard(tokken, pinn, useridd, cardidd);
 
             }
         });
-        builder.setNegativeButton(R.string.cancel_button, null);
-        builder.show();
+
+
     }
 
-    public void deleteCard(String token, int pin, int userid, int cardid){
+    private void confirmDisassociateService(String token, int pin, int provider){
 
         final Context context = this;
-        final String theToken = token;
+        final String theTokken = token;
         final int elPin = pin;
-        final int theuserID = userid;
-        final int cardId = cardid;
+        final int theProviderId = provider;
 
-        myAPIService.deleteCard(generalData.appId, theToken, elPin, theuserID, cardId).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.unbindProvider(generalData.appId, theTokken, elPin, theProviderId).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -140,17 +114,11 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     UserData userData = gson.fromJson(userJson, UserData.class);
 
-                    ArrayList<Card> listaCards = new ArrayList<Card>();
-
-                    //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
-                    for (Card c : userData.getCards()){
-                        if(c.getCardId() != cardId){
-                            listaCards.add(c);
+                    for (Provider p : userData.getProviders()){
+                        if(p.getProviderId() == theProviderId){
+                            p.setCardId(null);
                         }
                     }
-
-                    //le setteo la nueva lista de tarjetas que no posee la tarjeta eliminada
-                    userData.setCards(listaCards);
 
                     //Convierto nuevamente el usuario en String para almacenarlo
                     String json = gson.toJson(userData);
@@ -164,26 +132,28 @@ public class EnterPinToDeleteCardActivity extends AppCompatActivity {
                     Intent goToDrawer = new Intent(context, MainDrawer.class);
                     startActivity(goToDrawer);
 
+
+
                 } else {
 
-                    Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
-                    t3.setGravity(Gravity.CENTER,0,0);
-                    t3.show();
+                    Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
 
                 }
-
 
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
-                t3.setGravity(Gravity.CENTER,0,0);
-                t3.show();
+                Toast to = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
+                to.setGravity(Gravity.CENTER,0,0);
+                to.show();
 
             }
         });
+
 
     }
 }
