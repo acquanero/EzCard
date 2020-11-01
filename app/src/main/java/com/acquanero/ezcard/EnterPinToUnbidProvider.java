@@ -16,20 +16,17 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToDisassociateService extends AppCompatActivity {
+public class EnterPinToUnbidProvider extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
     SharedPreferences dataDepot;
@@ -58,7 +55,7 @@ public class EnterPinToDisassociateService extends AppCompatActivity {
         theToken = dataDepot.getString("token", "null");
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_pin_to_disassociate_service);
+        setContentView(R.layout.activity_enter_pin_to_unbind_provider);
 
         Bundle datos = getIntent().getExtras();
         providerId = datos.getInt("providerId");

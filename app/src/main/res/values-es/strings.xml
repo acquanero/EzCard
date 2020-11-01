@@ -73,4 +73,8 @@
     <string name="select_a_card_for_provider">Seleccione una tarjeta para el servicio o desasocielo</string>
     <string name="enter_pin_to_associate_service">Ingrese el PIN para asociar el servicio a la tarjeta</string>
     <string name="error_while_binding_the_service">Hubo un error al intentar vincular el servicio a la tarjeta</string>
+    <string name="enter_pin_to_delete_provider">Ingrese el PIN para eliminar el servicio</string>
+    <string name="warning_delete_provider_msg">¿Esta seguro que desea eliminar el servicio?</string>
+    <string name="warning_delete_provider_title">Eliminar servicio</string>
+    <string name="delete_provider_error">Hubo un error al intentar eliminar el servicio. Intente nuevamente</string>
 </resources>

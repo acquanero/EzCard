@@ -73,4 +73,8 @@
     <string name="select_a_card_for_provider">Select a card to bind it to the service or unbind it</string>
     <string name="enter_pin_to_associate_service">Enter PIN to associate the service to the card</string>
     <string name="error_while_binding_the_service">There was an error while trying to bind the service to the card</string>
+    <string name="enter_pin_to_delete_provider">Enter the PIN to delete the service</string>
+    <string name="warning_delete_provider_msg">Are you sure you want to delete the service?</string>
+    <string name="warning_delete_provider_title">Delete service</string>
+    <string name="delete_provider_error">There was an error while trying to delete the service. Try again</string>
 </resources>

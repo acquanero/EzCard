@@ -6,20 +6,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    tools:context=".EnterPinToAssociateService">
-
+    tools:context=".EnterPinToUnbidProvider">
 
     <TextView
-        android:id="@+id/labelAssociateService"
+        android:id="@+id/labelCardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/labelWarningDisassociate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:gravity="center"
-        android:text="@string/enter_pin_to_associate_service"
+        android:text="@string/Enter_pin_to_disassociate_service"
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/inputPinToAssociateService"
+        android:id="@+id/inputPinDisassociate"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -35,24 +41,24 @@
 
 
         <Button
-            android:id="@+id/cancelAssociateServiceButton"
+            android:id="@+id/cancelDisassociateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
-            android:layout_marginHorizontal="@dimen/default_gap"
-            android:background="@drawable/boton_estilo_cancel"
+            android:background="@drawable/boton_estilo"
             android:textColor="@color/colorWhite"
             android:text="@string/cancel_button" />
         <Space
             android:layout_width="@dimen/margin_horizontal_accept_cancel"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/confirmAssociateServiceButton"
+            android:id="@+id/confirmDisassociateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginHorizontal="@dimen/default_gap"
-            android:background="@drawable/boton_estilo"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/boton_estilo_cancel"
             android:textColor="@color/colorWhite"
             android:text="@string/acept_button" />
 

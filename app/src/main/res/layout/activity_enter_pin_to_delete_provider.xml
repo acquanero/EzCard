@@ -6,19 +6,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    tools:context=".EnterPinToEditCard">
+    tools:context=".EnterPinToDeleteProvider">
 
     <TextView
-        android:id="@+id/labelWarningEdit"
+        android:id="@+id/labelProviderName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/labelWarningDeleteProvider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:gravity="center"
-        android:text="@string/enter_pin_to_edit_card"
+        android:text="@string/enter_pin_to_delete_provider"
         android:textSize="24sp" />
 
     <EditText
-        android:id="@+id/inputPin"
+        android:id="@+id/inputPinDeleteProvider"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,8 +39,9 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
+
         <Button
-            android:id="@+id/cancelEditButton"
+            android:id="@+id/cancelDeleteProviderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/default_gap"
@@ -45,7 +53,7 @@
             android:layout_width="@dimen/margin_horizontal_accept_cancel"
             android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/confirmEditButton"
+            android:id="@+id/confirmDeleteProviderButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -55,5 +63,4 @@
             android:text="@string/acept_button" />
 
     </LinearLayout>
-
 </LinearLayout>

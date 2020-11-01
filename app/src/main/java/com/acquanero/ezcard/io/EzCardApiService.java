@@ -114,4 +114,13 @@ public interface EzCardApiService {
             @Field("provider_id") int provderid
     );
 
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "provider/delete", hasBody = true)
+    Call<SimpleResponse> deleteProvider(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Field("provider_id") int provderid
+    );
+
 }

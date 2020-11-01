@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
 
-public class SelectNewCardForService extends AppCompatActivity {
+public class SelectNewCardForProvider extends AppCompatActivity {
 
     SharedPreferences dataDepot;
 
@@ -30,7 +29,7 @@ public class SelectNewCardForService extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_new_card_for_service);
+        setContentView(R.layout.activity_select_new_card_for_provider);
 
         Bundle datos = getIntent().getExtras();
         providerId = datos.getInt("providerId");
@@ -85,7 +84,7 @@ public class SelectNewCardForService extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToAssociateService.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToBindProvider.class);
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
                     startActivity(goToPin);
@@ -98,7 +97,7 @@ public class SelectNewCardForService extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToAssociateService.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToBindProvider.class);
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
                     startActivity(goToPin);
@@ -129,7 +128,7 @@ public class SelectNewCardForService extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToDisassociateService.class);
+                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToUnbidProvider.class);
                 goToDissociate.putExtra("providerId", providerId);
                 startActivity(goToDissociate);
 

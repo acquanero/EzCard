@@ -14,10 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterPinToAssociateService"></activity>
-        <activity android:name=".EnterPinToDisassociateService" />
-        <activity android:name=".SelectNewCardForService" />
-        <activity android:name=".EditServiceActivity" />
+        <activity android:name=".EnterPinToDeleteProvider"></activity>
+        <activity android:name=".EnterPinToBindProvider" />
+        <activity android:name=".EnterPinToUnbidProvider" />
+        <activity android:name=".SelectNewCardForProvider" />
+        <activity android:name=".EditProviderActivity" />
         <activity
             android:name=".EnterPinToAddNewCard"
             android:screenOrientation="portrait" />

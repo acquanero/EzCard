@@ -1,4 +1,4 @@
-package com.acquanero.ezcard.ui.services;
+package com.acquanero.ezcard.ui.providers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,32 +9,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.acquanero.ezcard.EditCardActivity;
-import com.acquanero.ezcard.EditServiceActivity;
+import com.acquanero.ezcard.EditProviderActivity;
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
 
-public class ServiceFragment extends Fragment {
+public class ProvidersFragment extends Fragment {
 
     SharedPreferences dataDepot;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_service, container, false);
+        View root = inflater.inflate(R.layout.fragment_providers, container, false);
 
         //Creo una instancia de SahredPreference para almacenar informacion
         //el archivo se encuentra en /data/data/[nombre del proyecto]/shared_prefs/archivo.xml
@@ -117,7 +112,7 @@ public class ServiceFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(getActivity(), EditServiceActivity.class);
+                    Intent i = new Intent(getActivity(), EditProviderActivity.class);
                     i.putExtra("idProvider", providerId);
                     startActivity(i);
 

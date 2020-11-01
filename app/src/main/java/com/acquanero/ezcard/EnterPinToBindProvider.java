@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
@@ -27,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToAssociateService extends AppCompatActivity {
+public class EnterPinToBindProvider extends AppCompatActivity {
 
     private int providerId;
     private int numIdCard;
@@ -48,7 +47,7 @@ public class EnterPinToAssociateService extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_pin_to_associate_service);
+        setContentView(R.layout.activity_enter_pin_to_bind_provider);
 
         //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);

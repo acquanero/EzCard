@@ -15,13 +15,13 @@ import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
 
-public class EditServiceActivity extends AppCompatActivity {
+public class EditProviderActivity extends AppCompatActivity {
 
     SharedPreferences dataDepot;
     private TextView cardNameLabel, serviceTitle;
     private Provider provider;
     private Card associatedCard;
-    private Button buttonChangeAssocCard;
+    private Button buttonChangeAssocCard, buttonDeleteService;
     private int idProvider;
 
     @Override
@@ -47,7 +47,7 @@ public class EditServiceActivity extends AppCompatActivity {
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_service);
+        setContentView(R.layout.activity_edit_provider);
 
         serviceTitle = findViewById(R.id.labelTitleServiceName);
         serviceTitle.setText(provider.getProviderName());
@@ -74,9 +74,22 @@ public class EditServiceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForService.class);
+                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForProvider.class);
                 goToSelectCard.putExtra("providerId", idProvider);
                 startActivity(goToSelectCard);
+
+            }
+        });
+
+        buttonDeleteService = findViewById(R.id.buttonDeleteService);
+        buttonDeleteService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent goToDelete = new Intent(getApplicationContext(), EnterPinToDeleteProvider.class);
+                goToDelete.putExtra("providerId", idProvider);
+                startActivity(goToDelete);
+
 
             }
         });

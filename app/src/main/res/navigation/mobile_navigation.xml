@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_services"
-        android:name="com.acquanero.ezcard.ui.services.ServiceFragment"
+        android:name="com.acquanero.ezcard.ui.providers.ProvidersFragment"
         android:label="@string/menu_item_servicios"
-        tools:layout="@layout/fragment_service" />
+        tools:layout="@layout/fragment_providers" />
 
     <fragment
         android:id="@+id/nav_settings"
