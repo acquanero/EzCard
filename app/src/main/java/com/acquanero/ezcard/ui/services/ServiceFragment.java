@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.EditCardActivity;
+import com.acquanero.ezcard.EditServiceActivity;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
@@ -56,7 +58,41 @@ public class ServiceFragment extends Fragment {
             botonServicioParams.weight = 9f;
             botonServicio.setLayoutParams(botonServicioParams);
             botonServicio.setText(provider.getProviderName());
-            botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
+
+
+            //Si el servicio esta deshabilitado, pinto el boton de gris y le asocio un toast al click que muestra advertencia
+            //de lo contrario lo pinto de blanco y asocio el listener a la siguiente actividad para leer la tarjeta
+            if (provider.getEnabled() == false){
+
+                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
+
+                botonServicio.setOnClickListener(new View.OnClickListener() {
+
+                    Context context = getContext();
+
+                    @Override
+                    public void onClick(View view) {
+
+                        Toast t = Toast.makeText(getActivity(), getString(R.string.service_unavailable) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
+
+                    }
+                });
+
+            } else {
+
+                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
+                botonServicio.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+
+                    }
+                });
+
+            }
 
             Button botonEditServicio = new Button(getActivity());
             LinearLayout.LayoutParams botonServicioEditParams = new LinearLayout.LayoutParams(0, 200);
@@ -64,7 +100,10 @@ public class ServiceFragment extends Fragment {
             botonServicioEditParams.weight = 1f;
             botonEditServicio.setLayoutParams(botonServicioEditParams);
             botonEditServicio.setText("...");
-            botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
+
+            if (provider.getEnabled() == false){
+                botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
+            } else botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
 
             LinearLayout lineaHorizontal = new LinearLayout(getContext());
             lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
@@ -75,21 +114,12 @@ public class ServiceFragment extends Fragment {
 
             botonEditServicio.setOnClickListener(new View.OnClickListener() {
 
-                Context context = getContext();
-
                 @Override
                 public void onClick(View view) {
 
-                }
-            });
-
-            botonServicio.setOnClickListener(new View.OnClickListener() {
-
-                Context context = getContext();
-
-                @Override
-                public void onClick(View view) {
-
+                    Intent i = new Intent(getActivity(), EditServiceActivity.class);
+                    i.putExtra("idProvider", providerId);
+                    startActivity(i);
 
                 }
             });

@@ -62,4 +62,9 @@
     <string name="You_need_to_enable_NFC">Debes activar el NFC</string>
     <string name="no_nfc">No se detectó tecnolgía NFC en el dispositivo</string>
     <string name="error_while_trying_to_add_card">Hubo un error al intentar agregar la tarjeta</string>
+    <string name="service_unavailable">Servicio no disponible. Contacte al administrador del servicio</string>
+    <string name="associated_card">Tarjeta asociada</string>
+    <string name="change_associated_card">Cambiar tarjeta asociada</string>
+    <string name="delete_service">Eliminar servicio</string>
+    <string name="no_card_associated">Sin tarjeta asociada</string>
 </resources>
