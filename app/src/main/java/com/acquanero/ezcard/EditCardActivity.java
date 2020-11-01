@@ -36,10 +36,10 @@ public class EditCardActivity extends AppCompatActivity {
         final String nameCard;
         final int iconId;
 
-        imageIcono = (ImageView) findViewById(R.id.imageCard);
-        labelTarjeta = (TextView) findViewById(R.id.cardName);
-        buttonDelete = (Button) findViewById(R.id.buttonDelete);
-        buttonEdit = (Button) findViewById(R.id.buttonEdit);
+        imageIcono = findViewById(R.id.imageCard);
+        labelTarjeta = findViewById(R.id.cardName);
+        buttonDelete = findViewById(R.id.buttonDelete);
+        buttonEdit = findViewById(R.id.buttonEdit);
 
 
         //Creo una instancia de SahredPreference para almacenar informacion

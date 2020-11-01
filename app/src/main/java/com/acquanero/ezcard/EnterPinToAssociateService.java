@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +17,7 @@ import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
+import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyValidators;
@@ -27,11 +27,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToAddNewCard extends AppCompatActivity {
+public class EnterPinToAssociateService extends AppCompatActivity {
+
+    private int providerId;
+    private int numIdCard;
 
     AppGeneralUseData generalData = new AppGeneralUseData();
 
     SharedPreferences dataDepot;
+    SharedPreferences.Editor dataDepotEditable;
 
     private EzCardApiService myAPIService;
 
@@ -44,7 +48,7 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_pin_to_add_new_card);
+        setContentView(R.layout.activity_enter_pin_to_associate_service);
 
         //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
@@ -53,17 +57,15 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
         myAPIService = ApiUtils.getAPIService();
 
         Bundle datos = getIntent().getExtras();
-
-        final String nameCard = datos.getString("nameCard");
-        final int iconNumber = datos.getInt("iconNumber");
-        final String tag = datos.getString("tag");
+        numIdCard = datos.getInt("cardId");
+        providerId = datos.getInt("providerId");
 
         final String theToken = dataDepot.getString("token", "null");
-        final int userID = dataDepot.getInt("user_id", -1);
 
-        editPIN = findViewById(R.id.inputPinForNewCard);
+        editPIN = findViewById(R.id.inputPinToAssociateService);
 
-        buttonCanel = findViewById(R.id.cancelAddCardButton);
+        buttonCanel = findViewById(R.id.cancelAssociateServiceButton);
+
         buttonCanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +74,7 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
             }
         });
 
-        buttonConfirm = findViewById(R.id.confirmAddCardButton);
+        buttonConfirm = findViewById(R.id.confirmAssociateServiceButton);
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,61 +83,77 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
                 String pinEnteredInString = editPIN.getText().toString();
 
                 if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                    Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                    t2.setGravity(Gravity.CENTER,0,0);
-                    t2.show();
+                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
                 } else {
-                    sendDataForNewCard(theToken, pinEntered, userID, nameCard, iconNumber, tag);
+                    postToAssociateService(theToken, pinEntered, numIdCard, providerId);
                 }
 
             }
         });
-
     }
 
-    private void sendDataForNewCard(String token, int pin, int userid, String cardName, int cardIcon, String theTag){
+    private void postToAssociateService(String token, int pin, int cardId, int providerId){
 
         final String tokken = token;
         final int pinn = pin;
-        final int useridd = userid;
-        final String namecard = cardName;
-        final int cardiconn = cardIcon;
-        final String cardTag = theTag;
+        final int idcard = cardId;
+        final int idProvider = providerId;
         final Context context = this;
 
-        myAPIService.postNewCard(generalData.appId, tokken, pinn, useridd, cardTag, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.bindProvider(generalData.appId, tokken, pinn, idcard, idProvider).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
                 if (response.isSuccessful()) {
 
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    //recorro la lista de cards del usuario y cuando encuentro la que coincide con el id, le cambio los atributos
+                    for (Provider p : userData.getProviders()){
+                        if(p.getProviderId() == idProvider){
+
+                            p.setCardId(idcard);
+                        }
+                    }
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
                     //Vuelvo a la vista de drawer
-                    Intent goToMain = new Intent(context, MainActivity.class);
-                    startActivity(goToMain);
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
 
                 } else {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card) , Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
                     toast.show();
 
-                    Log.e("RTA FAIL", "Unable to submit post to API.");
                 }
+
 
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card) , Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
                 toast.show();
 
-                Log.e("RTA FAIL", "Unable to submit post to API.");
-
-
             }
         });
+
 
     }
 }

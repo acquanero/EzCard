@@ -104,4 +104,14 @@ public interface EzCardApiService {
             @Field("provider_id") int provderid
     );
 
+    @FormUrlEncoded
+    @POST("provider/bind")
+    Call<SimpleResponse> bindProvider(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Field("card_id") int cardId,
+            @Field("provider_id") int provderid
+    );
+
 }

@@ -70,4 +70,7 @@
     <string name="disassociate_from_all_cards">Desasociar de tarjetas</string>
     <string name="Enter_pin_to_disassociate_service">Ingrese el PIN para desasociar el servicio de la tarjeta</string>
     <string name="error_to_disassociate_service">Hubo un error al intentar desasociar el servicio</string>
+    <string name="select_a_card_for_provider">Seleccione una tarjeta para el servicio o desasocielo</string>
+    <string name="enter_pin_to_associate_service">Ingrese el PIN para asociar el servicio a la tarjeta</string>
+    <string name="error_while_binding_the_service">Hubo un error al intentar vincular el servicio a la tarjeta</string>
 </resources>

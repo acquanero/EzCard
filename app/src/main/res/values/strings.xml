@@ -70,4 +70,7 @@
     <string name="disassociate_from_all_cards">Disassociate from card</string>
     <string name="Enter_pin_to_disassociate_service">Enter PIN to disassociate service from card</string>
     <string name="error_to_disassociate_service">There was an error while trying to disassociate the service</string>
+    <string name="select_a_card_for_provider">Select a card to bind it to the service or unbind it</string>
+    <string name="enter_pin_to_associate_service">Enter PIN to associate the service to the card</string>
+    <string name="error_while_binding_the_service">There was an error while trying to bind the service to the card</string>
 </resources>

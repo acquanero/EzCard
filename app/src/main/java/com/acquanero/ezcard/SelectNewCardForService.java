@@ -43,22 +43,8 @@ public class SelectNewCardForService extends AppCompatActivity {
         Gson gson = new Gson();
         UserData userData = gson.fromJson(userJson, UserData.class);
 
-        View butonAddCard = findViewById(R.id.buttonAddCardNew);
-
-        butonAddCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(getApplicationContext(), AddNewCardActivity.class);
-                startActivity(i);
-
-            }
-        });
-
-
         //Guardo el LinearLayout del CardsActivity en una variable
         LinearLayout linearLayoutCards = findViewById(R.id.linearLayoutSelectCard);
-
 
         //Con un for each recorro la lista de tarjetas y genero el imageButton con un label por cada tarjeta
         //y los inserto en un linearLayout horizontal
@@ -99,6 +85,11 @@ public class SelectNewCardForService extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToAssociateService.class);
+                    goToPin.putExtra("cardId", numIdCard);
+                    goToPin.putExtra("providerId", providerId);
+                    startActivity(goToPin);
+
                 }
             });
 
@@ -106,6 +97,11 @@ public class SelectNewCardForService extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToAssociateService.class);
+                    goToPin.putExtra("cardId", numIdCard);
+                    goToPin.putExtra("providerId", providerId);
+                    startActivity(goToPin);
 
 
                 }
@@ -125,13 +121,9 @@ public class SelectNewCardForService extends AppCompatActivity {
 
         }
 
-        Button dessacociateCardsButton = new Button(this);
-        dessacociateCardsButton.setText(getResources().getString(R.string.disassociate_from_all_cards));
-        LinearLayout.LayoutParams buttonDessaParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonDessaParams.setMargins(0,10,0,10);
-        dessacociateCardsButton.setBackground(ContextCompat.getDrawable(this, R.drawable.boton_estilo_cancel));
-        dessacociateCardsButton.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
-        linearLayoutCards.addView(dessacociateCardsButton, buttonDessaParams);
+        //Boton que lleva a desasociar el servicio de todas las tarjetas
+
+        Button dessacociateCardsButton = findViewById(R.id.dessacociateCardsButton);
 
         dessacociateCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override
