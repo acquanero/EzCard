@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterPinToDeleteProvider"></activity>
+        <activity android:name=".ValidateAccessToProviderActivity"></activity>
+        <activity android:name=".EnterPinToDeleteProvider" />
         <activity android:name=".EnterPinToBindProvider" />
         <activity android:name=".EnterPinToUnbidProvider" />
         <activity android:name=".SelectNewCardForProvider" />

@@ -123,4 +123,12 @@ public interface EzCardApiService {
             @Field("provider_id") int provderid
     );
 
+    @FormUrlEncoded
+    @POST("provider/bind")
+    Call<SimpleResponse> entryToProvider(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Field("serial_number") String serialNumber
+    );
+
 }

@@ -19,6 +19,7 @@ import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.EditProviderActivity;
 import com.acquanero.ezcard.R;
+import com.acquanero.ezcard.ValidateAccessToProviderActivity;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
@@ -83,6 +84,8 @@ public class ProvidersFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
 
+                        Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
+                        startActivity(validateAccess);
 
                     }
                 });
