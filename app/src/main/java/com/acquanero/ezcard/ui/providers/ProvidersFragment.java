@@ -43,7 +43,7 @@ public class ProvidersFragment extends Fragment {
         //Guardo el LinearLayout del CardsActivity en una variable
         LinearLayout linearLayoutServices = root.findViewById(R.id.linearLayoutService);
 
-        //Con un for each recorro la lista de tarjetas y genero el imageButton con un label por cada tarjeta
+        //Con un for each recorro la lista de Servicios y genero el button por cada servicio y un button para editar servicio
         //y los inserto en un linearLayout horizontal
         //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
         for (Provider provider : userData.getProviders()){
@@ -55,6 +55,7 @@ public class ProvidersFragment extends Fragment {
             botonServicio.setLayoutParams(botonServicioParams);
             botonServicio.setText(provider.getProviderName());
 
+            final int providerId = provider.getProviderId();
 
             //Si el servicio esta deshabilitado, pinto el boton de gris y le asocio un toast al click que muestra advertencia
             //de lo contrario lo pinto de blanco y asocio el listener a la siguiente actividad para leer la tarjeta
@@ -85,6 +86,7 @@ public class ProvidersFragment extends Fragment {
                     public void onClick(View view) {
 
                         Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
+                        validateAccess.putExtra("idProvider", providerId);
                         startActivity(validateAccess);
 
                     }
@@ -107,8 +109,6 @@ public class ProvidersFragment extends Fragment {
             lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
             lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
 
-
-            final int providerId = provider.getProviderId();
 
             botonEditServicio.setOnClickListener(new View.OnClickListener() {
 

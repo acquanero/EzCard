@@ -21,7 +21,7 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
     private TextView text;
     private NfcAdapter nfcAdapter;
-    PendingIntent pendingIntent;
+    private PendingIntent pendingIntent;
 
     private String cardName;
     private int iconNumber;
@@ -71,7 +71,6 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
         super.onNewIntent(intent);
         setIntent(intent);
         resolveIntent(intent);

@@ -124,10 +124,12 @@ public interface EzCardApiService {
     );
 
     @FormUrlEncoded
-    @POST("provider/bind")
+    @POST("entry/{userId}/{providerId}")
     Call<SimpleResponse> entryToProvider(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
+            @Path("userId") int userid,
+            @Path("providerId") int providerid,
             @Field("serial_number") String serialNumber
     );
 
