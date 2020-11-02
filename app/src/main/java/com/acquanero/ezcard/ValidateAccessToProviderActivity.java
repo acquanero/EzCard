@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
@@ -12,6 +13,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +22,12 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.myutils.NfcTagUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
@@ -34,11 +41,15 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     PendingIntent pendingIntent;
     private ImageView imageCircle;
+    private int idProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validate_access_to_provider);
+
+        Bundle datos = getIntent().getExtras();
+        idProvider = datos.getInt("idProvider");
 
        //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,8 +111,6 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
             String tagDecimal = getTagInDecimal(tag);
             final String theToken = dataDepot.getString("token", "null");
             final int userId = dataDepot.getInt("user_id", -1);
-            Bundle datos = getIntent().getExtras();
-            final int idProvider = datos.getInt("idProvider");
 
             imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.acceptedCard), PorterDuff.Mode.MULTIPLY);
 
@@ -138,13 +147,44 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
         final String tokenn = token;
         final int iduser = userId;
-        final int IdProvider = providerId;
+        final int idProvider = providerId;
         final String tagg = tag;
 
-        System.out.println(tokenn);
-        System.out.println(iduser);
-        System.out.println(IdProvider);
-        System.out.println(tagg);
+        final Context context = this;
+
+        myAPIService.entryToProvider(generalData.appId,tokenn,iduser,idProvider,tagg).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    Toast toast = Toast.makeText(context, getString(R.string.successful_access) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    toast.show();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToMain = new Intent(context, MainActivity.class);
+                    startActivity(goToMain);
+
+                } else {
+
+                    Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    toast.show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error) , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                toast.show();
+
+            }
+        });
 
     }
 }

@@ -46,7 +46,7 @@ public class ProvidersFragment extends Fragment {
         //Con un for each recorro la lista de Servicios y genero el button por cada servicio y un button para editar servicio
         //y los inserto en un linearLayout horizontal
         //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
-        for (Provider provider : userData.getProviders()){
+        for (final Provider provider : userData.getProviders()){
 
             Button botonServicio = new Button(getActivity());
             LinearLayout.LayoutParams botonServicioParams = new LinearLayout.LayoutParams(0, 200);
@@ -65,8 +65,6 @@ public class ProvidersFragment extends Fragment {
 
                 botonServicio.setOnClickListener(new View.OnClickListener() {
 
-                    Context context = getContext();
-
                     @Override
                     public void onClick(View view) {
 
@@ -77,17 +75,31 @@ public class ProvidersFragment extends Fragment {
                     }
                 });
 
-            } else {
+            }  else {
 
                 botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
                 botonServicio.setOnClickListener(new View.OnClickListener() {
 
+                    Provider theProvider = provider;
+
                     @Override
                     public void onClick(View view) {
 
-                        Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
-                        validateAccess.putExtra("idProvider", providerId);
-                        startActivity(validateAccess);
+
+                        //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
+                        if (theProvider.getCardId() == null){
+
+                            Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER,0,0);
+                            t.show();
+
+                        } else {
+
+                            Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
+                            validateAccess.putExtra("idProvider", providerId);
+                            startActivity(validateAccess);
+
+                        }
 
                     }
                 });

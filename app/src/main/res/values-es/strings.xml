@@ -77,4 +77,7 @@
     <string name="warning_delete_provider_msg">¿Esta seguro que desea eliminar el servicio?</string>
     <string name="warning_delete_provider_title">Eliminar servicio</string>
     <string name="delete_provider_error">Hubo un error al intentar eliminar el servicio. Intente nuevamente</string>
+    <string name="validate_provider_error">Hubo un error al intentar acceder al servicio. Vuela a intentarlo</string>
+    <string name="successful_access">Acceso exitoso</string>
+    <string name="no_card_binded_to_service">El servicio no tiene tarjetas asociadas. Asocie una tarjeta primero</string>
 </resources>

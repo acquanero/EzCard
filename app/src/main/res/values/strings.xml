@@ -77,4 +77,7 @@
     <string name="warning_delete_provider_msg">Are you sure you want to delete the service?</string>
     <string name="warning_delete_provider_title">Delete service</string>
     <string name="delete_provider_error">There was an error while trying to delete the service. Try again</string>
+    <string name="validate_provider_error">There was an error while trying to access to the service. Try again</string>
+    <string name="successful_access">Access successful</string>
+    <string name="no_card_binded_to_service">The service has no card associated. Associate one first</string>
 </resources>
