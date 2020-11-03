@@ -89,4 +89,7 @@
     <string name="enter_new_pin">Ingrese el nuevo PIN</string>
     <string name="enter_new_pin_again">Nuevo PIN otra vez</string>
     <string name="send">Enviar</string>
+    <string name="reconfirmation_doesnt_match">La reconfirmación del PIN no coincide</string>
+    <string name="success_change_pin">Cambio de PIN exitoso</string>
+    <string name="error_change_pin">Error al intentar cambiar el PIN</string>
 </resources>

@@ -18,7 +18,6 @@ public class RegisterStepOne extends AppCompatActivity {
 
     private EditText editName, editSurname, editMailAdress, editPhone;
     private Button buttonNext;
-    SharedPreferences dataDepot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +25,12 @@ public class RegisterStepOne extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_step_one);
 
-        editName = (EditText) findViewById(R.id.editName);
-        editSurname = (EditText) findViewById(R.id.editSurname);
-        editMailAdress = (EditText) findViewById(R.id.editMailAdress);
-        editPhone = (EditText) findViewById(R.id.editPhone);
+        editName = findViewById(R.id.editName);
+        editSurname = findViewById(R.id.editSurname);
+        editMailAdress = findViewById(R.id.editMailAdress);
+        editPhone = findViewById(R.id.editPhone);
 
-        buttonNext = (Button) findViewById(R.id.buttonNext);
+        buttonNext = findViewById(R.id.buttonNext);
 
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override

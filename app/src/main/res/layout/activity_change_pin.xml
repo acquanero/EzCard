@@ -6,58 +6,70 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    android:layout_marginHorizontal="@dimen/margin_settings"
-    android:padding="@dimen/padding_box_settigns"
-    android:background="@drawable/button_with_border"
+    android:gravity="center_horizontal"
+    android:layout_margin="@dimen/margin_settings"
     tools:context=".ChangePinActivity" >
 
-    <TextView
-        android:id="@+id/labelOldPin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/old_pin"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/inputOldPin"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="@dimen/margin_between_items_setting"
-        android:inputType="numberPassword" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_box_settigns"
+        android:layout_marginBottom="@dimen/margin_bottom_settings"
+        android:background="@drawable/button_with_border">
 
-    <TextView
-        android:id="@+id/labelNewPinOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold"
-        android:text="@string/enter_new_pin" />
+        <TextView
+            android:id="@+id/labelOldPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/old_pin"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/inputNewPinOne"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="@dimen/margin_between_items_setting"
-        android:inputType="numberPassword" />
+        <EditText
+            android:id="@+id/inputOldPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="@dimen/margin_between_items_setting"
+            android:inputType="numberPassword" />
 
-    <TextView
-        android:id="@+id/labelNewPinTwo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold"
-        android:text="@string/enter_new_pin_again" />
+        <TextView
+            android:id="@+id/labelNewPinOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold"
+            android:text="@string/enter_new_pin" />
 
-    <EditText
-        android:id="@+id/inputNewPinTwo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="@dimen/margin_between_items_setting"
-        android:inputType="numberPassword" />
+        <EditText
+            android:id="@+id/inputNewPinOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="@dimen/margin_between_items_setting"
+            android:inputType="numberPassword" />
+
+        <TextView
+            android:id="@+id/labelNewPinTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold"
+            android:text="@string/enter_new_pin_again" />
+
+        <EditText
+            android:id="@+id/inputNewPinTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginBottom="@dimen/margin_between_items_setting"
+            android:inputType="numberPassword" />
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/buttonSendNewPin"

@@ -6,56 +6,84 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
+    android:gravity="center"
     android:layout_marginHorizontal="@dimen/margin_settings"
     android:padding="@dimen/padding_box_settigns"
-    android:background="@drawable/button_with_border"
     tools:context=".ui.settings.SettingsFragment" >
 
-    <TextView
-        android:id="@+id/labelMail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/mail_on_settings"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/LogoimageView"
+        android:layout_width="@dimen/logo_width_in_settings"
+        android:layout_height="@dimen/logo_height_in_settings"
+        android:contentDescription="@string/logo"
+        app:srcCompat="@mipmap/logo" />
 
-    <TextView
-        android:id="@+id/textViewMail"
+    <ImageView
+        android:id="@+id/viewnamelogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:layout_marginBottom="@dimen/margin_between_items_setting" />
+        android:contentDescription="@string/app_name"
+        android:layout_marginBottom="@dimen/settings_margin_bottom_logo"
+        app:srcCompat="@mipmap/ezcard" />
 
-    <TextView
-        android:id="@+id/labelProtectApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold"
-        android:text="@string/app_security" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_box_settigns"
+        android:layout_marginBottom="@dimen/margin_bottom_settings"
+        android:background="@drawable/button_with_border">
 
-    <TextView
-        android:id="@+id/linkToChangePin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textColor="@color/colorLink"
-        android:layout_marginBottom="@dimen/margin_between_items_setting"
-        android:text="@string/change_your_pin"/>
+        <TextView
+            android:id="@+id/labelMail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mail_on_settings"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/labelSoporte"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold"
-        android:text="@string/contact_support" />
+        <TextView
+            android:id="@+id/textViewMail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:layout_marginBottom="@dimen/margin_between_items_setting" />
 
-    <TextView
-        android:id="@+id/linkAskForHelp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textColor="@color/colorLink"
-        android:text="@string/ask_for_help"/>
+        <TextView
+            android:id="@+id/labelProtectApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold"
+            android:text="@string/app_security" />
+
+        <TextView
+            android:id="@+id/linkToChangePin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textColor="@color/colorLink"
+            android:layout_marginBottom="@dimen/margin_between_items_setting"
+            android:text="@string/change_your_pin"/>
+
+        <TextView
+            android:id="@+id/labelSoporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textStyle="bold"
+            android:text="@string/contact_support" />
+
+        <TextView
+            android:id="@+id/linkAskForHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/font_size_settings"
+            android:textColor="@color/colorLink"
+            android:text="@string/ask_for_help"/>
+
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -134,11 +134,12 @@ public interface EzCardApiService {
     );
 
     @FormUrlEncoded
-    @PUT("user/pin/:userid")
+    @PUT("user/pin/{userId}")
     Call<SimpleResponse> updatePin(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
             @Header("pin") int elpin,
+            @Path("userId") int userid,
             @Field("new_pin") int newpin
     );
 

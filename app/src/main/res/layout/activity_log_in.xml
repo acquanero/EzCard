@@ -59,11 +59,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campo_usuario" />
 
+
     <Button
         android:id="@+id/button_login"
         android:layout_width="102dp"
         android:layout_height="44dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="156dp"
         android:background="@drawable/boton_estilo"
         android:text="@string/button_login"
         android:textColor="@color/colorWhite"
@@ -71,7 +72,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
-
 
     <TextView
         android:id="@+id/label_register"
@@ -84,6 +84,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login" />
+        app:layout_constraintTop_toBottomOf="@+id/button_login"
+        app:layout_constraintVertical_bias="0.304" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

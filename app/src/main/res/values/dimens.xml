@@ -9,5 +9,9 @@
     <dimen name="margin_settings">60dp</dimen>
     <dimen name="font_size_settings">20sp</dimen>
     <dimen name="padding_box_settigns">20dp</dimen>
+    <dimen name="margin_bottom_settings">40dp</dimen>
     <dimen name="margin_between_items_setting">30dp</dimen>
+    <dimen name="settings_margin_bottom_logo">40dp</dimen>
+    <dimen name="logo_height_in_settings">111dp</dimen>
+    <dimen name="logo_width_in_settings">141dp</dimen>
 </resources>
