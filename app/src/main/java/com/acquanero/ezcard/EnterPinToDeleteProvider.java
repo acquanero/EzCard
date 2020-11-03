@@ -22,9 +22,11 @@ import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -120,10 +122,21 @@ public class EnterPinToDeleteProvider extends AppCompatActivity {
 
         final Context context = this;
         final String tokenn = token;
-        final int elPin = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int idprovider = providerId;
 
-        myAPIService.deleteProvider(generalData.appId, tokenn, elPin, idprovider).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.deleteProvider(generalData.appId, tokenn, hashPin, idprovider).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

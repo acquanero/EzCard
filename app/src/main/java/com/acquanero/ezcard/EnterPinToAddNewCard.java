@@ -20,8 +20,11 @@ import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
+
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,14 +99,25 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
     private void sendDataForNewCard(String token, int pin, int userid, String cardName, int cardIcon, String theTag){
 
         final String tokken = token;
-        final int pinn = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int useridd = userid;
         final String namecard = cardName;
         final int cardiconn = cardIcon;
         final String cardTag = theTag;
         final Context context = this;
 
-        myAPIService.postNewCard(generalData.appId, tokken, pinn, useridd, cardTag, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.postNewCard(generalData.appId, tokken, hashPin, useridd, cardTag, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

@@ -21,9 +21,11 @@ import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -89,13 +91,24 @@ public class RegisterStepTwo extends AppCompatActivity {
         if (validateFields(password,pin)){
 
             final Context context = this;
-            final int thePin = Integer.parseInt(pin);
+            String hashPin = null;
+            String hashPassword = null;
+
+            try {
+                hashPin = MyHashGenerator.hashString(pin);
+                hashPassword = MyHashGenerator.hashString(password);
+
+            } catch (NoSuchAlgorithmException e) {
+
+                e.printStackTrace();
+            }
+
             final String theName = name;
             final String theSurname = surname;
             final String theEmail = mail;
             final String thePhone = phone;
 
-            myAPIService.postToRegister(generalData.appId,name,surname,mail,password,phone,thePin).enqueue(new Callback<UserIdToken>() {
+            myAPIService.postToRegister(generalData.appId,name,surname,mail,hashPassword,phone,hashPin).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 

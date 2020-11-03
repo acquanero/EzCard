@@ -19,8 +19,11 @@ import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
+
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,12 +99,23 @@ public class EnterPinToBindProvider extends AppCompatActivity {
     private void postToAssociateService(String token, int pin, int cardId, int providerId){
 
         final String tokken = token;
-        final int pinn = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int idcard = cardId;
         final int idProvider = providerId;
         final Context context = this;
 
-        myAPIService.bindProvider(generalData.appId, tokken, pinn, idcard, idProvider).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.bindProvider(generalData.appId, tokken, hashPin, idcard, idProvider).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

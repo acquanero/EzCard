@@ -23,7 +23,7 @@ public interface EzCardApiService {
     @POST("user/login/")
     Call<UserIdToken> postDataGetToken(
             @Header("xappid") String xappid,
-            @Field("mail") String mail,
+            @Field("email") String mail,
             @Field("password") String password
 
     );
@@ -36,7 +36,7 @@ public interface EzCardApiService {
     );
 
     @GET("user/{id}")
-    public Call<UserData> getUserData(
+    Call<UserData> getUserData(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
             @Path("id") int id
@@ -51,14 +51,7 @@ public interface EzCardApiService {
             @Field("password") String password,
             @Field("email") String mail,
             @Field("cellphone") String phone,
-            @Field("pin") int pin
-    );
-
-    @FormUrlEncoded
-    @POST("user/recoveraccount/")
-    Call<SimpleResponse> postToRecover(
-            @Header("xappid") String xappid,
-            @Field("email") String mail
+            @Field("pin") String pin
     );
 
     @FormUrlEncoded
@@ -66,7 +59,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> deleteCard(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Path("id") int id,
             @Field("card_id") int cardId
     );
@@ -76,7 +69,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> putCard(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Path("id") int id,
             @Field("card_id") int cardId,
             @Field("card_name") String cardName,
@@ -88,7 +81,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> postNewCard(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Field("user_id") int userId,
             @Field("serial_number") String serialNumber,
             @Field("card_name") String cardName,
@@ -100,7 +93,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> unbindProvider(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Field("provider_id") int provderid
     );
 
@@ -109,7 +102,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> bindProvider(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Field("card_id") int cardId,
             @Field("provider_id") int provderid
     );
@@ -119,7 +112,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> deleteProvider(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Field("provider_id") int provderid
     );
 
@@ -138,7 +131,7 @@ public interface EzCardApiService {
     Call<SimpleResponse> updatePin(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
-            @Header("pin") int elpin,
+            @Header("pin") String elpin,
             @Path("userId") int userid,
             @Field("new_pin") int newpin
     );

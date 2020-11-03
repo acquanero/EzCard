@@ -110,11 +110,22 @@ public class ChangePinActivity extends AppCompatActivity {
 
         final Context context = this;
         final String tokenn = token;
-        final int elPin = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int iduser = userId;
         final int theNewPin = newPin;
 
-        myAPIService.updatePin(generalData.appId, tokenn, elPin, iduser, theNewPin).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.updatePin(generalData.appId, tokenn, hashPin, iduser, theNewPin).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

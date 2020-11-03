@@ -19,8 +19,11 @@ import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
+
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,14 +99,25 @@ public class EnterPinToEditCard extends AppCompatActivity {
     public void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon){
 
         final String tokken = token;
-        final int pinn = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int useridd = userid;
         final int cardId = cardid;
         final String namecard = cardName;
         final int cardiconn = cardIcon;
         final Context context = this;
 
-        myAPIService.putCard(generalData.appId, tokken, pinn, useridd, cardId, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.putCard(generalData.appId, tokken, hashPin, useridd, cardId, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

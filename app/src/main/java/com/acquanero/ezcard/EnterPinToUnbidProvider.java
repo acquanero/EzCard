@@ -19,8 +19,11 @@ import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
+
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,10 +101,21 @@ public class EnterPinToUnbidProvider extends AppCompatActivity {
 
         final Context context = this;
         final String theTokken = token;
-        final int elPin = pin;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
         final int theProviderId = provider;
 
-        myAPIService.unbindProvider(generalData.appId, theTokken, elPin, theProviderId).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.unbindProvider(generalData.appId, theTokken, hashPin, theProviderId).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

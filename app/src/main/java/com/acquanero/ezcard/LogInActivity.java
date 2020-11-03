@@ -25,9 +25,12 @@ import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
 
+
+import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -114,6 +117,8 @@ public class LogInActivity extends AppCompatActivity {
     //metodo a ejecutar al presionar el boton login
     public void logIn(String mail, String passw) {
 
+        String passwordHash = null;
+
         if(!MyValidators.isBetween(passw,passwordMin,passwordMax) || MyValidators.isValidEmail(mail) == false){
 
             Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
@@ -122,7 +127,17 @@ public class LogInActivity extends AppCompatActivity {
 
         } else {
 
-            myAPIService.postDataGetToken(generalData.appId, mail, passw).enqueue(new Callback<UserIdToken>() {
+            try {
+
+                passwordHash = MyHashGenerator.hashString(passw);
+
+            } catch (NoSuchAlgorithmException e) {
+
+                e.printStackTrace();
+
+            }
+
+            myAPIService.postDataGetToken(generalData.appId, mail, passwordHash).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
