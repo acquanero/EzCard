@@ -9,53 +9,62 @@
     android:layout_marginHorizontal="@dimen/margin_settings"
     android:padding="@dimen/padding_box_settigns"
     android:background="@drawable/button_with_border"
-    tools:context=".ui.settings.SettingsFragment" >
+    tools:context=".ChangePinActivity" >
 
     <TextView
-        android:id="@+id/labelMail"
+        android:id="@+id/labelOldPin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/mail_on_settings"
+        android:text="@string/old_pin"
         android:textSize="@dimen/font_size_settings"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewMail"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/inputOldPin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:layout_marginBottom="@dimen/margin_between_items_setting" />
-
-    <TextView
-        android:id="@+id/labelProtectApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textStyle="bold"
-        android:text="@string/app_security" />
-
-    <TextView
-        android:id="@+id/linkToChangePin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_size_settings"
-        android:textColor="@color/colorLink"
+        android:ems="10"
         android:layout_marginBottom="@dimen/margin_between_items_setting"
-        android:text="@string/change_your_pin"/>
+        android:inputType="numberPassword" />
 
     <TextView
-        android:id="@+id/labelSoporte"
+        android:id="@+id/labelNewPinOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_settings"
         android:textStyle="bold"
-        android:text="@string/contact_support" />
+        android:text="@string/enter_new_pin" />
+
+    <EditText
+        android:id="@+id/inputNewPinOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="@dimen/margin_between_items_setting"
+        android:inputType="numberPassword" />
 
     <TextView
-        android:id="@+id/linkAskForHelp"
+        android:id="@+id/labelNewPinTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_size_settings"
-        android:textColor="@color/colorLink"
-        android:text="@string/ask_for_help"/>
+        android:textStyle="bold"
+        android:text="@string/enter_new_pin_again" />
+
+    <EditText
+        android:id="@+id/inputNewPinTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginBottom="@dimen/margin_between_items_setting"
+        android:inputType="numberPassword" />
+
+    <Button
+        android:id="@+id/buttonSendNewPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boton_estilo"
+        android:textColor="@color/colorWhite"
+        android:text="@string/send" />
+
 </LinearLayout>

@@ -106,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,0);
-                toast.show();
+
+                Intent i = new Intent(context, MainDrawer.class);
+                startActivity(i);toast.show();
+
 
                 Log.e("RTA FAIL", "Login con token fallido---------");
 
@@ -123,37 +126,58 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 
-                //Vuelvo editable mi SharedPreference
-                dataDepotEditable = dataDepot.edit();
+                if (response.isSuccessful()) {
 
-                //almaceno los datos del usuario en el sharedPreference
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
 
-                UserData user = new UserData();
-                user.setName(response.body().getName());
-                user.setLastName(response.body().getLastName());
-                user.setPassword(response.body().getPassword());
-                user.setEmail(response.body().getEmail());
-                user.setCellphone(response.body().getCellphone());
-                user.setUserId(response.body().getUserId());
-                user.setEnabled(response.body().getEnabled());
-                user.setCards(response.body().getCards());
-                user.setProviders(response.body().getProviders());
+                    //almaceno los datos del usuario en el sharedPreference
 
-                Gson gson = new Gson();
-                String json = gson.toJson(user);
+                    UserData user = new UserData();
+                    user.setName(response.body().getName());
+                    user.setLastName(response.body().getLastName());
+                    user.setPassword(response.body().getPassword());
+                    user.setEmail(response.body().getEmail());
+                    user.setCellphone(response.body().getCellphone());
+                    user.setUserId(response.body().getUserId());
+                    user.setEnabled(response.body().getEnabled());
+                    user.setCards(response.body().getCards());
+                    user.setProviders(response.body().getProviders());
 
-                dataDepotEditable.putString("usuario", json);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(user);
 
-                dataDepotEditable.apply();
+                    dataDepotEditable.putString("usuario", json);
 
-                Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+                    dataDepotEditable.apply();
 
-                startActivity(goToCardsActivity);
+                    Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+
+                    startActivity(goToCardsActivity);
+
+
+                } else {
+
+                    Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER,0,0);
+
+                    Intent goToLogIn = new Intent(context, LogInActivity.class);
+                    startActivity(goToLogIn);
+
+                }
+
+
 
             }
 
             @Override
             public void onFailure(Call<UserData> call, Throwable t) {
+
+                Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER,0,0);
+
+                Intent goToLogIn = new Intent(context, LogInActivity.class);
+                startActivity(goToLogIn);
 
                 Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");
 

@@ -133,4 +133,13 @@ public interface EzCardApiService {
             @Field("serial_number") String serialNumber
     );
 
+    @FormUrlEncoded
+    @PUT("user/pin/:userid")
+    Call<SimpleResponse> updatePin(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") int elpin,
+            @Field("new_pin") int newpin
+    );
+
 }

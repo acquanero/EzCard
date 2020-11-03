@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">EzCard</string>
-    <string name="label_user">Mail</string>
+    <string name="label_user">E-mail</string>
     <string name="label_password">Contraseña</string>
     <string name="button_login">Aceptar</string>
     <string name="logo">Logo</string>
@@ -80,4 +80,13 @@
     <string name="validate_provider_error">Hubo un error al intentar acceder al servicio. Vuela a intentarlo</string>
     <string name="successful_access">Acceso exitoso</string>
     <string name="no_card_binded_to_service">El servicio no tiene tarjetas asociadas. Asocie una tarjeta primero</string>
+    <string name="app_security">Seguridad de la aplicación</string>
+    <string name="change_your_pin">Modifica tu PIN</string>
+    <string name="mail_on_settings">E-mail</string>
+    <string name="contact_support">Contactar a soporte</string>
+    <string name="ask_for_help">Solicitar ayuda</string>
+    <string name="old_pin">Ingrese PIN</string>
+    <string name="enter_new_pin">Ingrese el nuevo PIN</string>
+    <string name="enter_new_pin_again">Nuevo PIN otra vez</string>
+    <string name="send">Enviar</string>
 </resources>
