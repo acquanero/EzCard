@@ -126,13 +126,20 @@ public class CardsFragment extends Fragment {
             lineaHorizontal.addView(botonImage);
             lineaHorizontal.addView(txt);
 
-            linearLayoutCards.addView(lineaHorizontal);
+            lineaHorizontal.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_with_border, null));
 
-            LinearLayout.LayoutParams spaceParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
+            LinearLayout.LayoutParams linearHorizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            linearHorizontalParams.setMargins(0,10,0,10);
+            lineaHorizontal.setPadding(5,5,5,5);
+
+            linearLayoutCards.addView(lineaHorizontal, linearHorizontalParams);
+
+/*            LinearLayout.LayoutParams spaceParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
             View lineaSpace = new View(getActivity());
             lineaSpace.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            linearLayoutCards.addView(lineaSpace, spaceParams);
+            linearLayoutCards.addView(lineaSpace, spaceParams);*/
 
 
         }

@@ -40,7 +40,7 @@ public class LogInActivity extends AppCompatActivity {
     private int passwordMax = 12;
 
     private EzCardApiService myAPIService;
-    private TextView mailUser, password, register, recover;
+    private TextView mailUser, password, register;
     SharedPreferences dataDepot;
     SharedPreferences.Editor dataDepotEditable;
     AppGeneralUseData generalData = new AppGeneralUseData();
@@ -62,10 +62,10 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         //recupero del layout los botones y los campos de texto
-        Button loginButton = (Button) findViewById(R.id.button_login);
-        mailUser = (TextView) findViewById(R.id.campo_usuario);
-        password = (TextView) findViewById(R.id.campo_password);
-        register = (TextView) findViewById(R.id.label_register);
+        Button loginButton = findViewById(R.id.button_login);
+        mailUser = findViewById(R.id.campo_usuario);
+        password = findViewById(R.id.campo_password);
+        register = findViewById(R.id.label_register);
 
         mainLayout = findViewById(R.id.loginLayout);
 
