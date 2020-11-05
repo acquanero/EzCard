@@ -18,9 +18,12 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
+import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
+import com.google.gson.Gson;
 
 import org.w3c.dom.Text;
 
@@ -35,6 +38,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
     AppGeneralUseData generalData = new AppGeneralUseData();
 
     SharedPreferences dataDepot;
+    SharedPreferences.Editor dataDepotEditable;
 
     private EzCardApiService myAPIService;
 
@@ -44,6 +48,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     private int pinMin = 4;
     private int pinMax = 4;
+
+    private int providerId;
+    private int numIdCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,10 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
         //Traigo una instancia de retrofit para realizar los request
         myAPIService = ApiUtils.getAPIService();
+
+        final String theToken = dataDepot.getString("token", "null");
+
+        txtTitle = findViewById(R.id.textTitle);
 
         buttonCanel = findViewById(R.id.cancelButton);
         buttonCanel.setOnClickListener(new View.OnClickListener() {
@@ -73,16 +84,15 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         Bundle datos = getIntent().getExtras();
         String flag = datos.getString("flag");
 
+        //1° rama del If. Flag me envia a Ingresar el PIN para agregar tarjeta
+
         if (flag.equalsIgnoreCase("enterPinToAddNewCard")) {
 
-            txtTitle = findViewById(R.id.textTitle);
             txtTitle.setText(getString(R.string.enter_pin_to_add_new_card));
 
             final String nameCard = datos.getString("nameCard");
             final int iconNumber = datos.getInt("iconNumber");
             final String tag = datos.getString("tag");
-
-            final String theToken = dataDepot.getString("token", "null");
             final int userID = dataDepot.getInt("user_id", -1);
 
             buttonAcept.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +108,33 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                         t2.show();
                     } else {
                         sendDataForNewCard(theToken, pinEntered, userID, nameCard, iconNumber, tag);
+                    }
+
+                }
+            });
+
+            //2° rama del If. Flag me envia a Ingresar el PIN para asociar un servicio
+
+        } else if (flag.equalsIgnoreCase("enterPinToBindProvider")){
+
+            txtTitle.setText(getString(R.string.enter_pin_to_associate_service));
+
+            numIdCard = datos.getInt("cardId");
+            providerId = datos.getInt("providerId");
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
+                    } else {
+                        postToAssociateService(theToken, pinEntered, numIdCard, providerId);
                     }
 
                 }
@@ -162,6 +199,80 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void postToAssociateService(String token, int pin, int cardId, int providerId){
+
+        final String tokken = token;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+        final int idcard = cardId;
+        final int idProvider = providerId;
+        final Context context = this;
+
+        myAPIService.bindProvider(generalData.appId, tokken, hashPin, idcard, idProvider).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    //recorro la lista de cards del usuario y cuando encuentro la que coincide con el id, le cambio los atributos
+                    for (Provider p : userData.getProviders()){
+                        if(p.getProviderId() == idProvider){
+
+                            p.setCardId(idcard);
+                        }
+                    }
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+
+                } else {
+
+                    Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    toast.show();
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                toast.show();
+
+            }
+        });
+
 
     }
 }

@@ -23,9 +23,6 @@
             android:name=".EnterPinToDeleteProvider"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EnterPinToBindProvider"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".EnterPinToUnbidProvider"
             android:screenOrientation="portrait" />
         <activity

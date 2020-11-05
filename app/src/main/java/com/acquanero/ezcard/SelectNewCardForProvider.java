@@ -84,7 +84,8 @@ public class SelectNewCardForProvider extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToBindProvider.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                    goToPin.putExtra("flag", "enterPinToBindProvider");
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
                     startActivity(goToPin);
@@ -97,7 +98,8 @@ public class SelectNewCardForProvider extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToBindProvider.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                    goToPin.putExtra("flag", "enterPinToBindProvider");
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
                     startActivity(goToPin);
