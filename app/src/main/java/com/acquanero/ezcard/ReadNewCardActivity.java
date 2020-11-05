@@ -117,8 +117,9 @@ public class ReadNewCardActivity extends AppCompatActivity {
 
     private void goToEnterPin(String tag){
 
-        Intent i = new Intent(getApplicationContext(), EnterPinToAddNewCard.class);
+        Intent i = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
 
+        i.putExtra("flag", "enterPinToAddNewCard");
         i.putExtra("nameCard", cardName);
         i.putExtra("iconNumber", iconNumber);
         i.putExtra("tag", tag);

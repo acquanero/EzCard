@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChangePinActivity"></activity>
+        <activity android:name=".EnterPinToConfimActivity"></activity>
+        <activity android:name=".ChangePinActivity" />
         <activity
             android:name=".ValidateAccessToProviderActivity"
             android:screenOrientation="portrait" />
@@ -32,9 +33,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditProviderActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".EnterPinToAddNewCard"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ReadNewCardActivity"

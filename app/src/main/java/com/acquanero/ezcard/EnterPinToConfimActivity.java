@@ -11,18 +11,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.SimpleResponse;
-import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
-import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToAddNewCard extends AppCompatActivity {
+public class EnterPinToConfimActivity extends AppCompatActivity {
 
     AppGeneralUseData generalData = new AppGeneralUseData();
 
@@ -38,8 +38,9 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
 
-    private Button buttonConfirm, buttonCanel;
+    private Button buttonAcept, buttonCanel;
     private TextView editPIN;
+    private TextView txtTitle;
 
     private int pinMin = 4;
     private int pinMax = 4;
@@ -47,7 +48,7 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enter_pin_to_add_new_card);
+        setContentView(R.layout.activity_enter_pin_to_confim);
 
         //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
@@ -55,18 +56,7 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
         //Traigo una instancia de retrofit para realizar los request
         myAPIService = ApiUtils.getAPIService();
 
-        Bundle datos = getIntent().getExtras();
-
-        final String nameCard = datos.getString("nameCard");
-        final int iconNumber = datos.getInt("iconNumber");
-        final String tag = datos.getString("tag");
-
-        final String theToken = dataDepot.getString("token", "null");
-        final int userID = dataDepot.getInt("user_id", -1);
-
-        editPIN = findViewById(R.id.inputPinForNewCard);
-
-        buttonCanel = findViewById(R.id.cancelAddCardButton);
+        buttonCanel = findViewById(R.id.cancelButton);
         buttonCanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,24 +65,46 @@ public class EnterPinToAddNewCard extends AppCompatActivity {
             }
         });
 
-        buttonConfirm = findViewById(R.id.confirmAddCardButton);
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        editPIN = findViewById(R.id.editBoxEnterPin);
 
-                int pinEntered = Integer.parseInt(editPIN.getText().toString());
-                String pinEnteredInString = editPIN.getText().toString();
+        buttonAcept = findViewById(R.id.aceptButton);
 
-                if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                    Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                    t2.setGravity(Gravity.CENTER,0,0);
-                    t2.show();
-                } else {
-                    sendDataForNewCard(theToken, pinEntered, userID, nameCard, iconNumber, tag);
+        //Saco del bundle el Flag que me dirá que debe hacer la Activity al ingresar el PIN
+        Bundle datos = getIntent().getExtras();
+        String flag = datos.getString("flag");
+
+        if (flag.equalsIgnoreCase("enterPinToAddNewCard")) {
+
+            txtTitle = findViewById(R.id.textTitle);
+            txtTitle.setText(getString(R.string.enter_pin_to_add_new_card));
+
+            final String nameCard = datos.getString("nameCard");
+            final int iconNumber = datos.getInt("iconNumber");
+            final String tag = datos.getString("tag");
+
+            final String theToken = dataDepot.getString("token", "null");
+            final int userID = dataDepot.getInt("user_id", -1);
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER,0,0);
+                        t2.show();
+                    } else {
+                        sendDataForNewCard(theToken, pinEntered, userID, nameCard, iconNumber, tag);
+                    }
+
                 }
+            });
 
-            }
-        });
+
+        }
 
     }
 
