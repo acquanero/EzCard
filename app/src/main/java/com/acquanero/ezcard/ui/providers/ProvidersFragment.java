@@ -77,7 +77,8 @@ public class ProvidersFragment extends Fragment {
 
             }  else {
 
-                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
+                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
+                botonServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
                 botonServicio.setOnClickListener(new View.OnClickListener() {
 
                     Provider theProvider = provider;
@@ -115,7 +116,10 @@ public class ProvidersFragment extends Fragment {
 
             if (provider.getEnabled() == false){
                 botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
-            } else botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_with_border));
+            } else {
+                botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
+                botonEditServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+            }
 
             LinearLayout lineaHorizontal = new LinearLayout(getContext());
             lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);

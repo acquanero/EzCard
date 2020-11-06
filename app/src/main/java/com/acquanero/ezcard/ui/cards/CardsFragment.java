@@ -73,6 +73,7 @@ public class CardsFragment extends Fragment {
             TextView txt = new TextView(getActivity());
             txt.setText(card.getName());
             txt.setGravity(Gravity.CENTER);
+            txt.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
 
             LinearLayout lineaHorizontal = new LinearLayout(getContext());
             lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
@@ -80,22 +81,21 @@ public class CardsFragment extends Fragment {
 
             if(card.getIcon() == 1){
 
-                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_card, null));
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_card_white, null));
 
             } else if (card.getIcon() == 2){
 
-                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_circle, null));
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_circle_white, null));
 
             } else {
 
-                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arroba, null));
+                botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arroba_white, null));
 
             }
 
-
             final int numIdCard = card.getCardId();
 
-            txt.setOnClickListener(new View.OnClickListener() {
+            lineaHorizontal.setOnClickListener(new View.OnClickListener() {
 
                 Context context = getContext();
 
@@ -106,27 +106,15 @@ public class CardsFragment extends Fragment {
                     i.putExtra("cardid", numIdCard);
                     startActivity(i);
 
-                }
-            });
-
-            botonImage.setOnClickListener(new View.OnClickListener() {
-
-                Context context = getContext();
-
-                @Override
-                public void onClick(View view) {
-
-                    Intent i = new Intent(context, EditCardActivity.class);
-                    i.putExtra("cardid", numIdCard);
-                    startActivity(i);
 
                 }
             });
+
 
             lineaHorizontal.addView(botonImage);
             lineaHorizontal.addView(txt);
 
-            lineaHorizontal.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_with_border, null));
+            lineaHorizontal.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_light_blue, null));
 
             LinearLayout.LayoutParams linearHorizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -134,13 +122,6 @@ public class CardsFragment extends Fragment {
             lineaHorizontal.setPadding(5,5,5,5);
 
             linearLayoutCards.addView(lineaHorizontal, linearHorizontalParams);
-
-/*            LinearLayout.LayoutParams spaceParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 5);
-            View lineaSpace = new View(getActivity());
-            lineaSpace.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-
-            linearLayoutCards.addView(lineaSpace, spaceParams);*/
-
 
         }
 
