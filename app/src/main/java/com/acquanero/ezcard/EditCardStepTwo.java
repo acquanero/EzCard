@@ -70,7 +70,7 @@ public class EditCardStepTwo extends AppCompatActivity {
 
                 } else {
 
-                    Intent i = new Intent(getApplicationContext(), EnterPinToEditCard.class);
+                    Intent i = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
 
                     int cardIconId=0;
 
@@ -82,6 +82,7 @@ public class EditCardStepTwo extends AppCompatActivity {
                         cardIconId = 3;
                     }
 
+                    i.putExtra("flag","enterPinToEditCard");
                     i.putExtra("cardName", editTextName.getText().toString());
                     i.putExtra("cardId", cardId);
                     i.putExtra("cardIcon", cardIconId);

@@ -177,7 +177,6 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             //4° rama del If. Flag me envia a Ingresar el PIN para eliminar un servicio
 
-
         } else if(flag.equalsIgnoreCase("enterPinToDeleteProvider")){
 
             providerId = datos.getInt("providerId");
@@ -205,6 +204,35 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                 }
             });
 
+            //5° rama del If. Flag me envia a Ingresar el PIN para modificar los datos de una tarjeta
+
+        } else if (flag.equalsIgnoreCase("enterPinToEditCard")){
+
+            txtTitle.setText(getString(R.string.enter_pin_to_edit_card));
+
+            final String nameCard = datos.getString("cardName");
+            final int cardId = datos.getInt("cardId");
+            final int cardIconNumber = datos.getInt("cardIcon");
+
+            final int userID = dataDepot.getInt("user_id", -1);
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER,0,0);
+                        t2.show();
+                    } else {
+                        sendConfirmEditCard(theToken, pinEntered, userID, cardId, nameCard, cardIconNumber);
+                    }
+                }
+            });
 
         }
 
@@ -533,6 +561,78 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                 Toast tt = Toast.makeText(context, getString(R.string.delete_provider_error) , Toast.LENGTH_LONG);
                 tt.setGravity(Gravity.CENTER,0,0);
                 tt.show();
+
+            }
+        });
+
+    }
+
+    public void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon){
+
+        final String tokken = token;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+        final int useridd = userid;
+        final int cardId = cardid;
+        final String namecard = cardName;
+        final int cardiconn = cardIcon;
+        final Context context = this;
+
+        myAPIService.putCard(generalData.appId, tokken, hashPin, useridd, cardId, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    //recorro la lista de cards del usuario y cuando encuentro la que coincide con el id, le cambio los atributos
+                    for (Card c : userData.getCards()){
+                        if(c.getCardId() == cardId){
+                            c.setName(namecard);
+                            c.setIcon(cardiconn);
+                        }
+                    }
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+
+                } else {
+                    Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card) , Toast.LENGTH_LONG);
+                    t3.setGravity(Gravity.CENTER,0,0);
+                    t3.show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card) , Toast.LENGTH_LONG);
+                t3.setGravity(Gravity.CENTER,0,0);
+                t3.show();
 
             }
         });

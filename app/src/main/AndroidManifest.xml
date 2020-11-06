@@ -35,9 +35,6 @@
             android:name=".AddNewCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EnterPinToEditCard"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".EditCardStepTwo"
             android:screenOrientation="portrait" />
         <activity
