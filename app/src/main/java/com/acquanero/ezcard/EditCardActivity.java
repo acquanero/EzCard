@@ -86,7 +86,8 @@ public class EditCardActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent deleteCardActivity = new Intent(getApplicationContext(), EnterPinToDeleteCardActivity.class);
+                Intent deleteCardActivity = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                deleteCardActivity.putExtra("flag", "enterPinToDeleteCard");
                 deleteCardActivity.putExtra("cardid", id);
                 deleteCardActivity.putExtra("cardName", nameCard);
                 startActivity(deleteCardActivity);

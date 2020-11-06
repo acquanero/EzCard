@@ -3,7 +3,9 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.Provider;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.model.UserData;
@@ -28,6 +31,7 @@ import com.google.gson.Gson;
 import org.w3c.dom.Text;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +48,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     private Button buttonAcept, buttonCanel;
     private TextView editPIN;
-    private TextView txtTitle;
+    private TextView txtTitle, labelCardName;
 
     private int pinMin = 4;
     private int pinMax = 4;
@@ -66,6 +70,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final String theToken = dataDepot.getString("token", "null");
 
         txtTitle = findViewById(R.id.textTitle);
+        labelCardName= findViewById(R.id.labelCardName);
 
         buttonCanel = findViewById(R.id.cancelButton);
         buttonCanel.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +142,33 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                         postToAssociateService(theToken, pinEntered, numIdCard, providerId);
                     }
 
+                }
+            });
+
+        } else if (flag.equalsIgnoreCase("enterPinToDeleteCard")) {
+
+            final int idCard = datos.getInt("cardid");
+            final int userID = dataDepot.getInt("user_id", -1);
+            final String cardName = datos.getString("cardName");
+
+            txtTitle.setText(getString(R.string.enter_pin_to_delete_card));
+            labelCardName.setText(cardName);
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER,0,0);
+                        t2.show();
+                    } else {
+                        confirmDeleteCard(theToken, pinEntered, userID, idCard);
+                    }
                 }
             });
 
@@ -273,6 +305,107 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public void confirmDeleteCard(String token, int pin, int userid, int cardid) {
+
+        final String tokken = token;
+        final int pinn = pin;
+        final int useridd = userid;
+        final int cardidd = cardid;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.warning_delete_card_title);
+        builder.setMessage(R.string.warning_delete_card_msg);
+        builder.setPositiveButton(R.string.acept_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                deleteCard(tokken, pinn, useridd, cardidd);
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_button, null);
+        builder.show();
+    }
+
+    public void deleteCard(String token, int pin, int userid, int cardid){
+
+        final Context context = this;
+        final String theToken = token;
+
+        String pinString = Integer.toString(pin);
+        String hashPin = null;
+
+        try {
+
+            hashPin = MyHashGenerator.hashString(pinString);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+
+        final int theuserID = userid;
+        final int cardId = cardid;
+
+        myAPIService.deleteCard(generalData.appId, theToken, hashPin, theuserID, cardId).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    ArrayList<Card> listaCards = new ArrayList<Card>();
+
+                    //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
+                    for (Card c : userData.getCards()){
+                        if(c.getCardId() != cardId){
+                            listaCards.add(c);
+                        }
+                    }
+
+                    //le setteo la nueva lista de tarjetas que no posee la tarjeta eliminada
+                    userData.setCards(listaCards);
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+                } else {
+
+                    Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
+                    t3.setGravity(Gravity.CENTER,0,0);
+                    t3.show();
+
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
+                t3.setGravity(Gravity.CENTER,0,0);
+                t3.show();
+
+            }
+        });
 
     }
 }

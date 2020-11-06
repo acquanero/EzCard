@@ -44,9 +44,6 @@
             android:name=".EditCardStepTwo"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EnterPinToDeleteCardActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".EditCardActivity"
             android:screenOrientation="portrait" />
         <activity
