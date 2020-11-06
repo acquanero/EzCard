@@ -234,6 +234,32 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                 }
             });
 
+            //6° rama del If. Flag me envia a Ingresar el PIN para desvincular un servicio de la tarjeta
+
+        } else if(flag.equalsIgnoreCase("enterPinToUnbindProvider")){
+
+            txtTitle.setText(getString(R.string.Enter_pin_to_disassociate_service));
+
+            providerId = datos.getInt("providerId");
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
+                    } else {
+                        confirmDisassociateService(theToken, pinEntered, providerId);
+                    }
+
+                }
+            });
+
         }
 
     }
@@ -636,6 +662,77 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void confirmDisassociateService(String token, int pin, int provider){
+
+        final Context context = this;
+        final String theTokken = token;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+        final int theProviderId = provider;
+
+        myAPIService.unbindProvider(generalData.appId, theTokken, hashPin, theProviderId).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    for (Provider p : userData.getProviders()){
+                        if(p.getProviderId() == theProviderId){
+                            p.setCardId(null);
+                        }
+                    }
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+
+
+                } else {
+
+                    Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast to = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
+                to.setGravity(Gravity.CENTER,0,0);
+                to.show();
+
+            }
+        });
+
 
     }
 }

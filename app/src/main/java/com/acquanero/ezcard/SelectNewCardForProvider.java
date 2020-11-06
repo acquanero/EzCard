@@ -130,7 +130,8 @@ public class SelectNewCardForProvider extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToUnbidProvider.class);
+                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                goToDissociate.putExtra("flag","enterPinToUnbindProvider");
                 goToDissociate.putExtra("providerId", providerId);
                 startActivity(goToDissociate);
 

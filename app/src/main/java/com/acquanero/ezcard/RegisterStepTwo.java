@@ -63,9 +63,9 @@ public class RegisterStepTwo extends AppCompatActivity {
 
 
         //recupero del layout los botones y los campos de texto
-        buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
-        editPassw = (EditText) findViewById(R.id.editPassw);
-        editPin = (EditText) findViewById(R.id.editPin);
+        buttonSignIn = findViewById(R.id.buttonSignIn);
+        editPassw = findViewById(R.id.editPassw);
+        editPin = findViewById(R.id.editPin);
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

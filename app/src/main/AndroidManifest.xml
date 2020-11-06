@@ -20,9 +20,6 @@
             android:name=".ValidateAccessToProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EnterPinToUnbidProvider"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".SelectNewCardForProvider"
             android:screenOrientation="portrait" />
         <activity
