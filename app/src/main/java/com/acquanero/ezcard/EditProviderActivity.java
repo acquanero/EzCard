@@ -86,7 +86,9 @@ public class EditProviderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToDelete = new Intent(getApplicationContext(), EnterPinToDeleteProvider.class);
+                Intent goToDelete = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                goToDelete.putExtra("flag","enterPinToDeleteProvider");
+                goToDelete.putExtra("providerName", provider.getProviderName());
                 goToDelete.putExtra("providerId", idProvider);
                 startActivity(goToDelete);
 

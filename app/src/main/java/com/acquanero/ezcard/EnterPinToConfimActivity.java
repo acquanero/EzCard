@@ -48,13 +48,14 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     private Button buttonAcept, buttonCanel;
     private TextView editPIN;
-    private TextView txtTitle, labelCardName;
+    private TextView txtTitle, labelCardProvider;
 
     private int pinMin = 4;
     private int pinMax = 4;
 
     private int providerId;
     private int numIdCard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final String theToken = dataDepot.getString("token", "null");
 
         txtTitle = findViewById(R.id.textTitle);
-        labelCardName= findViewById(R.id.labelCardName);
+        labelCardProvider= findViewById(R.id.labelCardProvider);
 
         buttonCanel = findViewById(R.id.cancelButton);
         buttonCanel.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +146,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                 }
             });
 
+            //3° rama del If. Flag me envia a Ingresar el PIN para eliminar una tarjeta
+
         } else if (flag.equalsIgnoreCase("enterPinToDeleteCard")) {
 
             final int idCard = datos.getInt("cardid");
@@ -152,7 +155,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             final String cardName = datos.getString("cardName");
 
             txtTitle.setText(getString(R.string.enter_pin_to_delete_card));
-            labelCardName.setText(cardName);
+            labelCardProvider.setText(cardName);
 
             buttonAcept.setOnClickListener(new View.OnClickListener() {
 
@@ -168,6 +171,36 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                         t2.show();
                     } else {
                         confirmDeleteCard(theToken, pinEntered, userID, idCard);
+                    }
+                }
+            });
+
+            //4° rama del If. Flag me envia a Ingresar el PIN para eliminar un servicio
+
+
+        } else if(flag.equalsIgnoreCase("enterPinToDeleteProvider")){
+
+            providerId = datos.getInt("providerId");
+
+            String nameOfProvider = datos.getString("providerName");
+
+            txtTitle.setText(getString(R.string.enter_pin_to_delete_provider));
+            labelCardProvider.setText(nameOfProvider);
+
+            buttonAcept.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
+                    } else {
+                        confirmDeleteProvider(theToken, pinEntered, providerId);
                     }
                 }
             });
@@ -403,6 +436,103 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                 Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
                 t3.setGravity(Gravity.CENTER,0,0);
                 t3.show();
+
+            }
+        });
+
+    }
+
+    private void confirmDeleteProvider(String token, int pin, int providerId){
+
+        final String tokken = token;
+        final int pinn = pin;
+        final int idProvider = providerId;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.warning_delete_provider_title);
+        builder.setMessage(R.string.warning_delete_provider_msg);
+        builder.setPositiveButton(R.string.acept_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                deleteProvider(tokken, pinn, idProvider);
+
+            }
+        });
+        builder.setNegativeButton(R.string.cancel_button, null);
+        builder.show();
+
+    }
+
+    public void deleteProvider(String token, int pin, int providerId){
+
+        final Context context = this;
+        final String tokenn = token;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+        final int idprovider = providerId;
+
+        myAPIService.deleteProvider(generalData.appId, tokenn, hashPin, idprovider).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    ArrayList<Provider> listaProviders = new ArrayList<Provider>();
+
+                    //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
+                    for (Provider p : userData.getProviders()){
+                        if(p.getProviderId() != idprovider){
+                            listaProviders.add(p);
+                        }
+                    }
+
+                    //le setteo la nueva lista de tarjetas que no posee la tarjeta eliminada
+                    userData.setProviders(listaProviders);
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    startActivity(goToDrawer);
+
+                } else {
+
+                    Toast t = Toast.makeText(context, getString(R.string.delete_provider_error) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast tt = Toast.makeText(context, getString(R.string.delete_provider_error) , Toast.LENGTH_LONG);
+                tt.setGravity(Gravity.CENTER,0,0);
+                tt.show();
 
             }
         });
