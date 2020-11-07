@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //metodo para log in con el token
-    public void logWithToken(String token, int userid){
+    private void logWithToken(String token, int userid){
 
         final Context context = this;
         final String theToken = token;
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void getUserWholeData(String token, int userid) {
+    private void getUserWholeData(String token, int userid) {
 
         final Context context = this;
 

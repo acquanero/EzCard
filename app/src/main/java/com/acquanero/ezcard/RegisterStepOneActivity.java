@@ -3,7 +3,6 @@ package com.acquanero.ezcard;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.myutils.MyValidators;
 
 
-public class RegisterStepOne extends AppCompatActivity {
+public class RegisterStepOneActivity extends AppCompatActivity {
 
     private EditText editName, editSurname, editMailAdress, editPhone;
     private Button buttonNext;
@@ -47,7 +46,7 @@ public class RegisterStepOne extends AppCompatActivity {
     //metodo para ir a la segunda pantalla de registro
     private  void goToStepTwo(){
         if (validateFields()){
-            Intent i = new Intent(getApplicationContext(), RegisterStepTwo.class);
+            Intent i = new Intent(getApplicationContext(), RegisterStepTwoActivity.class);
 
             i.putExtra("name", editName.getText().toString());
             i.putExtra("lastName", editSurname.getText().toString());

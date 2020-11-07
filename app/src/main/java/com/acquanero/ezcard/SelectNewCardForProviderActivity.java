@@ -19,7 +19,7 @@ import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;
 
-public class SelectNewCardForProvider extends AppCompatActivity {
+public class SelectNewCardForProviderActivity extends AppCompatActivity {
 
     SharedPreferences dataDepot;
 

@@ -6,39 +6,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="48dp"
-    tools:context=".RegisterStepTwo">
+    tools:context=".RegisterStepTwoActivity">
 
-    <TextView
-        android:id="@+id/labelEnterPassPin"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="40dp"
-        android:text="@string/label_enter_passwpin"
-        android:textAlignment="center"
-        android:textSize="24sp" />
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_box_settigns"
+        android:layout_marginTop="@dimen/margin_bottom_settings"
+        android:layout_marginBottom="@dimen/margin_bottom_settings"
+        android:layout_marginHorizontal="@dimen/default_gap"
+        android:background="@drawable/button_with_border">
+
+        <TextView
+            android:id="@+id/labelEnterPassPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:text="@string/label_enter_passwpin"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
 
-    <EditText
-        android:id="@+id/editPassw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:ems="10"
-        android:hint="@string/label_password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/editPassw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="@string/label_password"
+            android:inputType="textPassword" />
 
 
-    <EditText
-        android:id="@+id/editPin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="50dp"
-        android:ems="10"
-        android:hint="@string/label_pin"
-        android:inputType="numberPassword" />
+        <EditText
+            android:id="@+id/editPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="50dp"
+            android:ems="10"
+            android:hint="@string/label_pin"
+            android:inputType="numberPassword" />
+
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/buttonSignIn"

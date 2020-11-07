@@ -99,7 +99,7 @@ public class EditCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent editCardActivity = new Intent(getApplicationContext(), EditCardStepTwo.class);
+                Intent editCardActivity = new Intent(getApplicationContext(), EditCardStepTwoActivity.class);
                 editCardActivity.putExtra("cardid", id);
                 editCardActivity.putExtra("cardName", nameCard);
                 editCardActivity.putExtra("cardIcon", iconId);

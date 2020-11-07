@@ -12,7 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-public class EditCardStepTwo extends AppCompatActivity {
+public class EditCardStepTwoActivity extends AppCompatActivity {
 
     private RadioGroup iconGroup;
     private RadioButton botonCard, botonCircle, botonArroba;
@@ -24,12 +24,12 @@ public class EditCardStepTwo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_card_step_two);
 
-        iconGroup = (RadioGroup) findViewById(R.id.radioGroupIcons);
-        botonCard = (RadioButton) findViewById(R.id.radioButtonCard);
-        botonCircle = (RadioButton) findViewById(R.id.radioButtonCircle);
-        botonArroba = (RadioButton) findViewById(R.id.radioButtonArroba);
+        iconGroup = findViewById(R.id.radioGroupIcons);
+        botonCard = findViewById(R.id.radioButtonCard);
+        botonCircle = findViewById(R.id.radioButtonCircle);
+        botonArroba = findViewById(R.id.radioButtonArroba);
 
-        editTextName = (EditText) findViewById(R.id.editTextCardName);
+        editTextName = findViewById(R.id.editTextCardName);
 
         Bundle datos = getIntent().getExtras();
         int iconNumber = datos.getInt("cardIcon");
@@ -46,7 +46,7 @@ public class EditCardStepTwo extends AppCompatActivity {
 
         editTextName.setText(cardName);
 
-        cancelButton = (Button) findViewById(R.id.cancel_edit_card);
+        cancelButton = findViewById(R.id.cancel_edit_card);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +57,7 @@ public class EditCardStepTwo extends AppCompatActivity {
             }
         });
 
-        aceptButton = (Button) findViewById(R.id.confirm_edit_card);
+        aceptButton = findViewById(R.id.confirm_edit_card);
         aceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

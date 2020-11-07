@@ -74,7 +74,7 @@ public class EditProviderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForProvider.class);
+                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForProviderActivity.class);
                 goToSelectCard.putExtra("providerId", idProvider);
                 startActivity(goToSelectCard);
 

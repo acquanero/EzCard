@@ -6,7 +6,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.preference.PreferenceManager;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,7 +104,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(getApplicationContext(), RegisterStepOne.class);
+                Intent i = new Intent(getApplicationContext(), RegisterStepOneActivity.class);
                 startActivity(i);
 
             }
@@ -115,7 +113,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     //metodo a ejecutar al presionar el boton login
-    public void logIn(String mail, String passw) {
+    private void logIn(String mail, String passw) {
 
         String passwordHash = null;
 
@@ -194,7 +192,7 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
-    public void getUserWholeData(String token, int userid) {
+    private void getUserWholeData(String token, int userid) {
 
         final Context context = this;
 

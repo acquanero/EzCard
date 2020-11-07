@@ -395,7 +395,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    public void confirmDeleteCard(String token, int pin, int userid, int cardid) {
+    private void confirmDeleteCard(String token, int pin, int userid, int cardid) {
 
         final String tokken = token;
         final int pinn = pin;
@@ -418,7 +418,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void deleteCard(String token, int pin, int userid, int cardid){
+    private void deleteCard(String token, int pin, int userid, int cardid){
 
         final Context context = this;
         final String theToken = token;
@@ -519,7 +519,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    public void deleteProvider(String token, int pin, int providerId){
+    private void deleteProvider(String token, int pin, int providerId){
 
         final Context context = this;
         final String tokenn = token;
@@ -593,7 +593,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    public void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon){
+    private void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon){
 
         final String tokken = token;
 

@@ -22,7 +22,7 @@ public class AddNewCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_card);
 
-        buttonCancelNewCard = (Button) findViewById(R.id.button_cancel_New_card);
+        buttonCancelNewCard = findViewById(R.id.button_cancel_New_card);
         buttonCancelNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,11 +31,11 @@ public class AddNewCardActivity extends AppCompatActivity {
             }
         });
 
-        iconGroup = (RadioGroup) findViewById(R.id.radioGroupIconsNewCard);
+        iconGroup = findViewById(R.id.radioGroupIconsNewCard);
 
-        editNewCardName = (EditText) findViewById(R.id.editTextNewCardName);
+        editNewCardName = findViewById(R.id.editTextNewCardName);
 
-        buttonAceptNewCard = (Button) findViewById(R.id.button_confirm_New_card);
+        buttonAceptNewCard = findViewById(R.id.button_confirm_New_card);
         buttonAceptNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

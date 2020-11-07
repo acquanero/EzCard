@@ -20,7 +20,7 @@
             android:name=".ValidateAccessToProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectNewCardForProvider"
+            android:name=".SelectNewCardForProviderActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditProviderActivity"
@@ -32,7 +32,7 @@
             android:name=".AddNewCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditCardStepTwo"
+            android:name=".EditCardStepTwoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".EditCardActivity"
@@ -42,13 +42,13 @@
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegisterStepTwo"
+            android:name=".RegisterStepTwoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LogInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterStepOne"
+            android:name=".RegisterStepOneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"

@@ -6,58 +6,70 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="48dp"
-    tools:context=".RegisterStepOne">
+    tools:context=".RegisterStepOneActivity">
 
-    <TextView
-        android:id="@+id/labelEnterData"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="20dp"
-        android:text="@string/label_enter_data"
-        android:textSize="24sp" />
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_box_settigns"
+        android:layout_marginTop="@dimen/margin_bottom_settings"
+        android:layout_marginBottom="@dimen/margin_bottom_settings"
+        android:layout_marginHorizontal="@dimen/default_gap"
+        android:background="@drawable/button_with_border">
 
-    <EditText
-        android:id="@+id/editName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="@string/label_name"
-        android:inputType="textPersonName" />
+        <TextView
+            android:id="@+id/labelEnterData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:text="@string/label_enter_data"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/label_name"
+            android:inputType="textPersonName" />
 
 
-    <EditText
-        android:id="@+id/editSurname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="@string/label_surname"
-        android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/editSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/label_surname"
+            android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/editMailAdress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="@string/label_user"
-        android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/editMailAdress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/label_user"
+            android:inputType="textEmailAddress" />
 
-    <EditText
-        android:id="@+id/editPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
-        android:ems="10"
-        android:hint="@string/label_phone"
-        android:inputType="phone" />
+        <EditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="@string/label_phone"
+            android:inputType="phone" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonNext"
