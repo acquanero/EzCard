@@ -16,8 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.model.Card;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.Card;
+import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 public class SelectNewCardForProviderActivity extends AppCompatActivity {

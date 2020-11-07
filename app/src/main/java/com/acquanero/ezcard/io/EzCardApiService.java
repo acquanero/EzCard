@@ -1,11 +1,10 @@
 package com.acquanero.ezcard.io;
 
-import com.acquanero.ezcard.model.SimpleResponse;
-import com.acquanero.ezcard.model.UserData;
-import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.models.SimpleResponse;
+import com.acquanero.ezcard.models.UserData;
+import com.acquanero.ezcard.models.UserIdToken;
 
 import retrofit2.Call;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;

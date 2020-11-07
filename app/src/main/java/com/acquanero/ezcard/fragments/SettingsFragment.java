@@ -15,7 +15,7 @@ import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.activities.ChangePinActivity;
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 public class SettingsFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.acquanero.ezcard.model;
+package com.acquanero.ezcard.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

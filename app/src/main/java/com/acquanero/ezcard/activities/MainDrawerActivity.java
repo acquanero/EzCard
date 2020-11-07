@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 

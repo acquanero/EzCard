@@ -19,8 +19,8 @@ import androidx.preference.PreferenceManager;
 import com.acquanero.ezcard.activities.EditProviderActivity;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.activities.ValidateAccessToProviderActivity;
-import com.acquanero.ezcard.model.Provider;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.Provider;
+import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 public class ProvidersFragment extends Fragment {

@@ -22,8 +22,8 @@ import androidx.preference.PreferenceManager;
 import com.acquanero.ezcard.activities.AddNewCardActivity;
 import com.acquanero.ezcard.activities.EditCardActivity;
 import com.acquanero.ezcard.R;
-import com.acquanero.ezcard.model.Card;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.Card;
+import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 public class CardsFragment extends Fragment {

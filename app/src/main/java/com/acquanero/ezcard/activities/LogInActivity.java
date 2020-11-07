@@ -22,8 +22,8 @@ import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.UserData;
-import com.acquanero.ezcard.model.UserIdToken;
+import com.acquanero.ezcard.models.UserData;
+import com.acquanero.ezcard.models.UserIdToken;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
@@ -107,7 +107,7 @@ public class LogInActivity extends AppCompatActivity {
                     loadingBar.setVisibility(View.VISIBLE);
 
                     logIn(email, pasw);
-                    
+
                 }
 
             }

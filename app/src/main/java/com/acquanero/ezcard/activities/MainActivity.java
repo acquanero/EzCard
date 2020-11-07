@@ -15,8 +15,8 @@ import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.model.SimpleResponse;
-import com.acquanero.ezcard.model.UserData;
+import com.acquanero.ezcard.models.SimpleResponse;
+import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
