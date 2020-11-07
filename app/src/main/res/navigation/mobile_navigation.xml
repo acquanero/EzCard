@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_cards"
-        android:name="com.acquanero.ezcard.ui.cards.CardsFragment"
+        android:name="com.acquanero.ezcard.fragments.CardsFragment"
         android:label="@string/menu_item_tarjetas"
         tools:layout="@layout/fragment_cards" />
 
     <fragment
         android:id="@+id/nav_services"
-        android:name="com.acquanero.ezcard.ui.providers.ProvidersFragment"
+        android:name="com.acquanero.ezcard.fragments.ProvidersFragment"
         android:label="@string/menu_item_servicios"
         tools:layout="@layout/fragment_providers" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.acquanero.ezcard.ui.settings.SettingsFragment"
+        android:name="com.acquanero.ezcard.fragments.SettingsFragment"
         android:label="@string/menu_item_ajustes"
         tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -9,7 +9,7 @@
     android:gravity="center"
     android:layout_marginHorizontal="@dimen/margin_settings"
     android:padding="@dimen/padding_box_settigns"
-    tools:context=".ui.settings.SettingsFragment" >
+    tools:context=".fragments.SettingsFragment" >
 
     <ImageView
         android:id="@+id/LogoimageView"

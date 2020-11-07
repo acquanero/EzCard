@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;
 import com.google.gson.Gson;

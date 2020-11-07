@@ -1,5 +1,5 @@
 
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
@@ -77,25 +78,37 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // mostrar circulo de progreso mientras carga
-                ConstraintSet set = new ConstraintSet();
-                loadingBar = new ProgressBar(LogInActivity.this, null, android.R.attr.progressBarStyleLarge);
+                String email = mailUser.getText().toString();
+                String pasw = password.getText().toString();
 
-                //tooodo este choclo es solo para definir la posicion del loadingBar en el centro del ConstraintLayout
-                loadingBar.setId(View.generateViewId());
-                mainLayout.addView(loadingBar,0);
+                if(!MyValidators.isBetween(pasw,passwordMin,passwordMax) || MyValidators.isValidEmail(email) == false){
 
-                set.clone(mainLayout);
-                set.connect(loadingBar.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
-                set.connect(loadingBar.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
-                set.connect(loadingBar.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
-                set.connect(loadingBar.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP);
-                set.applyTo(mainLayout);
+                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
 
-                loadingBar.setVisibility(View.VISIBLE);
+                } else {
 
-                logIn(mailUser.getText().toString(), password.getText().toString());
+                    // mostrar circulo de progreso mientras carga
+                    ConstraintSet set = new ConstraintSet();
+                    loadingBar = new ProgressBar(LogInActivity.this, null, android.R.attr.progressBarStyleLarge);
 
+                    //tooodo este choclo es solo para definir la posicion del loadingBar en el centro del ConstraintLayout
+                    loadingBar.setId(View.generateViewId());
+                    mainLayout.addView(loadingBar,0);
+
+                    set.clone(mainLayout);
+                    set.connect(loadingBar.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+                    set.connect(loadingBar.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+                    set.connect(loadingBar.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+                    set.connect(loadingBar.getId(), ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP);
+                    set.applyTo(mainLayout);
+
+                    loadingBar.setVisibility(View.VISIBLE);
+
+                    logIn(email, pasw);
+                    
+                }
 
             }
         });
@@ -228,7 +241,7 @@ public class LogInActivity extends AppCompatActivity {
                     //Al terminar oculto el loading Bar
                     loadingBar.setVisibility(View.GONE);
 
-                    Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+                    Intent goToCardsActivity = new Intent(context, MainDrawerActivity.class);
 
                     startActivity(goToCardsActivity);
 

@@ -8,7 +8,7 @@
     android:layout_gravity="center_vertical"
     android:gravity="center_horizontal"
     android:layout_margin="@dimen/margin_settings"
-    tools:context=".ChangePinActivity" >
+    tools:context=".activities.ChangePinActivity" >
 
     <LinearLayout
         android:layout_width="match_parent"

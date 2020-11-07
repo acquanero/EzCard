@@ -1,4 +1,4 @@
-package com.acquanero.ezcard.ui.cards;
+package com.acquanero.ezcard.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,8 +19,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
-import com.acquanero.ezcard.AddNewCardActivity;
-import com.acquanero.ezcard.EditCardActivity;
+import com.acquanero.ezcard.activities.AddNewCardActivity;
+import com.acquanero.ezcard.activities.EditCardActivity;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.model.Card;
 import com.acquanero.ezcard.model.UserData;

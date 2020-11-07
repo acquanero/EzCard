@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -13,13 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.model.SimpleResponse;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
-import com.acquanero.ezcard.ui.settings.SettingsFragment;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -136,7 +136,7 @@ public class ChangePinActivity extends AppCompatActivity {
                     toast.show();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToMain = new Intent(context, MainDrawer.class);
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToMain);
 
                 } else {

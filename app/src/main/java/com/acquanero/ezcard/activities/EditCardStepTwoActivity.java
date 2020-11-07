@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.acquanero.ezcard.R;
 
 public class EditCardStepTwoActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class EditCardStepTwoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goBack = new Intent(getApplicationContext(), MainDrawer.class);
+                Intent goBack = new Intent(getApplicationContext(), MainDrawerActivity.class);
                 startActivity(goBack);
 
             }

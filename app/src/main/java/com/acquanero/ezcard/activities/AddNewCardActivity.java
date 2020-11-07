@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.acquanero.ezcard.R;
 
 public class AddNewCardActivity extends AppCompatActivity {
 
@@ -26,7 +28,7 @@ public class AddNewCardActivity extends AppCompatActivity {
         buttonCancelNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), MainDrawer.class);
+                Intent i = new Intent(getApplicationContext(), MainDrawerActivity.class);
                 startActivity(i);
             }
         });

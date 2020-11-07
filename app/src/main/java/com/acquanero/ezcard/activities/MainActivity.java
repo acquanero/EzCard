@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                         System.out.println("-----------Error 401------!!!!!");
 
-                        Intent i = new Intent(context, MainDrawer.class);
+                        Intent i = new Intent(context, MainDrawerActivity.class);
                         startActivity(i);
                     }
 
@@ -107,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,0);
 
-                Intent i = new Intent(context, MainDrawer.class);
+                Intent i = new Intent(context, MainDrawerActivity.class);
                 startActivity(i);toast.show();
 
 
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                     dataDepotEditable.apply();
 
-                    Intent goToCardsActivity = new Intent(context, MainDrawer.class);
+                    Intent goToCardsActivity = new Intent(context, MainDrawerActivity.class);
 
                     startActivity(goToCardsActivity);
 

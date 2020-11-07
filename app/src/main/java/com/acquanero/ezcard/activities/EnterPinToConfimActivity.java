@@ -1,4 +1,4 @@
-package com.acquanero.ezcard;
+package com.acquanero.ezcard.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -13,10 +13,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
@@ -27,8 +27,6 @@ import com.acquanero.ezcard.model.UserData;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
 import com.acquanero.ezcard.myutils.MyValidators;
 import com.google.gson.Gson;
-
-import org.w3c.dom.Text;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -77,7 +75,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         buttonCanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goBack = new Intent(getApplicationContext(), MainDrawer.class);
+                Intent goBack = new Intent(getApplicationContext(), MainDrawerActivity.class);
                 startActivity(goBack);
             }
         });
@@ -367,7 +365,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToDrawer);
 
 
@@ -470,7 +468,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToDrawer);
 
                 } else {
@@ -568,7 +566,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToDrawer);
 
                 } else {
@@ -641,7 +639,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToDrawer);
 
 
@@ -708,7 +706,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawer.class);
+                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     startActivity(goToDrawer);
 
 

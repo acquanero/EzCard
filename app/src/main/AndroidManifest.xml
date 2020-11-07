@@ -14,44 +14,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EnterPinToConfimActivity"></activity>
-        <activity android:name=".ChangePinActivity" />
+        <activity android:name=".activities.EnterPinToConfimActivity"></activity>
+        <activity android:name=".activities.ChangePinActivity" />
         <activity
-            android:name=".ValidateAccessToProviderActivity"
+            android:name=".activities.ValidateAccessToProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectNewCardForProviderActivity"
+            android:name=".activities.SelectNewCardForProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditProviderActivity"
+            android:name=".activities.EditProviderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReadNewCardActivity"
+            android:name=".activities.ReadNewCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddNewCardActivity"
+            android:name=".activities.AddNewCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditCardStepTwoActivity"
+            android:name=".activities.EditCardStepTwoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditCardActivity"
+            android:name=".activities.EditCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainDrawer"
+            android:name=".activities.MainDrawerActivity"
             android:label="@string/title_activity_main_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegisterStepTwoActivity"
+            android:name=".activities.RegisterStepTwoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LogInActivity"
+            android:name=".activities.LogInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterStepOneActivity"
+            android:name=".activities.RegisterStepOneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
