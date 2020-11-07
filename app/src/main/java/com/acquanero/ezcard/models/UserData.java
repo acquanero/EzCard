@@ -13,9 +13,6 @@ public class UserData {
     @SerializedName("last_name")
     @Expose
     private String lastName;
-    @SerializedName("password")
-    @Expose
-    private String password;
     @SerializedName("email")
     @Expose
     private String email;
@@ -49,14 +46,6 @@ public class UserData {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmail() {

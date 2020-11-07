@@ -223,7 +223,6 @@ public class LogInActivity extends AppCompatActivity {
                     UserData user = new UserData();
                     user.setName(response.body().getName());
                     user.setLastName(response.body().getLastName());
-                    user.setPassword(response.body().getPassword());
                     user.setEmail(response.body().getEmail());
                     user.setCellphone(response.body().getCellphone());
                     user.setUserId(response.body().getUserId());
