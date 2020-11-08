@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.activities.AddNewCardActivity;
-import com.acquanero.ezcard.activities.EditCardActivity;
+import com.acquanero.ezcard.activities.EditCardStepOneActivity;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.models.Card;
 import com.acquanero.ezcard.models.UserData;
@@ -102,7 +102,7 @@ public class CardsFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    Intent i = new Intent(context, EditCardActivity.class);
+                    Intent i = new Intent(context, EditCardStepOneActivity.class);
                     i.putExtra("cardid", numIdCard);
                     startActivity(i);
 

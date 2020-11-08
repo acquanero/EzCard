@@ -18,7 +18,7 @@ import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 
-public class EditCardActivity extends AppCompatActivity {
+public class EditCardStepOneActivity extends AppCompatActivity {
 
     SharedPreferences dataDepot;
 
