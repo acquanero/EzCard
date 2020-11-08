@@ -18,7 +18,7 @@ import com.acquanero.ezcard.models.UserData;
 import com.google.gson.Gson;
 
 
-public class EditCardStepOneActivity extends AppCompatActivity {
+public class ShowCardInfoActivity extends AppCompatActivity {
 
     SharedPreferences dataDepot;
 
@@ -29,7 +29,7 @@ public class EditCardStepOneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_card_step_one);
+        setContentView(R.layout.activity_show_card_info);
 
         Bundle datos = getIntent().getExtras();
 
@@ -100,7 +100,7 @@ public class EditCardStepOneActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent editCardActivity = new Intent(getApplicationContext(), EditCardStepTwoActivity.class);
+                Intent editCardActivity = new Intent(getApplicationContext(), EditCardActivity.class);
                 editCardActivity.putExtra("cardid", id);
                 editCardActivity.putExtra("cardName", nameCard);
                 editCardActivity.putExtra("cardIcon", iconId);

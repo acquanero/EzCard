@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    tools:context=".activities.EditCardStepOneActivity">
+    tools:context=".activities.ShowCardInfoActivity">
 
     <ImageView
         android:id="@+id/imageCard"

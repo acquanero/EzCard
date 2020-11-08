@@ -32,10 +32,10 @@
             android:name=".activities.AddNewCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.EditCardStepTwoActivity"
+            android:name=".activities.EditCardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.EditCardStepOneActivity"
+            android:name=".activities.ShowCardInfoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MainDrawerActivity"

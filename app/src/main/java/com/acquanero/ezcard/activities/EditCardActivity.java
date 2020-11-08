@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.acquanero.ezcard.R;
 
-public class EditCardStepTwoActivity extends AppCompatActivity {
+public class EditCardActivity extends AppCompatActivity {
 
     private RadioGroup iconGroup;
     private RadioButton botonCard, botonCircle, botonArroba;
@@ -24,7 +24,7 @@ public class EditCardStepTwoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_card_step_two);
+        setContentView(R.layout.activity_edit_card);
 
         iconGroup = findViewById(R.id.radioGroupIcons);
         botonCard = findViewById(R.id.radioButtonCard);

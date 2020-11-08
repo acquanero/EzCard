@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context=".activities.EditCardStepTwoActivity">
+    tools:context=".activities.EditCardActivity">
 
     <TextView
         android:id="@+id/labelSelectIcon"
