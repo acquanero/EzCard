@@ -15,6 +15,7 @@
     <string name="menu_item_ezcard">EZCard</string>
     <string name="menu_item_logout">Cerrar sesión</string>
     <string name="user_mail_erro_msg">Mail y/o contraseña incorrectos</string>
+    <string name="user_disabled">Usario bloqueado, contactese con el administrador</string>
     <string name="login_again_msg">Vuelva a introducir mail y contraseña</string>
     <string name="label_name">Nombre</string>
     <string name="label_surname">Apellido</string>
@@ -92,4 +93,5 @@
     <string name="reconfirmation_doesnt_match">La reconfirmación del PIN no coincide</string>
     <string name="success_change_pin">Cambio de PIN exitoso</string>
     <string name="error_change_pin">Error al intentar cambiar el PIN</string>
+    <string name="error_credential_serial_number">La tarjeta no coincide con el servicio asociado</string>
 </resources>

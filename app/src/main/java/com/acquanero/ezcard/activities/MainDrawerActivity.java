@@ -1,6 +1,7 @@
 package com.acquanero.ezcard.activities;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,8 @@ import com.acquanero.ezcard.models.UserData;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -54,6 +57,12 @@ public class MainDrawerActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        if (userData.getProviders() != null) {
+            navController.navigate(R.id.nav_services);
+        } else {
+            navController.navigate(R.id.nav_cards);
+        }
+
         //Setteo en el header del navView el mail del usuario loggeado
         View headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.labelUserLogged);
@@ -70,7 +79,11 @@ public class MainDrawerActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 
     //Descomentar para utilizar menu de arriba a la derecha (el de los tres puntitos)

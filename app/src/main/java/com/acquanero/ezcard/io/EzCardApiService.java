@@ -62,7 +62,7 @@ public interface EzCardApiService {
             @Body RegisterRequest registerRequest
     );
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @HTTP(method = "DELETE", path = "cards/{id}", hasBody = true)
     Call<SimpleResponse> deleteCard(
             @Header("xappid") String xappid,
@@ -72,7 +72,7 @@ public interface EzCardApiService {
             @Body DeleteCardRequest deleteCardRequest
     );
 
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @PUT("cards/{id}")
     Call<SimpleResponse> putCard(
             @Header("xappid") String xappid,
@@ -112,12 +112,12 @@ public interface EzCardApiService {
             );
 
     @Headers("Content-Type: application/json")
-    @DELETE
-    //@HTTP(method = "DELETE", path = "provider/delete", hasBody = true)
+    @HTTP(method = "DELETE", path = "provider/delete/{id}", hasBody = true)
     Call<SimpleResponse> deleteProvider(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
             @Header("pin") String elpin,
+            @Path("id") int userId,
             @Body DeleteProviderRequest deleteProviderRequest
             );
 

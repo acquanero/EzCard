@@ -88,25 +88,18 @@ public class ProvidersFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
 
-
                             //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
-                            if (theProvider.getCardId() == null){
-
+                            if (theProvider.getCardId() == 0){
                                 Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
                                 t.setGravity(Gravity.CENTER,0,0);
                                 t.show();
-
                             } else {
-
                                 Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
                                 validateAccess.putExtra("idProvider", providerId);
                                 startActivity(validateAccess);
-
                             }
-
                         }
                     });
-
                 }
 
                 Button botonEditServicio = new Button(getActivity());

@@ -108,9 +108,7 @@ public class LogInActivity extends AppCompatActivity {
                     loadingBar.setVisibility(View.VISIBLE);
 
                     logIn(email, pasw);
-
                 }
-
             }
         });
 
@@ -154,7 +152,7 @@ public class LogInActivity extends AppCompatActivity {
             myAPIService.postDataGetToken(AppGeneralUseData.getAppId(), loginRequest).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
-                    loadingBar.setVisibility(View.GONE);;
+                    loadingBar.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
 
                         //guardo el id y el token en una variable
@@ -174,10 +172,14 @@ public class LogInActivity extends AppCompatActivity {
                         getUserWholeData(token, idUsuario);
 
                     } else {
-
                         if (response.code() == 404) {
                             Context context = getApplicationContext();
                             Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                            t.show();
+                        } else if (response.code() == 401) {
+                            Context context = getApplicationContext();
+                            Toast t = Toast.makeText(context, getString(R.string.user_disabled), Toast.LENGTH_LONG);
                             t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             t.show();
                         } else {
@@ -240,10 +242,10 @@ public class LogInActivity extends AppCompatActivity {
                     //Al terminar oculto el loading Bar
                     loadingBar.setVisibility(View.GONE);
 
-                    Intent goToCardsActivity = new Intent(context, MainDrawerActivity.class);
-
-                    startActivity(goToCardsActivity);
-
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToMain);
+                    finish();
                 } else {
 
                     //Al terminar oculto el loading Bar

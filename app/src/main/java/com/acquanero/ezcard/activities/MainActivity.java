@@ -101,18 +101,30 @@ public class MainActivity extends AppCompatActivity {
                 } else {
 
                     if(response.code() == 401){
-                        Toast t = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
+                        Toast t = Toast.makeText(context, getString(R.string.user_disabled) , Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER,0,0);
                         t.show();
 
                         System.out.println("-----------Error 401------!!!!!");
-
-                        Intent i = new Intent(context, LogInActivity.class);
-                        startActivity(i);
                     }
 
-                }
+                    else if(response.code() == 403){
+                        Toast t = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER,0,0);
+                        t.show();
 
+                        System.out.println("-----------Error 403------!!!!!");
+                    }
+
+                    else  {
+                        Toast t = Toast.makeText(context, getString(R.string.login_again_msg), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
+                    }
+
+                    Intent i = new Intent(context, LogInActivity.class);
+                    startActivity(i);
+                }
             }
 
             @Override
@@ -164,11 +176,10 @@ public class MainActivity extends AppCompatActivity {
 
                     dataDepotEditable.apply();
 
-                    Intent goToCardsActivity = new Intent(context, MainDrawerActivity.class);
-
-                    startActivity(goToCardsActivity);
-
-
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToMain);
+                    finish();
                 } else {
 
                     Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);

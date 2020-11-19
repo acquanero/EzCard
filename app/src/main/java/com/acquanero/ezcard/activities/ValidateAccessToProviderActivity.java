@@ -148,18 +148,21 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
                     //Vuelvo a la vista de drawer
                     Intent goToMain = new Intent(context, MainActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(goToMain);
+                    finish();
 
                 } else if (response.code() == 403) {
                     setCircleRed();
                     Toast toast = Toast.makeText(context, getString(R.string.error_credential_serial_number), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
-
+                    nfcAdapter.enableForegroundDispatch(ValidateAccessToProviderActivity.this, pendingIntent, null, null);
                 } else {
                     Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
+                    nfcAdapter.enableForegroundDispatch(ValidateAccessToProviderActivity.this, pendingIntent, null, null);
                 }
             }
 

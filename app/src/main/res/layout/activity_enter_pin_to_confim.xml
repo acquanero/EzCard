@@ -43,6 +43,7 @@
             android:ems="10"
             android:layout_marginBottom="25dp"
             android:hint="@string/label_pin"
+            android:maxLength="4"
             android:inputType="numberPassword" />
 
     </LinearLayout>

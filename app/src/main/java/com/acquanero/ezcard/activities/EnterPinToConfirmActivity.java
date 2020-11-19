@@ -3,6 +3,7 @@ package com.acquanero.ezcard.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -304,7 +305,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     startActivity(goToMain);
 
                 } else {
-
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
@@ -378,11 +379,12 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
                     //Vuelvo a la vista de drawer
                     Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
+                    goToDrawer.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToDrawer);
-
+                    finish();
 
                 } else {
-
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
@@ -480,18 +482,19 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
-                    startActivity(goToDrawer);
 
+
+                    // TODO BORRAR Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToMain);
+                    finish();
                 } else {
-
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error), Toast.LENGTH_LONG);
                     t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
-
                 }
-
-
             }
 
             @Override
@@ -545,9 +548,10 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        final int userID = dataDepot.getInt("user_id", -1);
         final int idprovider = providerId;
 
-        myAPIService.deleteProvider(AppGeneralUseData.getAppId(), tokenn, hashPin, new DeleteProviderRequest(idprovider)).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.deleteProvider(AppGeneralUseData.getAppId(), tokenn, hashPin, userID, new DeleteProviderRequest(idprovider)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -578,11 +582,13 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     dataDepotEditable.apply();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
-                    startActivity(goToDrawer);
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToMain);
+                    finish();
 
                 } else {
-
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t = Toast.makeText(context, getString(R.string.delete_provider_error), Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
@@ -654,10 +660,12 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
                     //Vuelvo a la vista de drawer
                     Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
+                    goToDrawer.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToDrawer);
-
+                    finish();
 
                 } else {
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card), Toast.LENGTH_LONG);
                     t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
@@ -722,11 +730,13 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
                     //Vuelvo a la vista de drawer
                     Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
+                    goToDrawer.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToDrawer);
+                    finish();
 
 
                 } else {
-
+                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service), Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
