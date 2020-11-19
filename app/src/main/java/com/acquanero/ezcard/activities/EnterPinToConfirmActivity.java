@@ -19,7 +19,13 @@ import android.widget.Toast;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.ExternalRequestsModels.BindProviderRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteCardRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteProviderRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.EditCardRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.UnbindProviderRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.io.ExternalRequestsModels.NewCardRequest;
 import com.acquanero.ezcard.models.Card;
 import com.acquanero.ezcard.models.Provider;
 import com.acquanero.ezcard.models.SimpleResponse;
@@ -35,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnterPinToConfimActivity extends AppCompatActivity {
+public class EnterPinToConfirmActivity extends AppCompatActivity {
 
     AppGeneralUseData generalData = new AppGeneralUseData();
 
@@ -44,7 +50,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     private EzCardApiService myAPIService;
 
-    private Button buttonAcept, buttonCanel;
+    private Button buttonAccept, buttonCancel;
     private TextView editPIN;
     private TextView txtTitle, labelCardProvider;
 
@@ -53,6 +59,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     private int providerId;
     private int numIdCard;
+    private int userID;
 
 
     @Override
@@ -69,10 +76,10 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final String theToken = dataDepot.getString("token", "null");
 
         txtTitle = findViewById(R.id.textTitle);
-        labelCardProvider= findViewById(R.id.labelCardProvider);
+        labelCardProvider = findViewById(R.id.labelCardProvider);
 
-        buttonCanel = findViewById(R.id.cancelButton);
-        buttonCanel.setOnClickListener(new View.OnClickListener() {
+        buttonCancel = findViewById(R.id.cancelButton);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent goBack = new Intent(getApplicationContext(), MainDrawerActivity.class);
@@ -82,7 +89,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
         editPIN = findViewById(R.id.editBoxEnterPin);
 
-        buttonAcept = findViewById(R.id.aceptButton);
+        buttonAccept = findViewById(R.id.aceptButton);
 
         //Saco del bundle el Flag que me dirá que debe hacer la Activity al ingresar el PIN
         Bundle datos = getIntent().getExtras();
@@ -99,16 +106,16 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             final String tag = datos.getString("tag");
             final int userID = dataDepot.getInt("user_id", -1);
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t2.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER, 0, 0);
                         t2.show();
                     } else {
                         sendDataForNewCard(theToken, pinEntered, userID, nameCard, iconNumber, tag);
@@ -119,26 +126,27 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             //2° rama del If. Flag me envia a Ingresar el PIN para asociar un servicio
 
-        } else if (flag.equalsIgnoreCase("enterPinToBindProvider")){
+        } else if (flag.equalsIgnoreCase("enterPinToBindProvider")) {
 
             txtTitle.setText(getString(R.string.enter_pin_to_associate_service));
 
             numIdCard = datos.getInt("cardId");
             providerId = datos.getInt("providerId");
+            userID = dataDepot.getInt("user_id", -1);
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
                         t.show();
                     } else {
-                        postToAssociateService(theToken, pinEntered, numIdCard, providerId);
+                        postToAssociateService(theToken, pinEntered, numIdCard, providerId, userID);
                     }
 
                 }
@@ -155,7 +163,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             txtTitle.setText(getString(R.string.enter_pin_to_delete_card));
             labelCardProvider.setText(cardName);
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -163,9 +171,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t2.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER, 0, 0);
                         t2.show();
                     } else {
                         confirmDeleteCard(theToken, pinEntered, userID, idCard);
@@ -175,7 +183,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             //4° rama del If. Flag me envia a Ingresar el PIN para eliminar un servicio
 
-        } else if(flag.equalsIgnoreCase("enterPinToDeleteProvider")){
+        } else if (flag.equalsIgnoreCase("enterPinToDeleteProvider")) {
 
             providerId = datos.getInt("providerId");
 
@@ -184,7 +192,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             txtTitle.setText(getString(R.string.enter_pin_to_delete_provider));
             labelCardProvider.setText(nameOfProvider);
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -192,9 +200,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
                         t.show();
                     } else {
                         confirmDeleteProvider(theToken, pinEntered, providerId);
@@ -204,7 +212,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             //5° rama del If. Flag me envia a Ingresar el PIN para modificar los datos de una tarjeta
 
-        } else if (flag.equalsIgnoreCase("enterPinToEditCard")){
+        } else if (flag.equalsIgnoreCase("enterPinToEditCard")) {
 
             txtTitle.setText(getString(R.string.enter_pin_to_edit_card));
 
@@ -214,7 +222,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             final int userID = dataDepot.getInt("user_id", -1);
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -222,9 +230,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t2.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t2.setGravity(Gravity.CENTER, 0, 0);
                         t2.show();
                     } else {
                         sendConfirmEditCard(theToken, pinEntered, userID, cardId, nameCard, cardIconNumber);
@@ -234,22 +242,22 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
             //6° rama del If. Flag me envia a Ingresar el PIN para desvincular un servicio de la tarjeta
 
-        } else if(flag.equalsIgnoreCase("enterPinToUnbindProvider")){
+        } else if (flag.equalsIgnoreCase("enterPinToUnbindProvider")) {
 
             txtTitle.setText(getString(R.string.Enter_pin_to_disassociate_service));
 
             providerId = datos.getInt("providerId");
 
-            buttonAcept.setOnClickListener(new View.OnClickListener() {
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     int pinEntered = Integer.parseInt(editPIN.getText().toString());
                     String pinEnteredInString = editPIN.getText().toString();
 
-                    if (!MyValidators.isBetween(pinEnteredInString,pinMin,pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)){
-                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER,0,0);
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
                         t.show();
                     } else {
                         confirmDisassociateService(theToken, pinEntered, providerId);
@@ -262,7 +270,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void sendDataForNewCard(String token, int pin, int userid, String cardName, int cardIcon, String theTag){
+    private void sendDataForNewCard(String token, int pin, int userid, String cardName, int cardIcon, String theTag) {
 
         final String tokken = token;
 
@@ -283,7 +291,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final String cardTag = theTag;
         final Context context = this;
 
-        myAPIService.postNewCard(generalData.appId, tokken, hashPin, useridd, cardTag, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+        NewCardRequest newCardJson = new NewCardRequest(useridd, cardTag, namecard, cardiconn);
+
+        myAPIService.postNewCard(AppGeneralUseData.getAppId(), tokken, hashPin, newCardJson).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -295,8 +305,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                     Log.e("RTA FAIL", "Unable to submit post to API.");
@@ -307,8 +317,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card) , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
                 Log.e("RTA FAIL", "Unable to submit post to API.");
@@ -319,7 +329,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void postToAssociateService(String token, int pin, int cardId, int providerId){
+    private void postToAssociateService(String token, int pin, int cardId, int providerId, int userID) {
 
         final String tokken = token;
 
@@ -338,7 +348,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final int idProvider = providerId;
         final Context context = this;
 
-        myAPIService.bindProvider(generalData.appId, tokken, hashPin, idcard, idProvider).enqueue(new Callback<SimpleResponse>() {
+        BindProviderRequest bindProviderRequest = new BindProviderRequest(idcard, idProvider);
+
+        myAPIService.bindProvider(AppGeneralUseData.getAppId(), tokken, hashPin, userID, bindProviderRequest).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -349,8 +361,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     UserData userData = gson.fromJson(userJson, UserData.class);
 
                     //recorro la lista de cards del usuario y cuando encuentro la que coincide con el id, le cambio los atributos
-                    for (Provider p : userData.getProviders()){
-                        if(p.getProviderId() == idProvider){
+                    for (Provider p : userData.getProviders()) {
+                        if (p.getProviderId() == idProvider) {
 
                             p.setCardId(idcard);
                         }
@@ -371,8 +383,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                 }
@@ -383,8 +395,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service) , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
             }
@@ -416,7 +428,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void deleteCard(String token, int pin, int userid, int cardid){
+    private void deleteCard(String token, int pin, int userid, int cardid) {
 
         final Context context = this;
         final String theToken = token;
@@ -437,7 +449,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final int theuserID = userid;
         final int cardId = cardid;
 
-        myAPIService.deleteCard(generalData.appId, theToken, hashPin, theuserID, cardId).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.deleteCard(AppGeneralUseData.getAppId(), theToken, hashPin, theuserID, new DeleteCardRequest(cardId)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -450,8 +462,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     ArrayList<Card> listaCards = new ArrayList<Card>();
 
                     //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
-                    for (Card c : userData.getCards()){
-                        if(c.getCardId() != cardId){
+                    for (Card c : userData.getCards()) {
+                        if (c.getCardId() != cardId) {
                             listaCards.add(c);
                         }
                     }
@@ -473,8 +485,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
-                    t3.setGravity(Gravity.CENTER,0,0);
+                    Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error), Toast.LENGTH_LONG);
+                    t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
 
                 }
@@ -485,8 +497,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error) , Toast.LENGTH_LONG);
-                t3.setGravity(Gravity.CENTER,0,0);
+                Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error), Toast.LENGTH_LONG);
+                t3.setGravity(Gravity.CENTER, 0, 0);
                 t3.show();
 
             }
@@ -494,7 +506,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void confirmDeleteProvider(String token, int pin, int providerId){
+    private void confirmDeleteProvider(String token, int pin, int providerId) {
 
         final String tokken = token;
         final int pinn = pin;
@@ -517,7 +529,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void deleteProvider(String token, int pin, int providerId){
+    private void deleteProvider(String token, int pin, int providerId) {
 
         final Context context = this;
         final String tokenn = token;
@@ -535,7 +547,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
         final int idprovider = providerId;
 
-        myAPIService.deleteProvider(generalData.appId, tokenn, hashPin, idprovider).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.deleteProvider(AppGeneralUseData.getAppId(), tokenn, hashPin, new DeleteProviderRequest(idprovider)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -548,8 +560,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     ArrayList<Provider> listaProviders = new ArrayList<Provider>();
 
                     //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
-                    for (Provider p : userData.getProviders()){
-                        if(p.getProviderId() != idprovider){
+                    for (Provider p : userData.getProviders()) {
+                        if (p.getProviderId() != idprovider) {
                             listaProviders.add(p);
                         }
                     }
@@ -571,8 +583,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast t = Toast.makeText(context, getString(R.string.delete_provider_error) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
+                    Toast t = Toast.makeText(context, getString(R.string.delete_provider_error), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
 
                 }
@@ -582,8 +594,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast tt = Toast.makeText(context, getString(R.string.delete_provider_error) , Toast.LENGTH_LONG);
-                tt.setGravity(Gravity.CENTER,0,0);
+                Toast tt = Toast.makeText(context, getString(R.string.delete_provider_error), Toast.LENGTH_LONG);
+                tt.setGravity(Gravity.CENTER, 0, 0);
                 tt.show();
 
             }
@@ -591,7 +603,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon){
+    private void sendConfirmEditCard(String token, int pin, int userid, int cardid, String cardName, int cardIcon) {
 
         final String tokken = token;
 
@@ -612,7 +624,9 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
         final int cardiconn = cardIcon;
         final Context context = this;
 
-        myAPIService.putCard(generalData.appId, tokken, hashPin, useridd, cardId, namecard, cardiconn).enqueue(new Callback<SimpleResponse>() {
+        EditCardRequest editCardRequest = new EditCardRequest(cardId, cardName, cardIcon);
+
+        myAPIService.putCard(AppGeneralUseData.getAppId(), tokken, hashPin, useridd, editCardRequest).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -623,8 +637,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     UserData userData = gson.fromJson(userJson, UserData.class);
 
                     //recorro la lista de cards del usuario y cuando encuentro la que coincide con el id, le cambio los atributos
-                    for (Card c : userData.getCards()){
-                        if(c.getCardId() == cardId){
+                    for (Card c : userData.getCards()) {
+                        if (c.getCardId() == cardId) {
                             c.setName(namecard);
                             c.setIcon(cardiconn);
                         }
@@ -644,8 +658,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
 
                 } else {
-                    Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card) , Toast.LENGTH_LONG);
-                    t3.setGravity(Gravity.CENTER,0,0);
+                    Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card), Toast.LENGTH_LONG);
+                    t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
                 }
 
@@ -654,8 +668,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card) , Toast.LENGTH_LONG);
-                t3.setGravity(Gravity.CENTER,0,0);
+                Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card), Toast.LENGTH_LONG);
+                t3.setGravity(Gravity.CENTER, 0, 0);
                 t3.show();
 
             }
@@ -663,10 +677,11 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
     }
 
-    private void confirmDisassociateService(String token, int pin, int provider){
+    private void confirmDisassociateService(String token, int pin, int provider) {
 
         final Context context = this;
         final String theTokken = token;
+        userID = dataDepot.getInt("user_id", -1);
 
         String thePin = String.valueOf(pin);
         String hashPin = null;
@@ -681,7 +696,7 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
 
         final int theProviderId = provider;
 
-        myAPIService.unbindProvider(generalData.appId, theTokken, hashPin, theProviderId).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.unbindProvider(AppGeneralUseData.getAppId(), theTokken, hashPin, userID, new UnbindProviderRequest(theProviderId)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
@@ -691,8 +706,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     UserData userData = gson.fromJson(userJson, UserData.class);
 
-                    for (Provider p : userData.getProviders()){
-                        if(p.getProviderId() == theProviderId){
+                    for (Provider p : userData.getProviders()) {
+                        if (p.getProviderId() == theProviderId) {
                             p.setCardId(null);
                         }
                     }
@@ -710,11 +725,10 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
                     startActivity(goToDrawer);
 
 
-
                 } else {
 
-                    Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
+                    Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
 
                 }
@@ -724,8 +738,8 @@ public class EnterPinToConfimActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast to = Toast.makeText(context, getString(R.string.error_to_disassociate_service) , Toast.LENGTH_LONG);
-                to.setGravity(Gravity.CENTER,0,0);
+                Toast to = Toast.makeText(context, getString(R.string.error_to_disassociate_service), Toast.LENGTH_LONG);
+                to.setGravity(Gravity.CENTER, 0, 0);
                 to.show();
 
             }

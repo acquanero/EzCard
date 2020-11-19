@@ -66,64 +66,64 @@ public class CardsFragment extends Fragment {
         if (userData.getCards() != null) {
 
             for (Card card : userData.getCards()){
+                if (card != null) {
+                    ImageView botonImage = new ImageView(getActivity());
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 200);
+                    botonImage.setLayoutParams(layoutParams);
 
-                ImageView botonImage = new ImageView(getActivity());
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(200, 200);
-                botonImage.setLayoutParams(layoutParams);
+                    TextView txt = new TextView(getActivity());
+                    txt.setText(card.getName());
+                    txt.setGravity(Gravity.CENTER);
+                    txt.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
 
-                TextView txt = new TextView(getActivity());
-                txt.setText(card.getName());
-                txt.setGravity(Gravity.CENTER);
-                txt.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                    LinearLayout lineaHorizontal = new LinearLayout(getContext());
+                    lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+                    lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
 
-                LinearLayout lineaHorizontal = new LinearLayout(getContext());
-                lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-                lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
+                    if (card.getIcon() == 1) {
 
-                if(card.getIcon() == 1){
+                        botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_card_white, null));
 
-                    botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_card_white, null));
+                    } else if (card.getIcon() == 2) {
 
-                } else if (card.getIcon() == 2){
+                        botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_circle_white, null));
 
-                    botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_circle_white, null));
+                    } else {
 
-                } else {
-
-                    botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arroba_white, null));
-
-                }
-
-                final int numIdCard = card.getCardId();
-
-                lineaHorizontal.setOnClickListener(new View.OnClickListener() {
-
-                    Context context = getContext();
-
-                    @Override
-                    public void onClick(View view) {
-
-                        Intent i = new Intent(context, ShowCardInfoActivity.class);
-                        i.putExtra("cardid", numIdCard);
-                        startActivity(i);
-
+                        botonImage.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_arroba_white, null));
 
                     }
-                });
+
+                    final int numIdCard = card.getCardId();
+
+                    lineaHorizontal.setOnClickListener(new View.OnClickListener() {
+
+                        Context context = getContext();
+
+                        @Override
+                        public void onClick(View view) {
+
+                            Intent i = new Intent(context, ShowCardInfoActivity.class);
+                            i.putExtra("cardid", numIdCard);
+                            startActivity(i);
 
 
-                lineaHorizontal.addView(botonImage);
-                lineaHorizontal.addView(txt);
+                        }
+                    });
 
-                lineaHorizontal.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_light_blue, null));
 
-                LinearLayout.LayoutParams linearHorizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                    lineaHorizontal.addView(botonImage);
+                    lineaHorizontal.addView(txt);
 
-                linearHorizontalParams.setMargins(0,10,0,10);
-                lineaHorizontal.setPadding(5,5,5,5);
+                    lineaHorizontal.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_light_blue, null));
 
-                linearLayoutCards.addView(lineaHorizontal, linearHorizontalParams);
+                    LinearLayout.LayoutParams linearHorizontalParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+                    linearHorizontalParams.setMargins(0, 10, 0, 10);
+                    lineaHorizontal.setPadding(5, 5, 5, 5);
+
+                    linearLayoutCards.addView(lineaHorizontal, linearHorizontalParams);
+                }
             }
 
         }

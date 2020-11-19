@@ -15,7 +15,6 @@ import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
-import com.acquanero.ezcard.models.SimpleResponse;
 import com.acquanero.ezcard.models.UserData;
 import com.acquanero.ezcard.models.UserIdToken;
 import com.google.gson.Gson;
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         final String theToken = token;
         final int theuserID = userid;
 
-        myAPIService.logInWithToken(generalData.appId, token, userid).enqueue(new Callback<UserIdToken>() {
+        myAPIService.logInWithToken(AppGeneralUseData.getAppId(), token, userid).enqueue(new Callback<UserIdToken>() {
             @Override
             public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
@@ -137,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Context context = this;
 
-        myAPIService.getUserData(generalData.appId, token, userid ).enqueue(new Callback<UserData>() {
+        myAPIService.getUserData(AppGeneralUseData.getAppId(), token, userid).enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 

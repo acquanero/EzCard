@@ -92,4 +92,5 @@
     <string name="reconfirmation_doesnt_match">New PIN reconfirmation do not match</string>
     <string name="success_change_pin">PIN change successful</string>
     <string name="error_change_pin">Error while changing the PIN</string>
+    <string name="error_credential_serial_number" translatable="false">La tarjeta no coincide con el servicio asociado</string>
 </resources>

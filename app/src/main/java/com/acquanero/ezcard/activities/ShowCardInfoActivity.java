@@ -87,7 +87,7 @@ public class ShowCardInfoActivity extends AppCompatActivity {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent deleteCardActivity = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                Intent deleteCardActivity = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
                 deleteCardActivity.putExtra("flag", "enterPinToDeleteCard");
                 deleteCardActivity.putExtra("cardid", id);
                 deleteCardActivity.putExtra("cardName", nameCard);

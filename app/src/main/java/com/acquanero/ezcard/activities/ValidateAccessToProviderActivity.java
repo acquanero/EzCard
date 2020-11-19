@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.ExternalRequestsModels.EntryRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.models.SimpleResponse;
 import com.acquanero.ezcard.myutils.NfcTagUtils;
@@ -45,49 +46,39 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validate_access_to_provider);
-
         Bundle datos = getIntent().getExtras();
         idProvider = datos.getInt("idProvider");
-
-       //Instancio el sharedPreference
+        //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
-
         //Traigo una instancia de retrofit para realizar los request
         myAPIService = ApiUtils.getAPIService();
 
-
         text = findViewById(R.id.labelHoldCardToValidate);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-
         imageCircle = findViewById(R.id.imageCircleReadCardToValidate);
-
         if (nfcAdapter == null) {
-
-            Toast toast = Toast.makeText(this, getString(R.string.no_nfc) , Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+            Toast toast = Toast.makeText(this, getString(R.string.no_nfc), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
             finish();
             return;
-
         }
-
         pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, this.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
     }
 
-   @Override
+    @Override
     protected void onResume() {
-        super.onResume();
 
+        super.onResume();
         if (nfcAdapter != null) {
-            if (!nfcAdapter.isEnabled()){
+            if (!nfcAdapter.isEnabled()) {
                 showWirelessSettings();
             }
-
             nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
-
     }
 
     @Override
@@ -102,7 +93,6 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
     private void resolveIntent(Intent intent) {
 
         String action = intent.getAction();
-
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 
             System.out.println("NFC discoveredddd");
@@ -111,24 +101,17 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
             String tagDecimal = getTagInDecimal(tag);
             final String theToken = dataDepot.getString("token", "null");
             final int userId = dataDepot.getInt("user_id", -1);
-
-            imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.acceptedCard), PorterDuff.Mode.MULTIPLY);
-
             validateProviderWithCard(theToken, userId, idProvider, tagDecimal);
-
         } else {
-
             imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.colorDelete), PorterDuff.Mode.MULTIPLY);
-
         }
-
     }
 
 
     private void showWirelessSettings() {
 
-        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.You_need_to_enable_NFC) , Toast.LENGTH_LONG);
-        t.setGravity(Gravity.CENTER,0,0);
+        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.You_need_to_enable_NFC), Toast.LENGTH_LONG);
+        t.setGravity(Gravity.CENTER, 0, 0);
         t.show();
 
         Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
@@ -143,7 +126,7 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
     }
 
-    private void validateProviderWithCard(String token, int userId, int providerId, String tag){
+    private void validateProviderWithCard(String token, int userId, int providerId, String tag) {
 
         final String tokenn = token;
         final int iduser = userId;
@@ -152,39 +135,49 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
 
         final Context context = this;
 
-        myAPIService.entryToProvider(generalData.appId,tokenn,iduser,idProvider,tagg).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.entryToProvider(AppGeneralUseData.getAppId(), tokenn, idProvider, new EntryRequest(userId, tagg)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
                 if (response.isSuccessful()) {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.successful_access) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    setCircleGreen();
+                    Toast toast = Toast.makeText(context, getString(R.string.successful_access), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                     //Vuelvo a la vista de drawer
                     Intent goToMain = new Intent(context, MainActivity.class);
                     startActivity(goToMain);
 
-                } else {
-
-                    Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                } else if (response.code() == 403) {
+                    setCircleRed();
+                    Toast toast = Toast.makeText(context, getString(R.string.error_credential_serial_number), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
+                } else {
+                    Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
                 }
-
             }
 
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
-
-                Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error) , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                Toast toast = Toast.makeText(context, getString(R.string.validate_provider_error), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
-
             }
         });
 
+    }
+
+    public void setCircleRed() {
+        imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.colorDelete), PorterDuff.Mode.MULTIPLY);
+    }
+
+    public void setCircleGreen() {
+        imageCircle.setColorFilter(ContextCompat.getColor(this, R.color.acceptedCard), PorterDuff.Mode.MULTIPLY);
     }
 }

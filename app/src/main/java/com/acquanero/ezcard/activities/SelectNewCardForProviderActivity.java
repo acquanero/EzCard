@@ -85,7 +85,7 @@ public class SelectNewCardForProviderActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
                     goToPin.putExtra("flag", "enterPinToBindProvider");
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
@@ -99,7 +99,7 @@ public class SelectNewCardForProviderActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                    Intent goToPin = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
                     goToPin.putExtra("flag", "enterPinToBindProvider");
                     goToPin.putExtra("cardId", numIdCard);
                     goToPin.putExtra("providerId", providerId);
@@ -131,7 +131,7 @@ public class SelectNewCardForProviderActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
                 goToDissociate.putExtra("flag","enterPinToUnbindProvider");
                 goToDissociate.putExtra("providerId", providerId);
                 startActivity(goToDissociate);

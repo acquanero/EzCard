@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.ExternalRequestsModels.RegisterRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.models.Card;
 import com.acquanero.ezcard.models.Provider;
@@ -60,8 +61,6 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_step_two);
-
-
 
         //recupero del layout los botones y los campos de texto
         buttonSignIn = findViewById(R.id.buttonSignIn);
@@ -109,7 +108,9 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
             final String theEmail = mail;
             final String thePhone = phone;
 
-            myAPIService.postToRegister(generalData.appId,name,surname,hashPassword,mail,phone,hashPin).enqueue(new Callback<UserIdToken>() {
+            RegisterRequest registerRequest = new RegisterRequest(name,surname,hashPassword,mail,phone,hashPin);
+
+            myAPIService.postToRegister(AppGeneralUseData.getAppId(),registerRequest).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 

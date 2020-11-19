@@ -72,7 +72,7 @@ public class EditCardActivity extends AppCompatActivity {
 
                 } else {
 
-                    Intent i = new Intent(getApplicationContext(), EnterPinToConfimActivity.class);
+                    Intent i = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
 
                     int cardIconId=0;
 

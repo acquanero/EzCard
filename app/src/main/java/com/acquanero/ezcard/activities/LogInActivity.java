@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.ExternalRequestsModels.LoginRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.models.UserData;
 import com.acquanero.ezcard.models.UserIdToken;
@@ -73,7 +74,7 @@ public class LogInActivity extends AppCompatActivity {
 
 
         //asocio el evento correspondiente al boton de login
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -81,10 +82,10 @@ public class LogInActivity extends AppCompatActivity {
                 String email = mailUser.getText().toString();
                 String pasw = password.getText().toString();
 
-                if(!MyValidators.isBetween(pasw,passwordMin,passwordMax) || MyValidators.isValidEmail(email) == false){
+                if (!MyValidators.isBetween(pasw, passwordMin, passwordMax) || !MyValidators.isValidEmail(email)) {
 
-                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
+                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
 
                 } else {
@@ -95,7 +96,7 @@ public class LogInActivity extends AppCompatActivity {
 
                     //tooodo este choclo es solo para definir la posicion del loadingBar en el centro del ConstraintLayout
                     loadingBar.setId(View.generateViewId());
-                    mainLayout.addView(loadingBar,0);
+                    mainLayout.addView(loadingBar, 0);
 
                     set.clone(mainLayout);
                     set.connect(loadingBar.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
@@ -130,10 +131,10 @@ public class LogInActivity extends AppCompatActivity {
 
         String passwordHash = null;
 
-        if(!MyValidators.isBetween(passw,passwordMin,passwordMax) || MyValidators.isValidEmail(mail) == false){
+        if (!MyValidators.isBetween(passw, passwordMin, passwordMax) || MyValidators.isValidEmail(mail) == false) {
 
-            Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw) , Toast.LENGTH_LONG);
-            t.setGravity(Gravity.CENTER,0,0);
+            Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_email_or_passw), Toast.LENGTH_LONG);
+            t.setGravity(Gravity.CENTER, 0, 0);
             t.show();
 
         } else {
@@ -148,11 +149,13 @@ public class LogInActivity extends AppCompatActivity {
 
             }
 
-            myAPIService.postDataGetToken(generalData.appId, mail, passwordHash).enqueue(new Callback<UserIdToken>() {
+            LoginRequest loginRequest = new LoginRequest(mail, passwordHash);
+
+            myAPIService.postDataGetToken(AppGeneralUseData.getAppId(), loginRequest).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
-
-                    if(response.isSuccessful()) {
+                    loadingBar.setVisibility(View.GONE);;
+                    if (response.isSuccessful()) {
 
                         //guardo el id y el token en una variable
                         int idUsuario = response.body().getUserId();
@@ -172,20 +175,17 @@ public class LogInActivity extends AppCompatActivity {
 
                     } else {
 
-                        if(response.code() == 401){
+                        if (response.code() == 404) {
                             Context context = getApplicationContext();
-                            Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg) , Toast.LENGTH_LONG);
-                            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                            Toast t = Toast.makeText(context, getString(R.string.user_mail_erro_msg), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             t.show();
-
                         } else {
                             Context context = getApplicationContext();
-                            Toast t = Toast.makeText(context, getString(R.string.error_log_in) , Toast.LENGTH_LONG);
-                            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                            Toast t = Toast.makeText(context, getString(R.string.error_log_in), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                             t.show();
-
                         }
-
                     }
                 }
 
@@ -193,8 +193,8 @@ public class LogInActivity extends AppCompatActivity {
                 public void onFailure(Call<UserIdToken> call, Throwable t) {
 
                     Context context = getApplicationContext();
-                    Toast toast = Toast.makeText(context, getString(R.string.error_log_in) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast toast = Toast.makeText(context, getString(R.string.error_log_in), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                     Log.e("RTA FAIL", "Unable to submit post to API.");
@@ -209,11 +209,11 @@ public class LogInActivity extends AppCompatActivity {
 
         final Context context = this;
 
-        myAPIService.getUserData(generalData.appId, token, userid ).enqueue(new Callback<UserData>() {
+        myAPIService.getUserData(AppGeneralUseData.getAppId(), token, userid).enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
 
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
 
                     //Vuelvo editable mi SharedPreference
                     dataDepotEditable = dataDepot.edit();
@@ -250,8 +250,8 @@ public class LogInActivity extends AppCompatActivity {
                     loadingBar.setVisibility(View.GONE);
 
                     Context context = getApplicationContext();
-                    Toast t = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast t = Toast.makeText(context, getString(R.string.error_while_getting_user_data), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     t.show();
 
                 }
@@ -265,8 +265,8 @@ public class LogInActivity extends AppCompatActivity {
                 loadingBar.setVisibility(View.GONE);
 
                 Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, getString(R.string.error_while_getting_user_data) , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                Toast toast = Toast.makeText(context, getString(R.string.error_while_getting_user_data), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
                 Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");

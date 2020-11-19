@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
+import com.acquanero.ezcard.io.ExternalRequestsModels.UpdatePinRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.models.SimpleResponse;
 import com.acquanero.ezcard.myutils.MyHashGenerator;
@@ -125,7 +126,7 @@ public class ChangePinActivity extends AppCompatActivity {
         final int iduser = userId;
         final int theNewPin = newPin;
 
-        myAPIService.updatePin(generalData.appId, tokenn, hashPin, iduser, theNewPin).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.updatePin(AppGeneralUseData.getAppId(), tokenn, hashPin, iduser, new UpdatePinRequest(theNewPin)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 

@@ -9,11 +9,11 @@ public class Card {
     @Expose
     private Integer cardId;
 
-    @SerializedName("name")
+    @SerializedName("card_name")
     @Expose
     private String name;
 
-    @SerializedName("icon")
+    @SerializedName("card_icon")
     @Expose
     private Integer icon;
 
