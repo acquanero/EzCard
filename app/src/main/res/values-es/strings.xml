@@ -32,7 +32,7 @@
     <string name="warning_invalid_email_or_passw">E-mail y/o password incorrecto</string>
     <string name="warning_invalid_pin">Pin incorrecto.</string>
     <string name="warning_invalid_passw">Contraseña incorrecta</string>
-    <string name="warning_invalid_email">E-mail incorrecto.</string>
+    <string name="warning_invalid_email">E-mail incorrecto</string>
     <string name="warning_not_a_word">Ingrese solo caracteres</string>
     <string name="warning_not_a_number">Ingrese solo números</string>
     <string name="warning_logout">¿Esta seguro que quiere cerrar sesión?</string>
