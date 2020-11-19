@@ -19,7 +19,7 @@ import retrofit2.http.Path;
 public interface EzCardApiService {
 
     @FormUrlEncoded
-    @POST("user/login/")
+    @POST("user/login")
     Call<UserIdToken> postDataGetToken(
             @Header("xappid") String xappid,
             @Field("email") String mail,
@@ -27,8 +27,8 @@ public interface EzCardApiService {
 
     );
 
-    @GET("user/login/{id}")
-    Call<SimpleResponse> logInWithToken(
+    @POST("user/login/{id}")
+    Call<UserIdToken> logInWithToken(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
             @Path("id") int id
@@ -42,11 +42,11 @@ public interface EzCardApiService {
     );
 
     @FormUrlEncoded
-    @POST("user/register/")
+    @POST("user/register")
     Call<UserIdToken> postToRegister(
             @Header("xappid") String xappid,
             @Field("name") String name,
-            @Field("last_name") String last_name,
+            @Field("lastname") String last_name,
             @Field("password") String password,
             @Field("email") String mail,
             @Field("cellphone") String phone,

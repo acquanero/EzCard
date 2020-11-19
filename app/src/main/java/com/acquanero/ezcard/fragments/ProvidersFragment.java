@@ -45,102 +45,108 @@ public class ProvidersFragment extends Fragment {
         //Con un for each recorro la lista de Servicios y genero el button por cada servicio y un button para editar servicio
         //y los inserto en un linearLayout horizontal
         //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
-        for (final Provider provider : userData.getProviders()){
 
-            Button botonServicio = new Button(getActivity());
-            LinearLayout.LayoutParams botonServicioParams = new LinearLayout.LayoutParams(0, 200);
-            botonServicioParams.setMargins(10,10,10,10);
-            botonServicioParams.weight = 9f;
-            botonServicio.setLayoutParams(botonServicioParams);
-            botonServicio.setText(provider.getProviderName());
+        if (userData.getProviders() != null){
 
-            final int providerId = provider.getProviderId();
+            for (final Provider provider : userData.getProviders()){
 
-            //Si el servicio esta deshabilitado, pinto el boton de gris y le asocio un toast al click que muestra advertencia
-            //de lo contrario lo pinto de blanco y asocio el listener a la siguiente actividad para leer la tarjeta
-            if (provider.getEnabled() == false){
+                Button botonServicio = new Button(getActivity());
+                LinearLayout.LayoutParams botonServicioParams = new LinearLayout.LayoutParams(0, 200);
+                botonServicioParams.setMargins(10,10,10,10);
+                botonServicioParams.weight = 9f;
+                botonServicio.setLayoutParams(botonServicioParams);
+                botonServicio.setText(provider.getProviderName());
 
-                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
+                final int providerId = provider.getProviderId();
 
-                botonServicio.setOnClickListener(new View.OnClickListener() {
+                //Si el servicio esta deshabilitado, pinto el boton de gris y le asocio un toast al click que muestra advertencia
+                //de lo contrario lo pinto de blanco y asocio el listener a la siguiente actividad para leer la tarjeta
+                if (provider.getEnabled() == false){
 
-                    @Override
-                    public void onClick(View view) {
+                    botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
 
-                        Toast t = Toast.makeText(getActivity(), getString(R.string.service_unavailable) , Toast.LENGTH_LONG);
-                        t.setGravity(Gravity.CENTER,0,0);
-                        t.show();
+                    botonServicio.setOnClickListener(new View.OnClickListener() {
 
-                    }
-                });
+                        @Override
+                        public void onClick(View view) {
 
-            }  else {
-
-                botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
-                botonServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-                botonServicio.setOnClickListener(new View.OnClickListener() {
-
-                    Provider theProvider = provider;
-
-                    @Override
-                    public void onClick(View view) {
-
-
-                        //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
-                        if (theProvider.getCardId() == null){
-
-                            Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
+                            Toast t = Toast.makeText(getActivity(), getString(R.string.service_unavailable) , Toast.LENGTH_LONG);
                             t.setGravity(Gravity.CENTER,0,0);
                             t.show();
 
-                        } else {
+                        }
+                    });
 
-                            Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
-                            validateAccess.putExtra("idProvider", providerId);
-                            startActivity(validateAccess);
+                }  else {
+
+                    botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
+                    botonServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                    botonServicio.setOnClickListener(new View.OnClickListener() {
+
+                        Provider theProvider = provider;
+
+                        @Override
+                        public void onClick(View view) {
+
+
+                            //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
+                            if (theProvider.getCardId() == null){
+
+                                Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
+                                t.setGravity(Gravity.CENTER,0,0);
+                                t.show();
+
+                            } else {
+
+                                Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
+                                validateAccess.putExtra("idProvider", providerId);
+                                startActivity(validateAccess);
+
+                            }
 
                         }
+                    });
+
+                }
+
+                Button botonEditServicio = new Button(getActivity());
+                LinearLayout.LayoutParams botonServicioEditParams = new LinearLayout.LayoutParams(0, 200);
+                botonServicioEditParams.setMargins(10,10,10,10);
+                botonServicioEditParams.weight = 1f;
+                botonEditServicio.setLayoutParams(botonServicioEditParams);
+                botonEditServicio.setText("...");
+
+                if (provider.getEnabled() == false){
+                    botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
+                } else {
+                    botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
+                    botonEditServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
+                }
+
+                LinearLayout lineaHorizontal = new LinearLayout(getContext());
+                lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+                lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
+
+
+                botonEditServicio.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent i = new Intent(getActivity(), EditProviderActivity.class);
+                        i.putExtra("idProvider", providerId);
+                        startActivity(i);
 
                     }
                 });
 
+                lineaHorizontal.addView(botonServicio);
+                lineaHorizontal.addView(botonEditServicio);
+
+                linearLayoutServices.addView(lineaHorizontal);
             }
 
-            Button botonEditServicio = new Button(getActivity());
-            LinearLayout.LayoutParams botonServicioEditParams = new LinearLayout.LayoutParams(0, 200);
-            botonServicioEditParams.setMargins(10,10,10,10);
-            botonServicioEditParams.weight = 1f;
-            botonEditServicio.setLayoutParams(botonServicioEditParams);
-            botonEditServicio.setText("...");
 
-            if (provider.getEnabled() == false){
-                botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
-            } else {
-                botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
-                botonEditServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
-            }
-
-            LinearLayout lineaHorizontal = new LinearLayout(getContext());
-            lineaHorizontal.setOrientation(LinearLayout.HORIZONTAL);
-            lineaHorizontal.setGravity(Gravity.CENTER_VERTICAL);
-
-
-            botonEditServicio.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-
-                    Intent i = new Intent(getActivity(), EditProviderActivity.class);
-                    i.putExtra("idProvider", providerId);
-                    startActivity(i);
-
-                }
-            });
-
-            lineaHorizontal.addView(botonServicio);
-            lineaHorizontal.addView(botonEditServicio);
-
-            linearLayoutServices.addView(lineaHorizontal);
         }
         return root;
     }

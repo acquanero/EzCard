@@ -109,7 +109,7 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
             final String theEmail = mail;
             final String thePhone = phone;
 
-            myAPIService.postToRegister(generalData.appId,name,surname,mail,hashPassword,phone,hashPin).enqueue(new Callback<UserIdToken>() {
+            myAPIService.postToRegister(generalData.appId,name,surname,hashPassword,mail,phone,hashPin).enqueue(new Callback<UserIdToken>() {
                 @Override
                 public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
@@ -156,7 +156,11 @@ public class RegisterStepTwoActivity extends AppCompatActivity {
 
                     } else {
 
-                        Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
+                        if (response.body() != null) {
+
+                            Log.i("RTA FAIL", "Fail to post the info to register" + response.body().toString());
+
+                        }
 
                         Toast t = Toast.makeText(context, getString(R.string.msg_register_fail) , Toast.LENGTH_LONG);
                         t.setGravity(Gravity.CENTER,0,0);

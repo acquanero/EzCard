@@ -17,6 +17,7 @@ import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.models.SimpleResponse;
 import com.acquanero.ezcard.models.UserData;
+import com.acquanero.ezcard.models.UserIdToken;
 import com.google.gson.Gson;
 
 import retrofit2.Call;
@@ -74,15 +75,28 @@ public class MainActivity extends AppCompatActivity {
         final String theToken = token;
         final int theuserID = userid;
 
-        myAPIService.logInWithToken(generalData.appId, token, userid).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.logInWithToken(generalData.appId, token, userid).enqueue(new Callback<UserIdToken>() {
             @Override
-            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
 
                 if (response.isSuccessful()) {
 
-                    getUserWholeData(theToken, theuserID);
+                    //guardo el id y el token en una variable
+                    int idUsuario = response.body().getUserId();
+                    String token = response.body().getToken();
 
-                    Log.i("RTA SUCCESS", "post submitted to API." + response.body().getMessage());
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+
+                    //almaceno el id y el token en el SharedPreference
+                    dataDepotEditable.putInt("user_id", idUsuario);
+                    dataDepotEditable.putString("token", token);
+                    dataDepotEditable.apply();
+
+                    getUserWholeData(response.body().getToken(), theuserID);
+
+
+                    Log.i("RTA SUCCESS", "post submitted to API.");
 
 
                 } else {
@@ -94,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
                         System.out.println("-----------Error 401------!!!!!");
 
-                        Intent i = new Intent(context, MainDrawerActivity.class);
+                        Intent i = new Intent(context, LogInActivity.class);
                         startActivity(i);
                     }
 
@@ -103,12 +117,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+            public void onFailure(Call<UserIdToken> call, Throwable t) {
 
                 Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,0);
 
-                Intent i = new Intent(context, MainDrawerActivity.class);
+                Intent i = new Intent(context, LogInActivity.class);
                 startActivity(i);toast.show();
 
 

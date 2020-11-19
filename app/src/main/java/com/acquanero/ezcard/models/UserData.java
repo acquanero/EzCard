@@ -10,9 +10,9 @@ public class UserData {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("last_name")
+    @SerializedName("lastname")
     @Expose
-    private String lastName;
+    private String lastname;
     @SerializedName("email")
     @Expose
     private String email;
@@ -41,11 +41,11 @@ public class UserData {
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {
