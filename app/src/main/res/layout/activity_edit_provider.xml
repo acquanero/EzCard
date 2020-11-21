@@ -55,26 +55,39 @@
         android:id="@+id/buttonChangeAssocCard"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/boton_estilo"
-        android:textColor="@color/colorWhite"
         android:text="@string/change_associated_card"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardNameLabel" />
 
     <Button
+        android:id="@+id/buttonChangeProviderName"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/boton_estilo"
+        android:text="@string/change_provider_name"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonChangeAssocCard" />
+
+    <Button
         android:id="@+id/buttonDeleteService"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/boton_estilo_cancel"
         android:text="@string/delete_service"
         android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonChangeAssocCard" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonChangeProviderName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

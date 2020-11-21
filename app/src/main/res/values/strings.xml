@@ -94,4 +94,7 @@
     <string name="success_change_pin">PIN change successful</string>
     <string name="error_change_pin">Error while changing the PIN</string>
     <string name="error_credential_serial_number">Card does not match with associated service</string>
+    <string name="change_provider_name">Change name</string>
+    <string name="enter_provider_new_name">Enter the new name for the service</string>
+    <string name="provider_name">Service name</string>
 </resources>

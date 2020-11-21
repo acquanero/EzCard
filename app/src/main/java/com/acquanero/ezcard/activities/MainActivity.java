@@ -15,6 +15,7 @@ import com.acquanero.ezcard.R;
 import com.acquanero.ezcard.io.ApiUtils;
 import com.acquanero.ezcard.io.AppGeneralUseData;
 import com.acquanero.ezcard.io.EzCardApiService;
+import com.acquanero.ezcard.models.Token;
 import com.acquanero.ezcard.models.UserData;
 import com.acquanero.ezcard.models.UserIdToken;
 import com.google.gson.Gson;
@@ -74,21 +75,19 @@ public class MainActivity extends AppCompatActivity {
         final String theToken = token;
         final int theuserID = userid;
 
-        myAPIService.logInWithToken(AppGeneralUseData.getAppId(), token, userid).enqueue(new Callback<UserIdToken>() {
+        myAPIService.logInWithToken(AppGeneralUseData.getAppId(), theToken, theuserID).enqueue(new Callback<Token>() {
             @Override
-            public void onResponse(Call<UserIdToken> call, Response<UserIdToken> response) {
+            public void onResponse(Call<Token> call, Response<Token> response) {
 
                 if (response.isSuccessful()) {
 
-                    //guardo el id y el token en una variable
-                    int idUsuario = response.body().getUserId();
+                    //guardo el nuevo token en una variable
                     String token = response.body().getToken();
 
                     //Vuelvo editable mi SharedPreference
                     dataDepotEditable = dataDepot.edit();
 
                     //almaceno el id y el token en el SharedPreference
-                    dataDepotEditable.putInt("user_id", idUsuario);
                     dataDepotEditable.putString("token", token);
                     dataDepotEditable.apply();
 
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserIdToken> call, Throwable t) {
+            public void onFailure(Call<Token> call, Throwable t) {
 
                 Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER,0,0);
@@ -140,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("RTA FAIL", "Login con token fallido---------");
 
             }
+
         });
 
     }

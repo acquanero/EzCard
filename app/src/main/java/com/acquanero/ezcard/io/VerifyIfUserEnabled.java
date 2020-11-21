@@ -1,14 +1,15 @@
-package com.acquanero.ezcard.activities;
+package com.acquanero.ezcard.io;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.acquanero.ezcard.activities.LogInActivity;
 import com.acquanero.ezcard.models.SimpleResponse;
 
 import retrofit2.Response;
 
-public class Utils {
+public class VerifyIfUserEnabled {
     public static void verifyUserEnabled(Response<SimpleResponse> response, Context context, Activity activity) {
         if (response.code() == 401) {
             Intent intent = new Intent(context.getApplicationContext(), LogInActivity.class);

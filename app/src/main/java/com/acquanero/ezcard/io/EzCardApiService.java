@@ -11,6 +11,7 @@ import com.acquanero.ezcard.io.ExternalRequestsModels.RegisterRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.UnbindProviderRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.UpdatePinRequest;
 import com.acquanero.ezcard.models.SimpleResponse;
+import com.acquanero.ezcard.models.Token;
 import com.acquanero.ezcard.models.UserData;
 import com.acquanero.ezcard.models.UserIdToken;
 
@@ -41,7 +42,7 @@ public interface EzCardApiService {
 
     @Headers("Content-Type: application/json")
     @POST("user/login/{id}")
-    Call<UserIdToken> logInWithToken(
+    Call<Token> logInWithToken(
             @Header("xappid") String xappid,
             @Header("token") String elToken,
             @Path("id") int id

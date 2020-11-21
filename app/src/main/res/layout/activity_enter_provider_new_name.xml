@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:gravity="center_vertical"
+    tools:context=".activities.EnterProviderNewNameActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/padding_box_settigns"
+        android:layout_marginTop="@dimen/margin_bottom_settings"
+        android:layout_marginBottom="@dimen/margin_bottom_settings"
+        android:layout_marginHorizontal="@dimen/default_gap"
+        android:background="@drawable/button_with_border">
+
+        <TextView
+            android:id="@+id/labelEnterNewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:text="@string/enter_provider_new_name"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+
+        <EditText
+            android:id="@+id/editProviderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="@string/provider_name"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelName"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/boton_estilo_cancel"
+            android:text="@string/cancel_button"
+            android:textColor="@color/colorWhite" />
+
+
+    <Button
+        android:id="@+id/buttonAceptName"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/boton_estilo"
+        android:text="@string/acept_button"
+        android:textColor="@color/colorWhite" />
+
+    </LinearLayout>
+
+</LinearLayout>

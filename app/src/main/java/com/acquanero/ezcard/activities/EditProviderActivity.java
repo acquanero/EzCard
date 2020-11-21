@@ -22,7 +22,7 @@ public class EditProviderActivity extends AppCompatActivity {
     private TextView cardNameLabel, serviceTitle;
     private Provider provider;
     private Card associatedCard;
-    private Button buttonChangeAssocCard, buttonDeleteService;
+    private Button buttonChangeAssocCard, buttonDeleteService, buttonChangeName;
     private int idProvider;
 
     @Override
@@ -81,6 +81,23 @@ public class EditProviderActivity extends AppCompatActivity {
 
             }
         });
+
+
+        buttonChangeName = findViewById(R.id.buttonChangeProviderName);
+        buttonChangeName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent goToChangeName = new Intent(getApplicationContext(), EnterProviderNewNameActivity.class);
+                goToChangeName.putExtra("providerName", provider.getProviderName());
+                goToChangeName.putExtra("providerId", idProvider);
+                startActivity(goToChangeName);
+
+
+
+            }
+        });
+
 
         buttonDeleteService = findViewById(R.id.buttonDeleteService);
         buttonDeleteService.setOnClickListener(new View.OnClickListener() {

@@ -3,7 +3,7 @@ package com.acquanero.ezcard.io;
 public class ApiUtils {
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://186.136.87.160:8080/api/";
+    public static final String BASE_URL = "https://limitless-dusk-17177.herokuapp.com/api/";
 
     public static EzCardApiService getAPIService() {
 

@@ -3,7 +3,6 @@ package com.acquanero.ezcard.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,6 +26,7 @@ import com.acquanero.ezcard.io.ExternalRequestsModels.EditCardRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.UnbindProviderRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.io.ExternalRequestsModels.NewCardRequest;
+import com.acquanero.ezcard.io.VerifyIfUserEnabled;
 import com.acquanero.ezcard.models.Card;
 import com.acquanero.ezcard.models.Provider;
 import com.acquanero.ezcard.models.SimpleResponse;
@@ -305,7 +305,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     startActivity(goToMain);
 
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast toast = Toast.makeText(context, getString(R.string.error_while_trying_to_add_card), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
@@ -384,7 +384,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast toast = Toast.makeText(context, getString(R.string.error_while_binding_the_service), Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
@@ -490,7 +490,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     startActivity(goToMain);
                     finish();
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t3 = Toast.makeText(context, getString(R.string.delete_card_error), Toast.LENGTH_LONG);
                     t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
@@ -588,7 +588,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t = Toast.makeText(context, getString(R.string.delete_provider_error), Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
@@ -665,7 +665,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t3 = Toast.makeText(context, getString(R.string.error_editing_card), Toast.LENGTH_LONG);
                     t3.setGravity(Gravity.CENTER, 0, 0);
                     t3.show();
@@ -736,7 +736,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
 
                 } else {
-                    Utils.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service), Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
