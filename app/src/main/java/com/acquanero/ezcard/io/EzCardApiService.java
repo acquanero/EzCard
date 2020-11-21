@@ -4,6 +4,7 @@ import com.acquanero.ezcard.io.ExternalRequestsModels.BindProviderRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteCardRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteProviderRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.EditCardRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.EditProviderNameRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.EntryRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.LoginRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.NewCardRequest;
@@ -140,4 +141,14 @@ public interface EzCardApiService {
             @Path("userId") int userid,
             @Body UpdatePinRequest updatePinRequest
             );
+
+    @Headers("Content-Type: application/json")
+    @PUT("provider/name/{userId}")
+    Call<SimpleResponse> putProviderNewName(
+            @Header("xappid") String xappid,
+            @Header("token") String elToken,
+            @Header("pin") String elpin,
+            @Path("userId") int userid,
+            @Body EditProviderNameRequest editProviderNameRequest
+    );
 }

@@ -97,4 +97,7 @@
     <string name="change_provider_name">Cambiar nombre</string>
     <string name="enter_provider_new_name">Ingrese el nuevo nombre para su servicio</string>
     <string name="provider_name">Nombre del servicio</string>
+    <string name="invalid_provider_new_name">El nuevo nombre no es valido o ya se encuentra en uso</string>
+    <string name="enter_pin_to_change_provider_name">Ingrese el PIN para confirmar el cambio de nombre del servicio</string>
+    <string name="error_while_changing_provider_name">Error al intentar cambiar el nombre del servicio</string>
 </resources>

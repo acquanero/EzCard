@@ -23,6 +23,7 @@ import com.acquanero.ezcard.io.ExternalRequestsModels.BindProviderRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteCardRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.DeleteProviderRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.EditCardRequest;
+import com.acquanero.ezcard.io.ExternalRequestsModels.EditProviderNameRequest;
 import com.acquanero.ezcard.io.ExternalRequestsModels.UnbindProviderRequest;
 import com.acquanero.ezcard.io.EzCardApiService;
 import com.acquanero.ezcard.io.ExternalRequestsModels.NewCardRequest;
@@ -262,6 +263,36 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                         t.show();
                     } else {
                         confirmDisassociateService(theToken, pinEntered, providerId);
+                    }
+
+                }
+            });
+
+            //7° rama del If. Flag me envia a Ingresar el PIN para cambiar el nombre del servicio
+
+        } else if (flag.equalsIgnoreCase("enterPinToChangeProviderName")){
+
+            txtTitle.setText(getString(R.string.enter_pin_to_change_provider_name));
+
+            providerId = datos.getInt("providerId");
+
+            final String nameOfProvider = datos.getString("providerName");
+
+            buttonAccept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    int pinEntered = Integer.parseInt(editPIN.getText().toString());
+                    String pinEnteredInString = editPIN.getText().toString();
+
+                    if (!MyValidators.isBetween(pinEnteredInString, pinMin, pinMax) || !MyValidators.isOnlyNumber(pinEnteredInString)) {
+                        Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                        t.setGravity(Gravity.CENTER, 0, 0);
+                        t.show();
+                    } else {
+
+                        changeProviderName(theToken, pinEntered,providerId,nameOfProvider);
+
                     }
 
                 }
@@ -755,6 +786,80 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void changeProviderName(String token, int pin, int providerId, String nome) {
+
+        final Context context = this;
+        final String tokenn = token;
+
+        String thePin = String.valueOf(pin);
+        String hashPin = null;
+
+        try {
+            hashPin = MyHashGenerator.hashString(thePin);
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+        }
+
+        final int userID = dataDepot.getInt("user_id", -1);
+        final int idprovider = providerId;
+        final String nameProvider = nome;
+
+        myAPIService.putProviderNewName(AppGeneralUseData.getAppId(), tokenn, hashPin, userID, new EditProviderNameRequest(idprovider, nameProvider)).enqueue(new Callback<SimpleResponse>() {
+            @Override
+            public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+
+                    //recorro la lista de cards del usuario y las agrego a un nuevo array, excepto la que tiene el id que voy a eliminar
+                    for (Provider p : userData.getProviders()) {
+                        if (p.getProviderId() == idprovider) {
+                            p.setProviderName(nameProvider);
+                        }
+                    }
+
+                    //Convierto nuevamente el usuario en String para almacenarlo
+                    String json = gson.toJson(userData);
+
+                    //Vuelvo editable mi SharedPreference
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    //Vuelvo a la vista de drawer
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToMain);
+                    finish();
+
+                } else {
+                    VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
+                    Toast t = Toast.makeText(context, getString(R.string.error_while_changing_provider_name), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
+                    t.show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SimpleResponse> call, Throwable t) {
+
+                Toast tt = Toast.makeText(context, getString(R.string.error_while_changing_provider_name), Toast.LENGTH_LONG);
+                tt.setGravity(Gravity.CENTER, 0, 0);
+                tt.show();
+
+            }
+        });
 
     }
 }
