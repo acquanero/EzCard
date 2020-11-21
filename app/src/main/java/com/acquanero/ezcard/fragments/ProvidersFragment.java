@@ -77,7 +77,7 @@ public class ProvidersFragment extends Fragment {
                         }
                     });
 
-                }  else {
+                } else {
 
                     botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));
                     botonServicio.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorWhite));
@@ -89,7 +89,7 @@ public class ProvidersFragment extends Fragment {
                         public void onClick(View view) {
 
                             //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
-                            if (theProvider.getCardId() == 0){
+                            if (theProvider.getCardId() == null){
                                 Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
                                 t.setGravity(Gravity.CENTER,0,0);
                                 t.show();
