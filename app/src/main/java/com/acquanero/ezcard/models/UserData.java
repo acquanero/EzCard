@@ -3,6 +3,7 @@ package com.acquanero.ezcard.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserData {
@@ -96,4 +97,12 @@ public class UserData {
         this.providers = providers;
     }
 
+    public void addCard(Card card) {
+        if (this.getCards() != null) {
+            this.getCards().add(card);
+        } else {
+            this.cards = new ArrayList<>();
+            this.cards.add(card);
+        }
+    }
 }

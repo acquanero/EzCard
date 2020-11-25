@@ -50,7 +50,7 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validate_access_to_provider);
         Bundle datos = getIntent().getExtras();
-        idProvider = datos.getInt("idProvider");
+        idProvider = datos.getInt("providerId");
         //Instancio el sharedPreference
         dataDepot = PreferenceManager.getDefaultSharedPreferences(this);
         //Traigo una instancia de retrofit para realizar los request
@@ -147,7 +147,7 @@ public class ValidateAccessToProviderActivity extends AppCompatActivity {
                     toast.show();
 
                     //Vuelvo a la vista de drawer
-                    Intent goToMain = new Intent(context, MainActivity.class);
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
                     goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(goToMain);
                     finish();

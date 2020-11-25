@@ -125,7 +125,7 @@ public class SelectNewCardForProviderActivity extends AppCompatActivity {
 
         //Boton que lleva a desasociar el servicio de todas las tarjetas
 
-        Button dessacociateCardsButton = findViewById(R.id.dessacociateCardsButton);
+        Button dessacociateCardsButton = findViewById(R.id.disassociateCardsButton);
 
         dessacociateCardsButton.setOnClickListener(new View.OnClickListener() {
             @Override

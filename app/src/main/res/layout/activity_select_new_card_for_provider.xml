@@ -33,7 +33,7 @@
         android:id="@+id/scrollViewSelectCard"
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        app:layout_constraintBottom_toTopOf="@+id/dessacociateCardsButton"
+        app:layout_constraintBottom_toTopOf="@+id/disassociateCardsButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lineSeparator">
@@ -52,7 +52,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/dessacociateCardsButton"
+        android:id="@+id/disassociateCardsButton"
         android:layout_width="match_parent"
         android:layout_marginHorizontal="@dimen/default_gap"
         android:layout_height="wrap_content"

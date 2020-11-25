@@ -52,17 +52,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewAssociatedCard" />
 
     <Button
-        android:id="@+id/buttonChangeAssocCard"
+        android:id="@+id/disassociateCardsButton"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/boton_estilo"
-        android:text="@string/change_associated_card"
+        android:layout_height="46dp"
+        android:layout_marginHorizontal="@dimen/default_gap"
+        android:background="@drawable/boton_estilo_cancel"
+        android:text="@string/disassociate_from_all_cards"
         android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardNameLabel" />
+
 
     <Button
         android:id="@+id/buttonChangeProviderName"
@@ -75,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonChangeAssocCard" />
+        app:layout_constraintTop_toBottomOf="@+id/disassociateCardsButton" />
 
     <Button
         android:id="@+id/buttonDeleteService"

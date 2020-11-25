@@ -22,7 +22,7 @@ public class EditProviderActivity extends AppCompatActivity {
     private TextView cardNameLabel, serviceTitle;
     private Provider provider;
     private Card associatedCard;
-    private Button buttonChangeAssocCard, buttonDeleteService, buttonChangeName;
+    private Button buttonDisassociateCard, buttonDeleteService, buttonChangeName;
     private int idProvider;
 
     @Override
@@ -60,28 +60,28 @@ public class EditProviderActivity extends AppCompatActivity {
         }
 
         cardNameLabel = findViewById(R.id.cardNameLabel);
+        buttonDisassociateCard = findViewById(R.id.disassociateCardsButton);
 
         if (associatedCard != null){
-
+            buttonDisassociateCard.setVisibility(View.VISIBLE);
             cardNameLabel.setText(associatedCard.getName());
 
+            buttonDisassociateCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent goToDissociate = new Intent(getApplicationContext(), EnterPinToConfirmActivity.class);
+                    goToDissociate.putExtra("flag","enterPinToUnbindProvider");
+                    goToDissociate.putExtra("providerId", idProvider);
+                    startActivity(goToDissociate);
+
+                }
+            });
+
         } else {
+            buttonDisassociateCard.setVisibility(View.GONE);
             cardNameLabel.setText(getResources().getString(R.string.no_card_associated));
         }
-
-        buttonChangeAssocCard = findViewById(R.id.buttonChangeAssocCard);
-
-        buttonChangeAssocCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent goToSelectCard = new Intent(getApplicationContext(), SelectNewCardForProviderActivity.class);
-                goToSelectCard.putExtra("providerId", idProvider);
-                startActivity(goToSelectCard);
-
-            }
-        });
-
 
         buttonChangeName = findViewById(R.id.buttonChangeProviderName);
         buttonChangeName.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +92,6 @@ public class EditProviderActivity extends AppCompatActivity {
                 goToChangeName.putExtra("providerName", provider.getProviderName());
                 goToChangeName.putExtra("providerId", idProvider);
                 startActivity(goToChangeName);
-
-
 
             }
         });
@@ -109,7 +107,6 @@ public class EditProviderActivity extends AppCompatActivity {
                 goToDelete.putExtra("providerName", provider.getProviderName());
                 goToDelete.putExtra("providerId", idProvider);
                 startActivity(goToDelete);
-
 
             }
         });

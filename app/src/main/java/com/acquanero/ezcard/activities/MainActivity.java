@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.i("RTA SUCCESS", "post submitted to API.");
 
-
                 } else {
 
                     if(response.code() == 401){
@@ -139,9 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("RTA FAIL", "Login con token fallido---------");
 
             }
-
         });
-
     }
 
     private void getUserWholeData(String token, int userid) {
@@ -181,17 +178,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(goToMain);
                     finish();
                 } else {
-
                     Toast toast = Toast.makeText(context, getString(R.string.login_again_msg) , Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER,0,0);
 
                     Intent goToLogIn = new Intent(context, LogInActivity.class);
                     startActivity(goToLogIn);
-
                 }
-
-
-
             }
 
             @Override
@@ -204,10 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToLogIn);
 
                 Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");
-
             }
         });
-
     }
-
 }

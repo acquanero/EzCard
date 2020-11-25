@@ -78,9 +78,7 @@ public class AddNewCardActivity extends AppCompatActivity {
                     i.putExtra("iconNumber", iconNumber);
 
                     startActivity(i);
-
                 }
-
             }
         });
     }

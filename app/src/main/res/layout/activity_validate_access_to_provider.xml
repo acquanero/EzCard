@@ -10,7 +10,6 @@
         android:id="@+id/imageCircleReadCardToValidate"
         android:layout_width="288dp"
         android:layout_height="203dp"
-        android:layout_above="@+id/labelHoldCard"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"

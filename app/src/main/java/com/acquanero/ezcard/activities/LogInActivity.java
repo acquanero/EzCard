@@ -168,7 +168,6 @@ public class LogInActivity extends AppCompatActivity {
                         dataDepotEditable.apply();
 
                         Log.i("RTA SUCCESS", "post submitted to API." + response.body().toString());
-
                         getUserWholeData(token, idUsuario);
 
                     } else {
@@ -241,7 +240,6 @@ public class LogInActivity extends AppCompatActivity {
 
                     //Al terminar oculto el loading Bar
                     loadingBar.setVisibility(View.GONE);
-
                     Intent goToMain = new Intent(context, MainDrawerActivity.class);
                     goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToMain);
@@ -255,9 +253,7 @@ public class LogInActivity extends AppCompatActivity {
                     Toast t = Toast.makeText(context, getString(R.string.error_while_getting_user_data), Toast.LENGTH_LONG);
                     t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     t.show();
-
                 }
-
             }
 
             @Override
@@ -272,10 +268,7 @@ public class LogInActivity extends AppCompatActivity {
                 toast.show();
 
                 Log.e("RTA FAIL", "----Fallo en traer la informacion del usuario------");
-
             }
         });
-
     }
-
 }

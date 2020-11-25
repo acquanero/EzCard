@@ -302,7 +302,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
     }
 
-    private void sendDataForNewCard(String token, int pin, int userid, String cardName, int cardIcon, String theTag) {
+    private void sendDataForNewCard(String token, int pin, int userid, final String cardName, final int cardIcon, String theTag) {
 
         final String tokken = token;
 
@@ -323,7 +323,7 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
         final String cardTag = theTag;
         final Context context = this;
 
-        NewCardRequest newCardJson = new NewCardRequest(useridd, cardTag, namecard, cardiconn);
+        final NewCardRequest newCardJson = new NewCardRequest(useridd, cardTag, namecard, cardiconn);
 
         myAPIService.postNewCard(AppGeneralUseData.getAppId(), tokken, hashPin, newCardJson).enqueue(new Callback<SimpleResponse>() {
             @Override
@@ -331,9 +331,22 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
-                    //Vuelvo a la vista de drawer
-                    Intent goToMain = new Intent(context, MainActivity.class);
+                    String userJson = dataDepot.getString("usuario", "null");
+                    Gson gson = new Gson();
+                    UserData userData = gson.fromJson(userJson, UserData.class);
+
+                    userData.addCard(new Card(cardName, cardIcon));
+
+                    String json = gson.toJson(userData);
+
+                    dataDepotEditable = dataDepot.edit();
+                    dataDepotEditable.putString("usuario", json);
+                    dataDepotEditable.apply();
+
+                    Intent goToMain = new Intent(context, MainDrawerActivity.class);
+                    goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToMain);
+                    finish();
 
                 } else {
                     VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
@@ -515,7 +528,6 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     //Vuelvo a la vista de drawer
 
 
-                    // TODO BORRAR Intent goToDrawer = new Intent(context, MainDrawerActivity.class);
                     Intent goToMain = new Intent(context, MainDrawerActivity.class);
                     goToMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(goToMain);
@@ -765,7 +777,6 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
                     startActivity(goToDrawer);
                     finish();
 
-
                 } else {
                     VerifyIfUserEnabled.verifyUserEnabled(response, context, EnterPinToConfirmActivity.this);
                     Toast t = Toast.makeText(context, getString(R.string.error_to_disassociate_service), Toast.LENGTH_LONG);
@@ -860,6 +871,5 @@ public class EnterPinToConfirmActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }

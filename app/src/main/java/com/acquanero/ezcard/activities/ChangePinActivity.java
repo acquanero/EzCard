@@ -72,15 +72,15 @@ public class ChangePinActivity extends AppCompatActivity {
                 String pinNewFirst = newPinEditOne.getText().toString();
                 String pinNewSecond = newPinEditTwo.getText().toString();
 
-                if(!validatePin(pinOld) || !validatePin(pinNewFirst) || !validatePin(pinNewSecond)){
-                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin) , Toast.LENGTH_LONG);
-                    t.setGravity(Gravity.CENTER,0,0);
+                if (!validatePin(pinOld) || !validatePin(pinNewFirst) || !validatePin(pinNewSecond)) {
+                    Toast t = Toast.makeText(getApplicationContext(), getString(R.string.warning_invalid_pin), Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER, 0, 0);
                     t.show();
 
-                } else if(!pinNewFirst.equalsIgnoreCase(pinNewSecond)){
+                } else if (!pinNewFirst.equalsIgnoreCase(pinNewSecond)) {
 
-                    Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.reconfirmation_doesnt_match) , Toast.LENGTH_LONG);
-                    t2.setGravity(Gravity.CENTER,0,0);
+                    Toast t2 = Toast.makeText(getApplicationContext(), getString(R.string.reconfirmation_doesnt_match), Toast.LENGTH_LONG);
+                    t2.setGravity(Gravity.CENTER, 0, 0);
                     t2.show();
 
                 } else {
@@ -88,7 +88,7 @@ public class ChangePinActivity extends AppCompatActivity {
                     int myOldPin = Integer.parseInt(pinOld);
                     int myNewPin = Integer.parseInt(pinNewFirst);
 
-                    sendPutNewPin(theToken, myOldPin, userID, myNewPin );
+                    sendPutNewPin(theToken, myOldPin, userID, myNewPin);
                 }
 
             }
@@ -100,40 +100,37 @@ public class ChangePinActivity extends AppCompatActivity {
 
         boolean result = true;
 
-        if (!MyValidators.isBetween(pin,pinMin,pinMax) || !MyValidators.isOnlyNumber(pin)){
-            result=false;
+        if (!MyValidators.isBetween(pin, pinMin, pinMax) || !MyValidators.isOnlyNumber(pin)) {
+            result = false;
         }
 
         return result;
     }
 
-    private void sendPutNewPin(String token, int pin, int userId ,int newPin){
+    private void sendPutNewPin(String token, int pin, int userId, int newPin) {
 
         final Context context = this;
         final String tokenn = token;
 
         String thePin = String.valueOf(pin);
         String hashPin = null;
+        String newHashPin = null;
 
         try {
             hashPin = MyHashGenerator.hashString(thePin);
-
+            newHashPin = MyHashGenerator.hashString(String.valueOf(newPin));
         } catch (NoSuchAlgorithmException e) {
-
             e.printStackTrace();
         }
 
-        final int iduser = userId;
-        final int theNewPin = newPin;
-
-        myAPIService.updatePin(AppGeneralUseData.getAppId(), tokenn, hashPin, iduser, new UpdatePinRequest(theNewPin)).enqueue(new Callback<SimpleResponse>() {
+        myAPIService.updatePin(AppGeneralUseData.getAppId(), tokenn, hashPin, userId, new UpdatePinRequest(newHashPin)).enqueue(new Callback<SimpleResponse>() {
             @Override
             public void onResponse(Call<SimpleResponse> call, Response<SimpleResponse> response) {
 
                 if (response.isSuccessful()) {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.success_change_pin) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast toast = Toast.makeText(context, getString(R.string.success_change_pin), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                     //Vuelvo a la vista de drawer
@@ -142,8 +139,8 @@ public class ChangePinActivity extends AppCompatActivity {
 
                 } else {
 
-                    Toast toast = Toast.makeText(context, getString(R.string.error_change_pin) , Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                    Toast toast = Toast.makeText(context, getString(R.string.error_change_pin), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
 
                 }
@@ -154,8 +151,8 @@ public class ChangePinActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SimpleResponse> call, Throwable t) {
 
-                Toast toast = Toast.makeText(context, getString(R.string.error_change_pin) , Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+                Toast toast = Toast.makeText(context, getString(R.string.error_change_pin), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
 

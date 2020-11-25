@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class UpdatePinRequest {
     @SerializedName("new_pin")
-    int newPin;
+    String newPin;
 
-    public UpdatePinRequest(int newPin) {
+    public UpdatePinRequest(String newPin) {
         this.newPin = newPin;
     }
 }

@@ -18,6 +18,7 @@ import androidx.preference.PreferenceManager;
 
 import com.acquanero.ezcard.activities.EditProviderActivity;
 import com.acquanero.ezcard.R;
+import com.acquanero.ezcard.activities.SelectNewCardForProviderActivity;
 import com.acquanero.ezcard.activities.ValidateAccessToProviderActivity;
 import com.acquanero.ezcard.models.Provider;
 import com.acquanero.ezcard.models.UserData;
@@ -46,13 +47,13 @@ public class ProvidersFragment extends Fragment {
         //y los inserto en un linearLayout horizontal
         //y a su vez este ultimo, lo inserto en cada renglon del linearLayout principal
 
-        if (userData.getProviders() != null){
+        if (userData.getProviders() != null) {
 
-            for (final Provider provider : userData.getProviders()){
+            for (final Provider provider : userData.getProviders()) {
 
                 Button botonServicio = new Button(getActivity());
                 LinearLayout.LayoutParams botonServicioParams = new LinearLayout.LayoutParams(0, 200);
-                botonServicioParams.setMargins(10,10,10,10);
+                botonServicioParams.setMargins(10, 10, 10, 10);
                 botonServicioParams.weight = 9f;
                 botonServicio.setLayoutParams(botonServicioParams);
                 botonServicio.setText(provider.getProviderName());
@@ -61,7 +62,7 @@ public class ProvidersFragment extends Fragment {
 
                 //Si el servicio esta deshabilitado, pinto el boton de gris y le asocio un toast al click que muestra advertencia
                 //de lo contrario lo pinto de blanco y asocio el listener a la siguiente actividad para leer la tarjeta
-                if (provider.getEnabled() == false){
+                if (provider.getEnabled() == false) {
 
                     botonServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
 
@@ -70,8 +71,8 @@ public class ProvidersFragment extends Fragment {
                         @Override
                         public void onClick(View view) {
 
-                            Toast t = Toast.makeText(getActivity(), getString(R.string.service_unavailable) , Toast.LENGTH_LONG);
-                            t.setGravity(Gravity.CENTER,0,0);
+                            Toast t = Toast.makeText(getActivity(), getString(R.string.service_unavailable), Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER, 0, 0);
                             t.show();
 
                         }
@@ -89,13 +90,16 @@ public class ProvidersFragment extends Fragment {
                         public void onClick(View view) {
 
                             //Al hacer click para entrar al servicio, chequeo primero que tenga tarjetas asociadas
-                            if (theProvider.getCardId() == null){
-                                Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service) , Toast.LENGTH_LONG);
-                                t.setGravity(Gravity.CENTER,0,0);
+                            if (theProvider.getCardId() == 0) {
+                                Toast t = Toast.makeText(getActivity(), getString(R.string.no_card_binded_to_service), Toast.LENGTH_LONG);
+                                t.setGravity(Gravity.CENTER, 0, 0);
                                 t.show();
+                                Intent associateCard = new Intent(getActivity(), SelectNewCardForProviderActivity.class);
+                                associateCard.putExtra("providerId", providerId);
+                                startActivity(associateCard);
                             } else {
                                 Intent validateAccess = new Intent(getActivity(), ValidateAccessToProviderActivity.class);
-                                validateAccess.putExtra("idProvider", providerId);
+                                validateAccess.putExtra("providerId", providerId);
                                 startActivity(validateAccess);
                             }
                         }
@@ -104,12 +108,12 @@ public class ProvidersFragment extends Fragment {
 
                 Button botonEditServicio = new Button(getActivity());
                 LinearLayout.LayoutParams botonServicioEditParams = new LinearLayout.LayoutParams(0, 200);
-                botonServicioEditParams.setMargins(10,10,10,10);
+                botonServicioEditParams.setMargins(10, 10, 10, 10);
                 botonServicioEditParams.weight = 1f;
                 botonEditServicio.setLayoutParams(botonServicioEditParams);
                 botonEditServicio.setText("...");
 
-                if (provider.getEnabled() == false){
+                if (provider.getEnabled() == false) {
                     botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_wborder_disabled));
                 } else {
                     botonEditServicio.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_light_blue));

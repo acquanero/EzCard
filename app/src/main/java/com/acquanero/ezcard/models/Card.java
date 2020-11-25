@@ -17,6 +17,16 @@ public class Card {
     @Expose
     private Integer icon;
 
+    public Card(String name, Integer icon) {
+        this.name = name;
+        this.icon = icon;
+        this.cardId = -1;
+    }
+
+    public Card() {
+
+    }
+
     public Integer getCardId() {
         return cardId;
     }
